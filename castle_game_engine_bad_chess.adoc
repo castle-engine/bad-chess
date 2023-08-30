@@ -1,0 +1,49 @@
+# The bad way to play chess: Implementing 3D physics fun using Castle Game Engine
+
+## Introduction
+
+I remember my first book about chess when I was young. It was a book teaching young people how to play chess. The first chapter started with a tale about children playing chess incorrectly: they didn't know the rules, so they put chess pieces randomly on the chessboard, and flicked them with their fingers towards the other side. The poor wooded chess pieces bashed each other, eventually most of them fell off the chessboard onto the table or floor. 
+
+That was naturally a stupid way of playing chess. In the second chapter of the book, an adult came, told children that they play chess in a wrong way, and taught them the right way -- how each figure moves, how king is special, what it means to check and then mate your opponent. The book overall was great, and it's likely responsible for my love for chess (the "proper" version of the game, with rules instead of flicking objects) to this day.
+
+That said... well don't you want to play some day this "incorrect" version of chess, children's version, where nothing else matters except just sending each piece flying toward the other piece? 
+
+In this article we will go back in time, erase our hard-earned knowledge about how to _really_ play chess, and implement a simple 3D physics fun application where you can flick chess pieces using physics. You can treat it as a game for 2 people -- just play it on a computer, and let each player use the mouse and keyboard in turn.
+
+## The Real Introduction
+
+The real purpose of this article is to be an entertaining but also useful introduction to using _Castle Game Engine_.
+
+_Castle Game Engine_ is a cross-platform (desktop, mobile, consoles) 3D and 2D game engine. In this article, we will learn how to make a game for desktops (Linux, Windows, macOS, FreeBSD). In future articles we'd like to show also development for other platforms (like Android and iOS) and future plans (web platform).
+
+_Castle Game Engine_ features a powerful visual editor to design your games, in 2D or 3D. Just like Delphi and Lazarus visual libraries, it's all based on a simple RAD concept: you can design a functional application easily visually but at the same time *everything you do is actually using Pascal classes and properties*. So all your knowledge gained from using the editor is also useful when you need to write some Pascal code, to do any non-trivial processing. You will use the same classes and properties in Pascal that you've seen in the visual editor.
+
+The engine is free and open-source. Use it to develop open-source or proprietary applications. You can distribute them to friends in any way, you can publish them on Steam, Itch.io, Google Play (Android), AppStore (iOS), your own website -- everywhere.
+  
+## Download and install the engine
+
+TODO
+
+## Create your first project
+
+## Design a 3D chessboard with chess pieces
+
+## Using physics in the editor
+
+## Implement picking 3D object using the mouse
+
+## implement choosing the angle and strength to flick the 3D object
+
+Once the player has picked an object, we want to allow player to configure the direction and strength with which to flick the object.
+
+We will visualize it with a simple 3D arrow model, that will be rotated and scaled accordingly.
+
+TODO
+
+## Implement flicking the object
+
+## Final application
+  
+  
+
+
