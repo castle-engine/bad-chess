@@ -107,7 +107,69 @@ More details about the editor configuration can be found in our manual on `https
 
 The editor can use any Pascal compiler and any text editor. We deliberately don't put any special requirements on what you can use. Though we make sure to support the popular choices in a great way. In particular, we have a dedicated support for using _Visual Studio Code_ with Pascal (and _Castle Game Engine_ in particular), see `https://castle-engine.io/vscode` .
 
+## Learning to design 3D items in a viewport
+
+If you haven't already, open the `main` view in the editor.
+
+You can double-click on it in the _"Open Existing View"_ panel or in the _"Files"_ panel (when you're exploring the `data` subdirectory).
+
+The initial view is mostly empty.
+
+- It has a root component `Group1`, which is an instance of `TCastleUserInterface`. This component will contain everything else we design.
+
+- And it has a label `LabelFps` (an instance of `TCastleLabel` class). At run-time, this label will display the FPS counter.
+
+image::images/view_empty.png[Initial view]
+
+Let's add more content to it. First of all, to display anything in 3D, you need a _viewport_. A viewport is a way to display 3D or 2D content. It is an instance of `TCastleViewport` class. Add it to the design by right-clicking on the `Group1` component and choosing _"Add User Interface -> Viewport (3D)"_ from the menu that appears.
+
+image::images/add_viewport.png[Adding a viewport]
+
+The result should look like this:
+
+image::images/view_viewport.png[View with a viewport]
+
+Following this, drag the new `Viewport1` component above the `LabelFps`, so that the FPS counter is displayed in front of the viewport.
+
+image::images/view_viewport_fps_front.png[FPS counter in front of the viewport]
+
+Now play around in the 3D view. There are 3 items:
+
+- Camera, called just `Camera1`, determines what the user will actually see once the game is run.
+
+- Light source makes things _lit_ (bright). The initial light source is called `PointLight1` and it is an instance of `TCastlePointLight`, which is a simple light that shines in all directions from a single 3D point.
+
+- Rectangle representing a ground called a `Plane1`. Mathematically speaking, it's not a _plane_, it's a rectangle -- however calling this _"a plane"_ is a convention used by many 3D software.
+
+Click and hold the _right mouse button_ over the viewport to look around. Use the keys AWSD to move. Use the mouse scroll to increase / decrease the movement speed.
+
+Play around with **moving the items**. Drag the 3D axis to move any object.
+
+Play around with **adding new 3D items**. Right-click on `Items` component inside the `Viewport1` and from the context menu add primitives like _"Box"_, _"Sphere"_, _"Cylinder"_. Move them around, delete them (with _Delete_ key), duplicate (with _Ctrl+D_ key).
+
+Change some properties. On the right side, you can see an _object inspector_, familiar to any Lazarus and Delphi user. Adjust the properties, for example change the `Size` of the `Plane1` to be much bigger. Click on _"..."_ (3 dots) button at the _"Color"_ property of any primitive (like a plane, a box, a sphere...) to change the color.
+
+image::images/viewport_fun.png[Example result of adding some 3D items and changing their properties]
+
+If you get stuck, consult our manual, in particular `https://castle-engine.io/viewport_and_scenes` and `https://castle-engine.io/viewport_3d` may be helpful to learn basic 3D manipulation.
+
 ## Design a 3D chessboard with chess pieces
+
+You can now design a 3D world composed from simple primitives, like boxes and spheres.
+
+But this isn't a way to create realistic 3D graphics. In most 3D graphic applications, the content is created using a specialized 3D _authoring tool_, like _Blender_. 3D artist creates a _mesh_ (a set of vertexes, connected to form edges and polygons), assigns materials and textures, and exports the resulting object to a file that can be read by a game engine -- like a glTF file.
+
+If you are capable of creating your own 3D models, for example in _Blender_, you can now make a detour: design a 3D model in Blender and export it to glTF using our instructions on `https://castle-engine.io/blender` .
+
+Or you can use some ready-made stuff:
+
+- There's a number of high-quality 3D content on the Internet, available also for free and on open-source-compatible licenses. We collect some links to it on `https://castle-engine.io/assets.php` .
+
+- Our engine also features an integration with _Sketchfab_, to allow you to search and download from a vast repository of free 3D models without leaving our editor. See the `https://castle-engine.io/sketchfab` documentation.
+
+- Finally, we have a ready set of 3D models for the chessboard and all chess pieces, that you can use for this demo.
+
+To use the last option, download the 3D models from the TODO . They were made based on open-source Blender model published on `https://blendswap.com/blend/29244` by _Phuong2647_.
 
 ## Using physics in the editor
 
