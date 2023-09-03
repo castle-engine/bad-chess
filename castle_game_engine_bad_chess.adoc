@@ -1,4 +1,10 @@
 # The bad way to play chess: Implementing 3D physics fun using Castle Game Engine
+Michalis Kamburelis
+:toc: left
+:toclevels: 4
+:sectnums:
+:source-highlighter: coderay
+:docinfo1:
 
 ## Introduction
 
@@ -6,7 +12,7 @@ I remember my first book about chess when I was young. It was a book teaching yo
 
 That was naturally a bad way of playing chess. In the second chapter of the book, an adult came, told children that they play chess in a wrong way, and taught them the right way -- how each figure moves, how king is special, what it means to check and then mate your opponent. The book overall was great, and it's likely responsible for my love for chess (the _proper_ version of the game, with rules instead of flicking objects) to this day.
 
-That being said... Don't you want to play some day this _"incorrect"_ version of chess, the children's version, where nothing else matters except just sending each chess piece flying toward the other side? 
+That being said... Don't you want to play some day this _"incorrect"_ version of chess, the children's version, where nothing else matters except just sending each chess piece flying toward the other side?
 
 In this article we will go back in time, erase our hard-earned knowledge about how to _really_ play chess, and implement a simple 3D physics fun application where you can flick chess pieces using physics. You can treat it as a game for 2 people -- just play it on a computer, and let each player use the mouse and keyboard in turn.
 
@@ -21,12 +27,85 @@ You can use FPC or Delphi to develop the application presented here. In our engi
 _Castle Game Engine_ features a powerful visual editor to design your games, in 2D or 3D. Just like Delphi and Lazarus visual libraries, it's all based on a simple RAD concept: you can design a functional application easily visually but at the same time *everything you do is actually using Pascal classes and properties*. So all your knowledge gained from using the editor is also useful when you need to write some Pascal code, to do any non-trivial processing. You will use the same classes and properties in Pascal that you've seen in the visual editor.
 
 The engine is free and open-source. Use it to develop open-source or proprietary applications. You can distribute them to friends in any way, you can publish them on Steam, Itch.io, Google Play (Android), AppStore (iOS), your own website -- everywhere.
-  
+
 ## Download and install the engine
 
-TODO
+Start by downloading the engine from our website: `https://castle-engine.io/download` . Choose the version suitable for your operating system.
+
+* On Windows, the download is a simple installer.
+
+* On Linux, just unpack the downloaded zip file to any directory you like.
+
+* Follow the website for more detailed instructions and other platforms.
+
+Then the _Castle Game Engine_ editor.
+
+* If you used the installer on Windows, then the shortcut to run _Castle Game Engine_ has already been created for you.
+
+* If you unpacked the engine a zip file, then run the binary `castle-editor` from the subdirectory `bin` where you have unpacked the engine.
+
+image::images/initial_editor.png[Castle Game Engine editor]
+
+If you encounter any issue, consult our manual on `https://castle-engine.io/install` .
 
 ## Create your first project
+
+Let's create a new project. Click on _"New Project"_ button, choose the _"Empty"_ as project template, configure the project name and directory as you wish, and click _"Create Project"_.
+
+image::images/new_project.png[Creating new project]
+
+In response, we will create a new directory with a few project files that determined your project data and initial Pascal code.
+
+image::images/project_view.png[Project]
+
+You can explore the files in your project using the bottom panel of the editor. You can also just explore them using your regular file manager -- there's nothing special about this directory, these are normal files and directories.
+
+Some important files and directories:
+
+- `code` is a subdirectory where we advise to put all Pascal source code (units) of your application. Initially it contains just 2 units, `GameInitialize` and `GameViewMain`.
+
+- `data` is a subdirectory where you should put all the data that has to be loaded at run-time by your application. All the 3D and 2D models, textures, designs have to be placed here if you want to use them in your game. Initially it contains the _design_ called `gameviewmain.castle-user-interface` (and, less important, `CastleSettings.xml` and `README.txt` files).
+
+The general idea is that the initial application (created from the _"Empty"_ template) contains just a single _view_ called `Main`. A _view_ is a _Castle Game Engine_ concept that represents something that can be displayed in a _Castle Game Engine_  application. You use it typically quite like a _form_ in Delphi or Lazarus, in that it is a basic way to organize your application.
+
+- Every _view_ can be visually designed. Just double-click on it, in the _"Open Existing View"_ panel or in the _"Files"_ panel (when you're exploring the `data` subdirectory).
++
+This allows to visually design the contents of the `gameviewmain.castle-user-interface` file. The file has an extension `.castle-user-interface` because a _view_ is a special case of _user interface_ in Castle Game Engine.
++
+In larger applications, you can have multiple views. Also, in larger applications, you can visually design some _user interface_ elements that are not views, but are just reusable pieces of a user interface. All these files have the extension `.castle-user-interface` and can be visually designed using the editor. The views have, by convention, a name like `game*view.castle-user-interface`.
+
+- Every view has also an accompanying Pascal unit. The unit is named like the view, but without the `.castle-user-interface` extension. So in our case, the unit is called `gameviewmain.pas`. The unit contains the Pascal code that should be executed when the view is displayed. It defines a class that has methods to react to view being open, and more events.
+
+See `https://castle-engine.io/view_events` and `https://castle-engine.io/views` to learn more about the _views_ in our engine.
+
+To be clear about the terminology used throughout our engine:
+
+* A _design_ is a name for _a file you can visually design using our editor_. A design can be a file with extension
+** `.castle-user-interface` (user interface, can be loaded to a class descending from `TCastleUserInterface`)
+** `.castle-transform` (3D or 2D transformation, can be loaded to a class descending from `TCastleTransform`)
+** `.castle-component` (any other component; can be loaded to a class descending from `TComponent`)
+
+* A _user interface design_ is a specific case of a _design_ file. It is a file with `.castle-user-interface` extension.
+
+* A _view_ is a specific case of a _user interface design_. By convention it is called like `game*view.castle-user-interface`.
+
+You're probably itching to start actually _doing_ something after this lengthy introduction. Let's get to it.
+
+As a first thing, make sure that everything works. Use the big _"Compile And Run"_ button and watch as the project is compiled and run. The result will be boring -- dark window with FPS (_frames per second_) counter in the top-right corner. FPS are a standard way to measure your application performance.
+
+image::images/first_run.png[First run of the project]
+
+## Optionally tweak the editor preferences
+
+Once things work, you may want to tweak them by going to editor _"Preferences"_. In particular:
+
+- The editor by default uses a bundled version of latest stable _FPC (Free Pascal Compiler)_. If you'd rather use your own _FPC_ installation or _Delphi_, configure it in the preferences.
+
+- To edit the Pascal files, the editor by default tries to auto-detect various Pascal-capable  IDEs and editors, like _Lazarus_, _Delphi_, _Visual Studio Code_. If you prefer to configure a specific editor, choose it in the preferences.
+
+More details about the editor configuration can be found in our manual on `https://castle-engine.io/install` .
+
+The editor can use any Pascal compiler and any text editor. We deliberately don't put any special requirements on what you can use. Though we make sure to support the popular choices in a great way. In particular, we have a dedicated support for using _Visual Studio Code_ with Pascal (and _Castle Game Engine_ in particular), see `https://castle-engine.io/vscode` .
 
 ## Design a 3D chessboard with chess pieces
 
@@ -34,7 +113,7 @@ TODO
 
 ## Implement picking 3D object using the mouse
 
-## implement choosing the angle and strength to flick the 3D object
+## Implement choosing the angle and strength to flick the 3D object
 
 Once the player has picked an object, we want to allow player to configure the direction and strength with which to flick the object.
 
@@ -45,5 +124,3 @@ TODO
 ## Implement flicking the object
 
 ## Final application
-  
-  
