@@ -1,4 +1,4 @@
-# The bad way to play chess: Implementing 3D physics fun using Castle Game Engine
+# The bad way to play chess: 3D physics fun using Castle Game Engine
 
 Article and related demo project showcasing [Castle Game Engine](https://castle-engine.io/). For publication in [Blaise Pascal Magazine](https://www.blaisepascalmagazine.eu/) in 2023.
 
