@@ -4,7 +4,7 @@
 # Just run "make" on the command-line to make both HTML and PDF.
 # ----------------------------------------------------------------------------
 
-NAME:=castle_game_engine_bad_chess
+NAME:=castle_game_engine_bad_chess_1
 ALL_OUTPUT:=$(NAME).html $(NAME).pdf $(NAME).xml
 #TEST_BROWSER:=firefox
 TEST_BROWSER:=x-www-browser

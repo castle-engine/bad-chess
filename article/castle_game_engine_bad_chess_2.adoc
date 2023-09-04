@@ -1,0 +1,21 @@
+# The bad way to play chess: 3D physics fun using Castle Game Engine (Part 1)
+Michalis Kamburelis
+:toc: left
+:toclevels: 4
+:sectnums:
+:source-highlighter: coderay
+:docinfo1:
+
+## Summary of the previous article
+
+## Implement picking 3D object using the mouse
+
+## Implement choosing the angle and strength to flick the 3D object
+
+Once the player has picked an object, we want to allow player to configure the direction and strength with which to flick the object.
+
+We will visualize it with a simple 3D arrow model, that will be rotated and scaled accordingly.
+
+TODO
+
+## Implement flicking the object
