@@ -93,7 +93,7 @@ To be clear about the terminology used throughout our engine:
 
 You're probably itching to start actually _doing_ something after this lengthy introduction. Let's get to it.
 
-As a first thing, make sure that everything works. Use the big _"Compile And Run"_ button and watch as the project is compiled and run. The result will be boring -- dark window with FPS (_frames per second_) counter in the top-right corner. FPS are a standard way to measure your application performance.
+As a first thing, make sure that everything works. Use the big _"Compile And Run"_ button (key shortcut _F9_) and watch as the project is compiled and run. The result will be boring -- dark window with FPS (_frames per second_) counter in the top-right corner. FPS are a standard way to measure your application performance.
 
 image::images/first_run.png[First run of the project]
 
@@ -207,7 +207,85 @@ image::images/camera_game_running.png[Camera adjustment]
 
 ## Using physics in the editor
 
-TODO
+Now that the proper chessboard with chess pieces is designed, let's add some physics to make things _crazier_.
+
+_Castle Game Engine_ has a support for _rigid body physics_. This means that:
+
+- Objects can be affected by _forces_.
++
+The force that works automatically is _gravity_, pulling objects down (in the negative Y direction, by default).
++
+You can also define additional forces from code, to e.g. push things along given direction. Your own forces can realize a range of real-life effects, like wind, explosions, spinning tornadoes, etc.
+
+- Collisions between objects are automatically detected and resolved. That is, by default the objects will _bounce off_ each other.
++
+It is also possible to detect collisions in code and react to them in any way (e.g. an enemy may explode when it collides with a rocket).
++
+It is also possible for some objects to be _triggers_, in which case the objects do not _bounce off_ when they collide with them.
+
+- You can also connect certain objects using _joints_.
+
+We will not explore all these features in our article, but we will show you how to enjoy the basics. To learn more about the possibilities, read our manual `https://castle-engine.io/physics` and play with demoes with `examples/physics/` subdirectory of the engine. Here's a screenshot from one of the demos, showing explicit application of physics forces:
+
+image::images/physics_forces.png[Physics Forces]
+
+_Castle Game Engine_ physics internally uses _Kraft_, a physics engine deveveloped in Pascal by _Benjamin 'BeRo' Rosseaux_.
+
+Any component descending `TCastleTransform`, including primitives (like `TCastleBox`) or scenes loaded from models (`TCastleScene`) or a group of other objects (`TCastleTransform` with children) can be a _rigid body_ for the physics engine that participates in the collision detection and resulting movement. To do this, you need to add two _behaviors_ to the given component:
+
+1. `TCastleRigidBody` behavior makes the component a _rigid body_. It defines common physics properties, like whether the object is affected by gravity and the initial movement speed.
+
+2. Any component descending from abstract `TCastleCollider`. Multiple shapes are available, like `TCastleSphereCollider`, `TCastleBoxCollider` and `TCastleMeshCollider`.
++
+Using the `TCastleMeshCollider` results in most precise collisions, but the colliding object must be _static_ which means that other objects will _bounce off_ this object, but it will not move itself.
+
+The term _behavior_ we used above is a special mechanism in _Castle Game Engine_ to attach additional functionality to a `TCastleTransform`. Behaviors are a great way to define various functionality that enhances given game object. There are various built-in behaviors and you can also define your own. See `https://castle-engine.io/behaviors` for more information.
+
+After this overview, you're ready to actually use physics in our chess game.
+
+Right-click on the component representing the chessboard. From the context menu choose _"Add Behavior (Extends Parent Transform) -> Physics -> Collider -> Mesh"_. In response, you will notice that 2 components have appeared in the component tree: `MeshCollider1` and `RigidBody1`. That's a convenience feature of the editor: adding a collider also adds a rigid body component.
+
+image::images/physics_chessboard.png[Chessboard with rigid body and colliders]
+
+Next choose any chess piece (I chose one white pawn). Right-click on it and from the context menu choose _"Add Behavior (Extends Parent Transform) -> Physics -> Collider -> Box"_. Note that we use a simpler collider for the chess piece, which is also dynamic. This will allow the chess piece to actually fall down on the board.
+
+Finally move the chess piece to a more dramatic position, above the board, so that it will fall down when the physics will start.
+
+image::physics_above.png[Chess piece (white pawn) with physics above the board]
+
+We are ready to run physics. One way would be to just run the application, using the _"Compile And Run"_ as you've done before. But there's a quicker way to experiment with physics: run _physics simulation_ by using the green play icon at the header of the editor (or menu item _"Physics -> Play Simulation"_, key shortcut _Ctrl+P_).
+
+Do this and watch in awe and the pawn falls on the board.
+
+Remember to finish the physics simulation when you're done (press the green stop button, or again menu item _"Physics -> Play Simulation"_, key shortcut _Ctrl+P_). Editing the design during the physics simulation is allowed (and it's a great way to experiment with various physics settings) but _the changes are not saved when physics simulation is running_. That's because physics typically moves around the objects, and you don't want to save this position resulting from physics interactions.
+
+To get more spectacular results:
+
+- Add physics colliders to more chess pieces.
+
+- Move the chess pieces to more interesting positions, so that multiple pieces will fall down from above on multiple other chess pieces.
+
+After each change, just play and stop physics simulation again.
+
+Make sure that the initial position of all rigid bodies does not make some pair collide with each other right at the start -- since this is impossible in reality. If the 2 objects will collide at start, physics engine may (sometimes quite explosively) move them away from each other. This is not a problem, but it may be surprising at first.
+
+This is a sample result:
+
+image::images/physics_chess_more_dramatic.png[Chess pieces after a more dramatic physics simulation]
+
+One last thing remains to learn in this article part: how to _flick_ the chess piece?
+
+1. From Pascal code you can use various methods to apply a forces on a rigid body. More about this in the next article part. You can also experiment with the example application `examples/physics/physics_forces/` in you're impatient.
+
+2. You can set a specific `LinearVelocity` on a rigid body component.
+
+We will use the latter approach, as it can be trivially done and tested in the editor.
+
+Select the chess piece. Any chess piece you want to _"flick"_ (throw across the board). Make sure it has a collider and rigid body components (if not, add them, as above). Select the `TCastleRigidBody` component of it, and expand the `LinearVelocity` property. Set it to any large non-zero vector, like `-100 0 0`.
+
+Run the physics simulation and watch the mayhem.
+
+image::images/physics_flick.png[Flicked chess piece]
 
 ## Final application
 
