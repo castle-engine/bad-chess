@@ -210,3 +210,11 @@ image::images/camera_game_running.png[Camera adjustment]
 TODO
 
 ## Final application
+
+We have designed a 3D application using _Castle Game Engine_ with a bit of physics. We didn't yet write any Pascal code to do any interactions -- this will be done in the next part of the article.
+
+If you want to download a ready application, resulting from this, go to `https://github.com/castle-engine/bad-chess` . The subdirectory `project` of that repository contains the final working demo of this. It will be extended in the next part of the article.
+
+I hope you had fun doing this demo and exploring the possibilities of _Castle Game Engine_.
+
+If you have any questions or feedback about the engine, don't be shy! Speak up, ask and share your comments on our forum `https://forum.castle-engine.io` or Discord `https://castle-engine.io/talk.php` .
