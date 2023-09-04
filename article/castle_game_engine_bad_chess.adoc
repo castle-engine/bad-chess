@@ -159,6 +159,10 @@ You can now design a 3D world composed from simple primitives, like boxes and sp
 
 But this isn't a way to create realistic 3D graphics. In most 3D graphic applications, the content is created using a specialized 3D _authoring tool_, like _Blender_. 3D artist creates a _mesh_ (a set of vertexes, connected to form edges and polygons), assigns materials and textures, and exports the resulting object to a file that can be read by a game engine -- like a glTF file.
 
+On _Castle Game Engine_ side, our most important component to display a 3D model is `TCastleScene`. It's a big component, playing central role in our engine (in one way or another, it is actually responsible for all of 3D and 2D rendering in our viewport). Using it is simple: you create an instance of `TCastleScene` and set its `URL`  property to point to the model you want to display. The `TCastleScene` class descends from the `TCastleTransform` class, and as such you can move, rotate and scale the `TCastleScene` instances. Alternatively, you can also drag-and-drop the 3D model from the _"Files"_ panel to the viewport, editor will then automatically create a `TCastleScene` instance that loads the given model.
+
+We support a number of 3D and 2D model formats. They are listed on `https://castle-engine.io/creating_data_model_formats.php` . The short version is: use the glTF format.
+
 If you are capable of creating your own 3D models, for example in _Blender_, you can now make a detour: design a 3D model in Blender and export it to glTF using our instructions on `https://castle-engine.io/blender` .
 
 Or you can use some ready-made stuff:
@@ -170,6 +174,16 @@ Or you can use some ready-made stuff:
 - Finally, we have a ready set of 3D models for the chessboard and all chess pieces, that you can use for this demo.
 
 To use the last option, download the 3D models from the TODO . They were made based on open-source Blender model published on `https://blendswap.com/blend/29244` by _Phuong2647_.
+
+Unpack the resulting archive anywhere _under the `data` subdirectory of your project_.
+
+Then simply drag-and-drop the `*.gltf` files onto the viewport. Move and duplicate them as needed, to arrange them into a starting chess position.
+
+NOTE: For our silly physics game, it actually completely doesn't matter how you will arrange them. Have fun :)
+
+This is an example result:
+
+image::images/view_chess.png[Chessboard with chess pieces designed in the editor]
 
 ## Using physics in the editor
 
