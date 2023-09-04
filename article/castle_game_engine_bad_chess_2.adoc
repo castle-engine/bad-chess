@@ -1,4 +1,4 @@
-# The bad way to play chess: 3D physics fun using Castle Game Engine (Part 1)
+# The bad way to play chess: 3D physics fun using Castle Game Engine (Part 2)
 Michalis Kamburelis
 :toc: left
 :toclevels: 4
