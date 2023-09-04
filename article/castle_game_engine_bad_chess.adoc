@@ -170,6 +170,10 @@ Or you can use some ready-made stuff:
 - There's a number of high-quality 3D content on the Internet, available also for free and on open-source-compatible licenses. We collect some links to it on `https://castle-engine.io/assets.php` .
 
 - Our engine also features an integration with _Sketchfab_, to allow you to search and download from a vast repository of free 3D models without leaving our editor. See the `https://castle-engine.io/sketchfab` documentation.
++
+Here's a sample -- battle-hardened cat model, from Sketchfab, right inside our editor:
++
+image::images/cat_sketchfab.png[Cat from Sketchfab]
 
 - Finally, we have a ready set of 3D models for the chessboard and all chess pieces, that you can use for this demo.
 
@@ -179,7 +183,7 @@ Unpack the resulting archive anywhere _under the `data` subdirectory of your pro
 
 Then simply drag-and-drop the `*.gltf` files onto the viewport. Move and duplicate them as needed, to arrange them into a starting chess position.
 
-NOTE: For our silly physics game, it actually completely doesn't matter how you will arrange them. Have fun :)
+NOTE: For our silly physics game, it actually completely doesn't matter how you will arrange them. You also don't need to position and rotate them perfectly. Have fun :)
 
 This is an example result:
 
