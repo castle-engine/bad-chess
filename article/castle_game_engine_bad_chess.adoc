@@ -6,6 +6,8 @@ Michalis Kamburelis
 :source-highlighter: coderay
 :docinfo1:
 
+image::images/view_chess.png[Chessboard with chess pieces designed in the editor]
+
 ## Introduction
 
 I remember my first book about chess when I was young. It was a book teaching young people how to play chess. The first chapter started with a tale about children _playing chess incorrectly_: they didn't know the rules, so they put chess pieces randomly on the chessboard, and flicked them with their fingers towards the other side. The wooden chess pieces flew in the air, bashed with each other. Eventually most of the chess pieces fell off the chessboard onto the floor. The person with last chess piece remaining on the chessboard was the winner.
@@ -177,7 +179,7 @@ image::images/cat_sketchfab.png[Cat from Sketchfab]
 
 - Finally, we have a ready set of 3D models for the chessboard and all chess pieces, that you can use for this demo.
 
-To use the last option, download the 3D models from the TODO . They were made based on open-source Blender model published on `https://blendswap.com/blend/29244` by _Phuong2647_.
+To use the last option, download the 3D models from `https://github.com/castle-engine/bad-chess/releases/download/chess-models/chess-models.zip` . They were made based on open-source Blender model published on `https://blendswap.com/blend/29244` by _Phuong2647_.
 
 Unpack the resulting archive anywhere _under the `data` subdirectory of your project_.
 
@@ -188,6 +190,20 @@ NOTE: For our silly physics game, it actually completely doesn't matter how you 
 This is an example result:
 
 image::images/view_chess.png[Chessboard with chess pieces designed in the editor]
+
+Once you've designed the chessboard and put chess pieces on it, also make sure to adjust the lights to make everything nicely bright (but not too bright).
+
+Finally, adjust the camera so that user sees a nice view of the board when the application starts. When you select a camera component (like `Camera1`, if you haven't renamed the default camera), the editor shows a small window with _camera preview_. You can click _"Pin"_ in this window to keep observing the world from this camera. There are basically 2 ways to manipulate the camera:
+
+1. Move and rotate it just like any other 3D object. Look at the _camera preview_ to judge whether the camera view looks good.
+
+2. Or, alternatively, navigate in the editor and then use the menu item _"Viewport -> Align Camera To View"_ (key shortcut _Ctrl + Numpad 0_) to make the camera view match the current view in the editor.
+
+image::images/camera.png[Camera adjustment]
+
+Once you have a nice view, make sure it all works: compile and run the application again.
+
+image::images/camera_game_running.png[Camera adjustment]
 
 ## Using physics in the editor
 
