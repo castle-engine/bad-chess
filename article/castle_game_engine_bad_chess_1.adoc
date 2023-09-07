@@ -178,6 +178,8 @@ Or you can use some ready-made stuff:
 Here's a sample -- battle-hardened cat model, from Sketchfab, right inside our editor:
 +
 image::images/cat_sketchfab.png[Cat from Sketchfab]
++
+image::images/sketchfab_cat_larger.png[Cat from Sketchfab at runtime]
 
 - Finally, we have a ready set of 3D models for the chessboard and all chess pieces, that you can use for this demo.
 
