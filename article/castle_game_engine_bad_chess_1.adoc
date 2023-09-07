@@ -163,6 +163,8 @@ Above we learned to design a 3D world composed from simple primitives, like boxe
 
 But this isn't a way to create realistic 3D graphics. In most 3D graphic applications, the content is created using a specialized 3D _authoring tool_, like _Blender_. 3D artist creates a _mesh_ (a set of vertexes, connected to form edges and polygons), assigns materials and textures, and exports the resulting object to a file that can be read by a game engine -- like a glTF file.
 
+glTF is a full-featured 3D model format developed by Khronos. _Castle Game Engine_ has great support for glTF, see `https://castle-engine.io/gltf` for details.
+
 On _Castle Game Engine_ side, our most important component to display a 3D model is `TCastleScene`. It's a big component, playing central role in our engine (in one way or another, it is actually responsible for all of 3D and 2D rendering in our viewport). Using it is simple: you create an instance of `TCastleScene` and set its `URL`  property to point to the model you want to display (like a glTF file). The `TCastleScene` class descends from the `TCastleTransform` class, and as such you can move, rotate and scale the `TCastleScene` instances. Alternatively, you can also drag-and-drop the glTF file from the _"Files"_ panel to the viewport, editor will then automatically create a `TCastleScene` instance that loads the given model.
 
 We support a number of 3D and 2D model formats, not only glTF. They are listed on `https://castle-engine.io/creating_data_model_formats.php` .
