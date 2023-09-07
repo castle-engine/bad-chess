@@ -182,6 +182,8 @@ Here's a sample -- battle-hardened cat model, from Sketchfab, right inside our e
 image::images/cat_sketchfab.png[Cat from Sketchfab]
 +
 image::images/sketchfab_cat_larger.png[Cat from Sketchfab at runtime]
++
+_Credits: The "Cat" 3D model was done by Muru (`https://sketchfab.com/muru`) and is available on Sketchfab (`https://sketchfab.com/3d-models/cat-16c3444c8d1440fc97fdf10f60ec58b0`) on CC-BY-4.0 license_.
 
 - Finally, we have a ready set of 3D models for the chessboard and all chess pieces, that you can use for this demo.
 
