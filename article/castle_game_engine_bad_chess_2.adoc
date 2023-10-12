@@ -6,16 +6,98 @@ Michalis Kamburelis
 :source-highlighter: coderay
 :docinfo1:
 
-## Summary of the previous article
+## Introduction - what's going on?
+
+Welcome to the second part of the article about creating a simple 3D physics game using _Castle Game Engine_.
+
+_Castle Game Engine_ is a cross-platform (desktop, mobile, consoles) 3D and 2D game engine using modern Pascal. It's free and open-source and works with both FPC and Delphi.
+
+In the first part, we learned how to use the visual editor and we have designed a chessboard with chess pieces. Then we played with physics to throw the chess piece, such that it collides and knocks down other chess pieces. Remember this is a _bad_ way to play chess, but it's fun :)
+
+//The important feature of our design is that every chess piece is a separate instance of a component `TCastleScene`, which means it can move independently of the rest.
+
+If you have missed the first part, you can still "jump in" at this point. Just download _Castle Game Engine_ from https://castle-engine.io/ and either set up the chessboard and chess pieces yourself, or use our ready example project from https://github.com/castle-engine/bad-chess/ .
+
+## Coding the game
+
+The focus of this article part is to learn how to use Pascal code to make things happen in your game.
+
+The core of _Castle Game Engine_ is just a set of Pascal units that can be compiled using FPC and Delphi. Thus the games we create are also just regular Pascal programs that happen to use a few _Castle Game Engine_ units. This means that you can use the workflow you know -- whatever Pascal text editor and compiler you use, go ahead and use it to create your game.
+
+In particular, for IDE, you can choose _Delphi_, _Lazarus_, _VS Code_ or any other editor you like. We have a dedicated documentation how to get the most our of each IDE on https://castle-engine.io/manual_ide.php . You can go to CGE editor _"Preferences -> Code Editor"_ and configure which Pascal IDE to use when you double-click on a Pascal file from CGE editor.
+
+Specifically for _VS Code_ users, the https://castle-engine.io/vscode contains information how to setup _VS Code_ with _Castle Game Engine LSP server_ to get great code completion. We are working right now on a dedicated _Castle Game Engine_ extension for _VS Code_ that will make this integration even easier.
+
+## First exercise: Handle a key press to change position of a transformation
+
+Let's start simple. First goal: When user presses a key `x`, we want to move the _black king_ chess piece a bit higher. This isn't what we want to do at the end, but it's a simple test that we can
+
+- React to user input (key press).
+
+- In response, do something interesting in 3D world (move a chess piece).
+
+Most of the code you write in _Castle Game Engine_ is placed in a unit associated with a _view_. We talked about what is a _view_ in _Castle Game Engine_ in the previous article part, the short recap is that you use views similar to how you use _forms_ in typical Delphi FMX / VCL or Lazarus LCL applications: a view is a _visual design_ (in `gameviewmain.castle-user-interface`) and associated code (in `code/gameviewmain.pas`).
+
+So let's open the file `code/gameviewmain.pas` in your favourite Pascal IDE. In the editor, you can just use the bottom _"Files"_ panel. Enter the `code` subdirectory and double-click on the `gameviewmain.pas` file. Alternatively, you can just open your Pascal IDE and from it open the Pascal project. The basic project files (like `my_project.dproj` for Delphi or `my_project.lpi` for Lazarus) have been already generated for us.
+
+Inside the `code/gameviewmain.pas` .... TODO
+
+## Second exercise Flick the chess piece
+
+Let's do one more exercise. Let's make sure we can use code to "flick" a chess piece. The chess piece we flick, and the direction in which we flick it, will be hardcoded in this exercise. But we will get confidence that we can use physics from Pascal code.
+
+Open ... TODO
 
 ## Implement picking 3D object using the mouse
 
-## Implement choosing the angle and strength to flick the 3D object
+To implement the real interaction, we want to allow user to choose which chess piece to flick using the mouse. _Castle Game Engine_ provides a ready function that tells you what is being indicated by the the current mouse (or last touch, on mobile) position. This is the `TCastleViewport.TransformUnderMouse` function.
+
+Let's utilize it to highlight the currently selected chess piece.
+
+To make it work, we also have to somehow mark _"what is a chess piece"_. So far, our scene is a collection of `TCastleScene` components, and that was good enough, but it does not give us enough information to distinguish between chess pieces and other objects (like a chessboard). We want to do something crazy, but we don't want to flip the chessboard! At least not this time :)
+
+There are a few ways to "mark" the `TCastleScene` components that are chess pieces.
+
+- The most flexible approach is to invent a `TCastleBehavior` instance that holds various information specific to a chess piece. And the mere existence of `TCastleBehavior` instance attached to a scene indicates _"this is a chess piece"_.
++
+This is the flexible and powerful approach and for a larger game I would generally go with that. If you are curious how it works, create a new project from the _"3D FPS Game"_ template and see how the `TEnemy` class is defined and used. We have documented and explained this approach more in https://castle-engine.io/behaviors .
+
+- For this project, since we don't really need any additional information beyond a trivial way to signal _"this is a chess piece"_, we can also just utilize the standard `Tag` property of every Pascal component (`TComponent` descendant). Let's just set `Tag = 1` for every chess piece.
+
+To highlight the current chess piece, we will extend the `Update` method implementation of our view. ... TODO
+
+## Implement choosing the angle and strength to flick the chess piece
 
 Once the player has picked an object, we want to allow player to configure the direction and strength with which to flick the object.
 
-We will visualize it with a simple 3D arrow model, that will be rotated and scaled accordingly.
+We will visualize it with a simple 3D arrow model, that will be rotated and scaled accordingly. We could design the arrow in Blender, but, to show that we can, we are going to instance create it in _Castle Game Engine_ editor. The arrow is a compisition of two simple shapes: _cone_ (for the arrow tip) and suiatably scaled _cylinder_.
 
-TODO
+To make the arrow a reusable component, we will not add it to our view. Instead, we will create a new _design_ with `.castle-transform` extension that can be loaded and instantiated many times from code.
 
-## Implement flicking the object
+To create a design, TODO...
+
+## Putting it all together
+
+Looks like we have all the knowledge we need. Now let's execute the "flicking" code when user clicks the mouse button. This will flick the last selected chess piece, in the chosen direction.
+
+TODO...
+
+## Conclusion and future ideas
+
+Invite a friend to play with you. Just take turns using the mouse to flick your chess pieces and have fun :)
+
+I am sure you can invent now multiple ways to make this better.
+
+- Maybe each player should be able to flick only its own chess pieces? Sure. Extend the information about the chess piece to know which side owns it. You can use the `TCastleBehavior` approach described above, or just use the `Tag` property to store the player number, 1 or 2.
+
+- Maybe you want to display some user interface, like a label, to indicate whose turn is it? Sure, just drop a `TCastleLabel` component on view, and change the label's `Caption` whenever you want.
+
+- Maybe you want to implement real chess game? Sure, just add tracking in code all the chess pieces and the chessboard tiles -- what is where. Then add a logic that allows player to select which piece and where should move. Add some validation. Add playing with a computer opponent if you wish -- there are standardized protocols to communicate with _"chess engines"_ so you don't need to necessarily implement your own chess AI.
+
+- Maybe you want to use networking? You can use a number of networking solutions (any Pascal library) together with _Castle Game Engine_. See https://castle-engine.io/manual_network.php . We have used the engine with _Indy_ and _RNL (Realtime Network Library)_. In the future we plan to integrate the engine with _Nakama_, open-source server and client framework for multi-player games.
+
+- Maybe you want to deploy this game to other platforms, in particular mobile? Go ahead. The code we wrote above is already cross-platform and can be compiled using _Castle Game Engine_ to any Android or iOS. Our build tool does everything for you, you get a ready APK, AAB or IPA file to install on your phone. See the engine documentation on https://castle-engine.io/manual_cross_platform.php .
+
+If you want to learn more about the engine, you're welcome to read the documentation on https://castle-engine.io/ and join our community on forum and Discord: https://castle-engine.io/talk.php . Last but not least, if you like this article and the engine, we will appreciate if you support us on Patreon https://www.patreon.com/castleengine . We count on your support.
+
+Finally, above all, have fun! Creating games is a wild process and experimenting along the way is the only way to go. I hope you will enjoy it.
