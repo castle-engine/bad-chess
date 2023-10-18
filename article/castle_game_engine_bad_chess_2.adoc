@@ -103,9 +103,9 @@ end;
 
 Bild and run the game (e.g. by pressing F9 in _Castle Game Engine_ editor, or in Delphi, or in Lazarus) and press `X` to see how it works.
 
-## Second exercise: Flick the chess piece
+## Second exercise: Push the chess piece using physics
 
-Let's do one more exercise. Let's make sure we can use code to "flick" a chess piece. The chess piece we flick, and the direction in which we flick it, will be hardcoded in this exercise. But we will get confidence that we can use physics from Pascal code.
+Let's do one more exercise. Let's make sure we can use code to push (flick, throw) a chess piece using physics. The chess piece we push, and the direction in which we push it, will be hardcoded in this exercise. But we will get confidence that we can use physics from Pascal code.
 
 Let's use the black king again.
 
@@ -115,7 +115,7 @@ This is how it should look like:
 
 image::images_2/chess_piece_physics.png[Chess piece with physics components]
 
-To flick it using physics, we want to use the `ApplyImpulse` method of the `TCastleRigidBody` component associated with the chess piece.
+To push it using physics, we want to use the `ApplyImpulse` method of the `TCastleRigidBody` component associated with the chess piece.
 
 - You can get the `TCastleRigidBody` component using the `SceneBlackKing1.FindBehavior(TCastleRigidBody)` method, as shown below.
 +
@@ -142,7 +142,7 @@ begin
 end;
 ```
 
-Above we use the direction `Vector3(0, 10, 0)` which means "up, with strength 10". You can experiment with different directions and strengths. If we'd like to flick the chess piece at others (which we will, in the next exercise), we would use directions more along the X and Z axes, and leave Y axis zero.
+Above we use the direction `Vector3(0, 10, 0)` which means "up, with strength 10". You can experiment with different directions and strengths. If we'd like to push the chess piece at other pieces (which we will, in the next exercise), we would use directions more along the X and Z axes, and leave Y axis zero.
 
 To the uses clause, add also `CastleTransform` unit, to have `TCastleRigidBody` defined.
 
