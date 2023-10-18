@@ -6,7 +6,7 @@ Michalis Kamburelis
 :source-highlighter: coderay
 :docinfo1:
 
-image::images/view_chess.png[Chessboard with chess pieces designed in the editor]
+image::images_1/view_chess.png[Chessboard with chess pieces designed in the editor]
 
 ## Introduction
 
@@ -48,7 +48,7 @@ Once installed, run the _Castle Game Engine_ editor.
 
 * If you unpacked the engine a zip file, then run the binary `castle-editor` from the subdirectory `bin` where you have unpacked the engine.
 
-image::images/initial_editor.png[Castle Game Engine editor]
+image::images_1/initial_editor.png[Castle Game Engine editor]
 
 If you encounter any issue, consult our manual on `https://castle-engine.io/install` .
 
@@ -56,11 +56,11 @@ If you encounter any issue, consult our manual on `https://castle-engine.io/inst
 
 Let's create a new project. Click on the _"New Project"_ button, choose the _"Empty"_ project template, configure the project name and directory as you wish, and click _"Create Project"_.
 
-image::images/new_project.png[Creating new project]
+image::images_1/new_project.png[Creating new project]
 
 In response, we will create a new directory with a few project files that define your project data and initial Pascal code.
 
-image::images/project_view.png[Project]
+image::images_1/project_view.png[Project]
 
 You can explore the files in your project using the bottom panel of the editor. You can also just explore them using your regular file manager -- there's nothing special about this directory, these are normal files and directories.
 
@@ -97,7 +97,7 @@ You're probably itching to start actually _doing_ something after this lengthy i
 
 As a first thing, make sure that everything works. Use the big _"Compile And Run"_ button (key shortcut _F9_) and watch as the project is compiled and run. The result will be boring -- dark window with FPS (_frames per second_) counter in the top-right corner. FPS are a standard way to measure your application performance.
 
-image::images/first_run.png[First run of the project]
+image::images_1/first_run.png[First run of the project]
 
 ## Optionally tweak the editor preferences
 
@@ -123,19 +123,19 @@ The initial view is mostly empty.
 
 - And it has a label `LabelFps` (an instance of `TCastleLabel` class). At run-time, this label will display the FPS counter.
 
-image::images/view_empty.png[Initial view]
+image::images_1/view_empty.png[Initial view]
 
 Let's add more content to it. First of all, to display anything in 3D, you need a _viewport_. A viewport is a way to display 3D or 2D content. It is an instance of `TCastleViewport` class. Add it to the design by right-clicking on the `Group1` component and choosing _"Add User Interface -> Viewport (3D)"_ from the menu that appears.
 
-image::images/add_viewport.png[Adding a viewport]
+image::images_1/add_viewport.png[Adding a viewport]
 
 The result should look like this:
 
-image::images/view_viewport.png[View with a viewport]
+image::images_1/view_viewport.png[View with a viewport]
 
 Following this, drag the new `Viewport1` component above the `LabelFps` in the _Hierachy_ panel (on the left). This way the FPS counter will be displayed in front of the viewport.
 
-image::images/view_viewport_fps_front.png[FPS counter in front of the viewport]
+image::images_1/view_viewport_fps_front.png[FPS counter in front of the viewport]
 
 Now play around in the 3D view. There are 3 objects in 3D world:
 
@@ -153,7 +153,7 @@ Play around with **adding new 3D items**. Right-click on `Items` component insid
 
 Change some properties. On the right side, you can see an _object inspector_, familiar to any Lazarus and Delphi user. Adjust the properties, for example change the `Size` of the `Plane1` to be much bigger. Click on _"..."_ (3 dots) button at the _"Color"_ property of any primitive (like a plane, a box, a sphere...) to change the color.
 
-image::images/viewport_fun.png[Example result of adding some 3D items and changing their properties]
+image::images_1/viewport_fun.png[Example result of adding some 3D items and changing their properties]
 
 If you get stuck, consult our manual, in particular `https://castle-engine.io/viewport_and_scenes` and `https://castle-engine.io/viewport_3d` are helpful to learn basic 3D manipulation.
 
@@ -179,9 +179,9 @@ Or you can use some ready-made stuff:
 +
 Here's a sample -- battle-hardened cat model, from Sketchfab, right inside our editor:
 +
-image::images/cat_sketchfab.png[Cat from Sketchfab]
+image::images_1/cat_sketchfab.png[Cat from Sketchfab]
 +
-image::images/sketchfab_cat_larger.png[Cat from Sketchfab at runtime]
+image::images_1/sketchfab_cat_larger.png[Cat from Sketchfab at runtime]
 +
 _Credits: The "Cat" 3D model was done by Muru (`https://sketchfab.com/muru`) and is available on Sketchfab (`https://sketchfab.com/3d-models/cat-16c3444c8d1440fc97fdf10f60ec58b0`) on CC-BY-4.0 license_.
 
@@ -197,7 +197,7 @@ NOTE: For our silly physics game, it actually completely doesn't matter how you 
 
 This is an example result:
 
-image::images/view_chess.png[Chessboard with chess pieces designed in the editor]
+image::images_1/view_chess.png[Chessboard with chess pieces designed in the editor]
 
 Once you've designed the chessboard and put chess pieces on it, also make sure to adjust the lights to make everything nicely bright (but not too bright).
 
@@ -207,11 +207,11 @@ Finally, adjust the camera so that user sees a nice view of the board when the a
 
 2. Or, alternatively, navigate in the editor and then use the menu item _"Viewport -> Align Camera To View"_ (key shortcut _Ctrl + Numpad 0_) to make the camera view match the current view in the editor.
 
-image::images/camera.png[Camera adjustment]
+image::images_1/camera.png[Camera adjustment]
 
 Once you have a nice view, make sure it all works: compile and run the application again.
 
-image::images/camera_game_running.png[Camera adjustment]
+image::images_1/camera_game_running.png[Camera adjustment]
 
 ## Using physics in the editor
 
@@ -237,7 +237,7 @@ It is also possible for some objects to be _triggers_, in which case the objects
 
 We will not explore all these features in our article, but we will show you how to enjoy the basics. To learn more about the possibilities, read our manual `https://castle-engine.io/physics` and play with demoes in the `examples/physics/` subdirectory of the engine. Here's a screenshot from one of the demos, showing explicit application of physics forces:
 
-image::images/physics_forces.png[Physics Forces]
+image::images_1/physics_forces.png[Physics Forces]
 
 _Castle Game Engine_ physics internally uses _Kraft_, a physics engine deveveloped in Pascal by _Benjamin 'BeRo' Rosseaux_.
 
@@ -255,13 +255,13 @@ After this overview, you're ready to actually use physics in our chess game.
 
 Right-click on the component representing the chessboard. From the context menu choose _"Add Behavior (Extends Parent Transform) -> Physics -> Collider -> Mesh"_. In response, you will notice that 2 components have appeared in the component tree: `MeshCollider1` and `RigidBody1`. That's a convenience feature of the editor: adding a collider also adds a rigid body component.
 
-image::images/physics_chessboard.png[Chessboard with rigid body and colliders]
+image::images_1/physics_chessboard.png[Chessboard with rigid body and colliders]
 
 Next choose any chess piece. Right-click on it and from the context menu choose _"Add Behavior (Extends Parent Transform) -> Physics -> Collider -> Box"_. Note that we use a simpler collider for the chess piece, which is also dynamic. This will allow the chess piece to actually fall down on the board.
 
 Finally move the chess piece to a more dramatic position, above the board, so that it will fall down when the physics will start.
 
-image::images/physics_above.png[Chess piece (white pawn) with physics above the board]
+image::images_1/physics_above.png[Chess piece (white pawn) with physics above the board]
 
 We are ready to run physics. One way would be to just run the application, using the _"Compile And Run"_ as you've done before. But there's a quicker way to experiment with physics: run _physics simulation_ by using the green play icon at the header of the editor (or menu item _"Physics -> Play Simulation"_, key shortcut _Ctrl+P_).
 
@@ -284,7 +284,7 @@ Make sure that the initial position of all rigid bodies does not make some pair 
 
 This is a sample result:
 
-image::images/physics_chess_more_dramatic.png[Chess pieces after a more dramatic physics simulation]
+image::images_1/physics_chess_more_dramatic.png[Chess pieces after a more dramatic physics simulation]
 
 One last thing remains to learn in this (first) part of the article: how to _flick_ the chess piece?
 
@@ -304,7 +304,7 @@ We will use the latter approach, as it can be trivially done and tested in the e
 
 Run the physics simulation and watch the mayhem.
 
-image::images/physics_flick.png[Flicked chess piece]
+image::images_1/physics_flick.png[Flicked chess piece]
 
 ## Summary
 
