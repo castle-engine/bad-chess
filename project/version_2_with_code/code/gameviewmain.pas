@@ -9,7 +9,8 @@ interface
 
 uses Classes,
   CastleVectors, CastleComponentSerialize,
-  CastleUIControls, CastleControls, CastleKeysMouse, CastleScene;
+  CastleUIControls, CastleControls, CastleKeysMouse, CastleScene,
+  CastleTransform;
 
 type
   { Main view, where most of the application logic takes place. }
@@ -19,6 +20,7 @@ type
       These fields will be automatically initialized at Start. }
     LabelFps: TCastleLabel;
     SceneBlackKing1: TCastleScene;
+    BlackPieces, WhitePieces: TCastleTransform;
   public
     constructor Create(AOwner: TComponent); override;
     procedure Start; override;
@@ -32,7 +34,13 @@ var
 implementation
 
 uses SysUtils,
-  CastleTransform;
+  CastleLog;
+
+type
+  TChessPieceBehavior = class(TCastleBehavior)
+  public
+    Black: Boolean;
+  end;
 
 { TViewMain ----------------------------------------------------------------- }
 
@@ -43,8 +51,32 @@ begin
 end;
 
 procedure TViewMain.Start;
+
+  procedure ConfigureChessPiece(const Child: TCastleTransform; const Black: Boolean);
+  var
+    ChessPiece: TChessPieceBehavior;
+  begin
+    ChessPiece := TChessPieceBehavior.Create(FreeAtStop);
+    ChessPiece.Black := true;
+    Child.AddBehavior(ChessPiece);
+    if Child.FindBehavior(TCastleRigidBody) = nil then
+      Child.AddBehavior(TCastleRigidBody.Create(FreeAtStop));
+    if Child.FindBehavior(TCastleCollider) = nil then
+      Child.AddBehavior(TCastleBoxCollider.Create(FreeAtStop));
+  end;
+
+var
+  Child: TCastleTransform;
 begin
   inherited;
+  for Child in BlackPieces do
+    ConfigureChessPiece(Child, true);
+  for Child in WhitePieces do
+    ConfigureChessPiece(Child, false);
+  WritelnLog('Configured %d black and %d white chess pieces', [
+    BlackPieces.Count,
+    WhitePieces.Count
+  ]);
 end;
 
 procedure TViewMain.Update(const SecondsPassed: Single; var HandleInput: Boolean);

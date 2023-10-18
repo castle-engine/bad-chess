@@ -160,13 +160,141 @@ Let's utilize it to highlight the currently selected chess piece.
 
 To make it work, we also have to somehow mark _"what is a chess piece"_. So far, our scene is a collection of `TCastleScene` components, and that was good enough, but it does not give us enough information to distinguish between chess pieces and other objects (like a chessboard). We want to do something crazy, but we don't want to flip the chessboard! At least not this time :)
 
-There are a few ways to "mark" the `TCastleScene` components that are chess pieces.
+To "mark" that the given `TCastleScene` component is a chess pieces we will invent a new class called `TChessPieceBehavior` descending from the `TCastleBehavior` class. We will then attach instances of this class to the `TCastleScene` components that represent chess pieces. In the future this class can have more fields (holding information specific to this chess piece) and methods. For start, the mere _existence_ of `TCastleBehavior` instance attached to a scene indicates _"this is a chess piece"_.
 
-- The most flexible approach is to invent a `TCastleBehavior` instance that holds various information specific to a chess piece. And the mere existence of `TCastleBehavior` instance attached to a scene indicates _"this is a chess piece"_.
+To know more about how our _behaviors_ work, see https://castle-engine.io/behaviors for documentation and examples. You can also create a new project from the _"3D FPS Game"_ template and see how the `TEnemy` class is defined and used. The _behaviors_ is a very flexible concept to add information and mechanics to your world and we advise to use it in many situations.
+
+There's really nothing difficult about our initial `TChessPieceBehavior` definition. It is almost an empty class, however at the last minute I decided to add there a `Boolean` field that says whether the chess piece is a white or black piece:
+
+```delphi
+type
+  TChessPieceBehavior = class(TCastleBehavior)
+  public
+    Black: Boolean;
+  end;
+```
+
+You can add it at the beginning of the `implementation` section of unit `GameViewMain`. But for larger projects, I would advise to create a separate unit to define and implement this class.
+
+How to actually attach the behavior instances to the scenes?
+
+1. You could do this visually, by registering the `TChessPieceBehavior` class in the _Castle Game Engine_ editor.
 +
-This is the flexible and powerful approach and for a larger game I would generally go with that. If you are curious how it works, create a new project from the _"3D FPS Game"_ template and see how the `TEnemy` class is defined and used. We have documented and explained this approach more in https://castle-engine.io/behaviors .
+This is a very powerful method as it allows to visually add and configure the behavior properties. See the https://castle-engine.io/custom_components for description how to use this.
 
-- For this project, since we don't really need any additional information beyond a trivial way to signal _"this is a chess piece"_, we can also just utilize the standard `Tag` property of every Pascal component (`TComponent` descendant). Let's just set `Tag = 1` for every chess piece.
+2. Or you can do it from code. In this article, I decided to go with this approach.
++
+This is a bit easier if you have to effectively attach the behavior 32 times, to all the chess pieces, and there's no need to specifically configure the initial state of the behavior. Clicking 32 times _"Add Behavior"_ would be a bit tiresome and also unnecessary in our simple case (for this demo, all chess pieces really work the same), so let's instead utilize code to easily initialize the chess pieces.
+
+To attach a behavior to our `SceneBlackKing1`, we can just create the instance of `TChessPieceBehavior` in our views's `Start` method, and add using `SceneBlackKing1.AddBehavior`. Like this:
+
+```delphi
+procedure TViewMain.Start;
+var
+  ChessPiece: TChessPieceBehavior;
+begin
+  inherited;
+  ChessPiece := TChessPieceBehavior.Create(FreeAtStop);
+  ChessPiece.Black := true;
+  SceneBlackKing1.AddBehavior(ChessPiece);
+end;
+```
+
+But this is only the beginning. Above we added `TChessPieceBehavior` to only one chess piece. We want to add it to all 32 the chess pieces. How to do it easily? We need to somehow iterate over all the chess pieces. To set the `Black` boolean field, we also should somehow know whether this is black or white. There are multiple solutions:
+
+1. We could assume that all chess pieces have names like `SceneWhiteXxx` or `SceneBlackXxx`. Then we can iterate over `Viewport1.Items` children, and check if their `Name` starts with given prefix.
+
+2. Or we could look at `Tag` value of scenes, and have a convention e.g. that `Tag = 1` means black chess piece, `Tag = 2` means white chess piece, and other tags (`Tag = 0` is default, in particular) mean that this is not a chess piece.
+
+3. Wd could also introduce additional transformation components that group black chess pieces separately from white chess pieces and separately from other stuff (like a chessboard).
+
+I decided to go with the latter approach, as introduction of _"additional nodes to group existing ones"_ is a powerful mechanism in many other situations. E.g. you can then easily hide or show a given group (using `TCastleTransform.Exists`) property.
+
+To make this happen, right-click on `Viewport1.Items`, and choose from the context menu _"Add Transform -> Transform (TCastleTransform)"_.
+
+image::images_2/adding_transform.png[Adding new transform]
+
+Name this new component `BlackPieces`. Then drag-and-drop in the editor hierarchy all the black chess pieces (`SceneBlackXxx` components) to be children of `BlackPieces`.
+
+Note: For now, you cannot just select with _Shift_ all 16 black chess pieces. Just do it one-by-one, it's only 16 chess pieces. There's a chance that we will improve this in the editor before the article publication :)
+
+The end result should look like this in the hierarchy:
+
+image::images_2/black_pieces_group.png[Black pieces group]
+
+Don't worry that only the `SceneBlackKing1` has the physics components. We will set the physics components using code soon too.
+
+Now repeat the process to add a `WhitePieces` group.
+
+image::images_2/white_pieces_group.png[White pieces group]
+
+This preparation in the editor makes our code task easier. Add to the published section of `TViewMain` declaration of `BlackPieces` and `WhitePieces` fields, of type `TCastleTransform`:
+
+```delphi
+  TViewMain = class(TCastleView)
+  published
+    ... // keep other fields too
+    BlackPieces, WhitePieces: TCastleTransform;
+```
+
+Now iterate over the 2 chess pieces group in the `Start` method:
+
+```delphi
+procedure TViewMain.Start;
+
+  procedure ConfigureChessPiece(const Child: TCastleTransform; const Black: Boolean);
+  var
+    ChessPiece: TChessPieceBehavior;
+  begin
+    ChessPiece := TChessPieceBehavior.Create(FreeAtStop);
+    ChessPiece.Black := true;
+    Child.AddBehavior(ChessPiece);
+  end;
+
+var
+  Child: TCastleTransform;
+begin
+  inherited;
+  for Child in BlackPieces do
+    ConfigureChessPiece(Child, true);
+  for Child in WhitePieces do
+    ConfigureChessPiece(Child, false);
+end;
+```
+
+It seems prudent to add basic "sanity check" at this point. Let's log the number of chess pieces each side has. Add the following code and the end of the `Start` method:
+
+````
+WritelnLog('Configured %d black and %d white chess pieces', [
+  BlackPieces.Count,
+  WhitePieces.Count
+]);
+```
+
+To make `WritelnLog` available, add `CastleLog` unit to the uses clause. Now when you run the game, you should see a log
+
+```
+Configured 16 black and 16 white chess pieces
+```
+
+In my case, I actually saw by accident that I have 17 chess pieces on each side, since by accident I added 3 knights instad of 2 (one knight was at exactly the same position as another, so it wasn't visible). Detecting such mistakes is exactly the reason why we add logs and test -- so I encourage you to do it too.
+
+While we're at it, we can also use this opportunity to make sure all chess pieces have  physics components (`TCastleRigidBody` and `TCastleBoxCollider`). So you don't need to manually add them all. This is a reasonable approach if the components don't need any manual adjustment per-chess-piece.
+
+To do this, extend our `ConfigureChessPiece` method:
+
+```delphi
+  procedure ConfigureChessPiece(const Child: TCastleTransform; const Black: Boolean);
+  begin
+    ... // keep previous code too
+    if Child.FindBehavior(TCastleRigidBody) = nil then
+      Child.AddBehavior(TCastleRigidBody.Create(FreeAtStop));
+    if Child.FindBehavior(TCastleCollider) = nil then
+      Child.AddBehavior(TCastleBoxCollider.Create(FreeAtStop));
+  end;
+```
+
+As you see above, this approach is quite direct: if you don't have the necessary component, just add it. I don't bother to configure any property on the new `TCastleRigidBody` and `TCastleBoxCollider` instances, as their defaults are good for our purpose.
 
 To highlight the current chess piece, we will extend the `Update` method implementation of our view. ... TODO
 
@@ -174,7 +302,7 @@ To highlight the current chess piece, we will extend the `Update` method impleme
 
 Once the player has picked an object, we want to allow player to configure the direction and strength with which to flick the object.
 
-We will visualize it with a simple 3D arrow model, that will be rotated and scaled accordingly. We could design the arrow in Blender, but, to show that we can, we are going to instance create it in _Castle Game Engine_ editor. The arrow is a compisition of two simple shapes: _cone_ (for the arrow tip) and suiatably scaled _cylinder_.
+We will visualize it with a simple 3D arrow model, that will be rotated and scaled accordingly. We could design the arrow in Blender, but, to show that we can, we are going to instance create it in _Castle Game Engine_ editor. The arrow is a compisition of two    simple shapes: _cone_ (for the arrow tip) and suitably scaled _cylinder_.
 
 To make the arrow a reusable component, we will not add it to our view. Instead, we will create a new _design_ with `.castle-transform` extension that can be loaded and instantiated many times from code.
 
