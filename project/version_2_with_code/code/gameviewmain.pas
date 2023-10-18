@@ -31,7 +31,8 @@ var
 
 implementation
 
-uses SysUtils;
+uses SysUtils,
+  CastleTransform;
 
 { TViewMain ----------------------------------------------------------------- }
 
@@ -55,13 +56,16 @@ begin
 end;
 
 function TViewMain.Press(const Event: TInputPressRelease): Boolean;
+var
+  MyBody: TCastleRigidBody;
 begin
   Result := inherited;
   if Result then Exit; // allow the ancestor to handle keys
 
   if Event.IsKey(keyX) then
   begin
-    SceneBlackKing1.Translation := SceneBlackKing1.Translation + Vector3(0, 1, 0);
+    MyBody := SceneBlackKing1.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
+    MyBody.ApplyImpulse(Vector3(0, 10, 0), SceneBlackKing1.WorldTranslation);
     Exit(true); // key was handled
   end;
 end;

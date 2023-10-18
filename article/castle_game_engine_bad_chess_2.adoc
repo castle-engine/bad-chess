@@ -46,6 +46,8 @@ Keep the _Castle Game Engine_ visual editor open too, with our view design `data
 
 For start, we want to know the _name_ of the component representing the black king. Just as you've seen when designing Lazarus and Delphi forms, every component has a _name_ which corresponds to how this component can be accessed from code. You can edit the component name in _Castle Game Engine_ by either editing the `Name` row in _Object Inspector_ (on the right) or editing the name in the hierarchy (on left). Simply click on the component name in hierarchy or press F2 to go into name editing. On the screenshot below, you can see that black king is named `SceneBlackKing1`. I can use Ctrl+C to copy this to the clipboard.
 
+Note that, for this first code exercise, we assume that the chess piece (`SceneBlackKing1`) does *not* have any physics components. If you have added `TCastleRigidBody` or `TCastleXxxCollider` components as behaviors of `SceneBlackKing1`, please remove them for now. We will restore them in the next exercise.
+
 image::images_2/name.png[Editing name]
 
 Now we have to declare the variable with the exact same name in the view. It will be automatically intialized to point to the component when we start the view. Do this in the `published` section of the class `TViewMain`. This is how the end result should look like:
@@ -105,7 +107,50 @@ Bild and run the game (e.g. by pressing F9 in _Castle Game Engine_ editor, or in
 
 Let's do one more exercise. Let's make sure we can use code to "flick" a chess piece. The chess piece we flick, and the direction in which we flick it, will be hardcoded in this exercise. But we will get confidence that we can use physics from Pascal code.
 
-Open ... TODO
+Let's use the black king again.
+
+To do this, let us *add* the physics components to the relevant chess piece. We described how to do this in last article part, the quick recap is to right-click on the component (`SceneBlackKing1` in this case) and from the context menu choose _"Add Behavior -> Physics -> Collider -> Box (TCastleBoxCollider)"_. Make you also have physics (with `TCastleMeshCollider`) active on the chess board, otherwise the chess piece would fall down due to gravity as soon as you run the game.
+
+This is how it should look like:
+
+image::images_2/chess_piece_physics.png[Chess piece with physics components]
+
+To flick it using physics, we want to use the `ApplyImpulse` method of the `TCastleRigidBody` component associated with the chess piece.
+
+- You can get the `TCastleRigidBody` component using the `SceneBlackKing1.FindBehavior(TCastleRigidBody)` method, as shown below.
++
+Alternatively, you could also declare and access `RigidBody1: TCastleRigidBody` reference in the published section of your view. We don't show this approach here, just because using the `FindBehavior` seems more educational at this point, i.e. you will find the `FindBehavior` useful in more situations.
+
+- The `ApplyImpulse` method takes two parameters: the strength and direction of the impulse (as `TVector3`, length of this vector determines the strength) and the position from which the impulse comes (it is simplest to just use the chess piece position here).
+
+In the end, this is the modified version of `TViewMain.Press` that you should use:
+
+```delphi
+function TViewMain.Press(const Event: TInputPressRelease): Boolean;
+var
+  MyBody: TCastleRigidBody;
+begin
+  Result := inherited;
+  if Result then Exit; // allow the ancestor to handle keys
+
+  if Event.IsKey(keyX) then
+  begin
+    MyBody := SceneBlackKing1.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
+    MyBody.ApplyImpulse(Vector3(0, 10, 0), SceneBlackKing1.WorldTranslation);
+    Exit(true); // key was handled
+  end;
+end;
+```
+
+Above we use the direction `Vector3(0, 10, 0)` which means "up, with strength 10". You can experiment with different directions and strengths. If we'd like to flick the chess piece at others (which we will, in the next exercise), we would use directions more along the X and Z axes, and leave Y axis zero.
+
+To the uses clause, add also `CastleTransform` unit, to have `TCastleRigidBody` defined.
+
+As usual, run the game and test. Pressing X should now bump the chess piece up.
+
+You can press X repeatedly, even when the chess piece is already in the air, as you see in our code -- we don't secure from it. We will not cover it in this exercise, but you could use `MyBody.PhysicsRayCast` to cast a ray with direction `Vector3(0, -1, 0)` and see whether the chess piece is already in the air.
+
+image::images_2/chess_piece_thrown.png[Chess piece thrown up]
 
 ## Implement picking 3D object using the mouse
 

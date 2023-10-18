@@ -88,7 +88,18 @@
             "RenderOptions" : {
               "$$ClassName" : "TCastleScene.TSceneRenderOptions"
             },
-            "URL" : "castle-data:/chess/chess_board.gltf"
+            "URL" : "castle-data:/chess/chess_board.gltf",
+            "$Behaviors" : [
+              {
+                "$$ClassName" : "TCastleMeshCollider",
+                "Mesh" : "SceneChessBoard1",
+                "Name" : "MeshCollider1"
+              },
+              {
+                "$$ClassName" : "TCastleRigidBody",
+                "Name" : "RigidBody2"
+              }
+            ]
           },
           {
             "$$ClassName" : "TCastleScene",
@@ -449,7 +460,17 @@
               "Y" : 7.0431137084960938E-001,
               "Z" : -1.3829574584960937E+000
             },
-            "URL" : "castle-data:/chess/black_king.gltf"
+            "URL" : "castle-data:/chess/black_king.gltf",
+            "$Behaviors" : [
+              {
+                "$$ClassName" : "TCastleBoxCollider",
+                "Name" : "BoxCollider1"
+              },
+              {
+                "$$ClassName" : "TCastleRigidBody",
+                "Name" : "RigidBody1"
+              }
+            ]
           },
           {
             "$$ClassName" : "TCastleScene",
