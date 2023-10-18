@@ -9,7 +9,7 @@ interface
 
 uses Classes,
   CastleVectors, CastleComponentSerialize,
-  CastleUIControls, CastleControls, CastleKeysMouse;
+  CastleUIControls, CastleControls, CastleKeysMouse, CastleScene;
 
 type
   { Main view, where most of the application logic takes place. }
@@ -18,6 +18,7 @@ type
     { Components designed using CGE editor.
       These fields will be automatically initialized at Start. }
     LabelFps: TCastleLabel;
+    SceneBlackKing1: TCastleScene;
   public
     constructor Create(AOwner: TComponent); override;
     procedure Start; override;
@@ -58,24 +59,11 @@ begin
   Result := inherited;
   if Result then Exit; // allow the ancestor to handle keys
 
-  { This virtual method is executed when user presses
-    a key, a mouse button, or touches a touch-screen.
-
-    Note that each UI control has also events like OnPress and OnClick.
-    These events can be used to handle the "press", if it should do something
-    specific when used in that UI control.
-    The TViewMain.Press method should be used to handle keys
-    not handled in children controls.
-  }
-
-  // Use this to handle keys:
-  {
-  if Event.IsKey(keyXxx) then
+  if Event.IsKey(keyX) then
   begin
-    // DoSomething;
+    SceneBlackKing1.Translation := SceneBlackKing1.Translation + Vector3(0, 1, 0);
     Exit(true); // key was handled
   end;
-  }
 end;
 
 end.
