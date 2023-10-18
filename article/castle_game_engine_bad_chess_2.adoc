@@ -152,13 +152,9 @@ You can press X repeatedly, even when the chess piece is already in the air, as 
 
 image::images_2/chess_piece_thrown.png[Chess piece thrown up]
 
-## Implement picking 3D object using the mouse
+## Preparation: Make code aware "what is a chess piece"
 
-To implement the real interaction, we want to allow user to choose which chess piece to flick using the mouse. _Castle Game Engine_ provides a ready function that tells you what is being indicated by the the current mouse (or last touch, on mobile) position. This is the `TCastleViewport.TransformUnderMouse` function.
-
-Let's utilize it to highlight the currently selected chess piece.
-
-To make it work, we also have to somehow mark _"what is a chess piece"_. So far, our scene is a collection of `TCastleScene` components, and that was good enough, but it does not give us enough information to distinguish between chess pieces and other objects (like a chessboard). We want to do something crazy, but we don't want to flip the chessboard! At least not this time :)
+To make our logic, we have to somehow mark _"what is a chess piece"_. So far, our scene is a collection of `TCastleScene` components, and that was good enough, but it does not give us enough information to distinguish between chess pieces and other objects (like a chessboard). We want to do something crazy, but we don't want to flip the chessboard! At least not this time :)
 
 To "mark" that the given `TCastleScene` component is a chess pieces we will invent a new class called `TChessPieceBehavior` descending from the `TCastleBehavior` class. We will then attach instances of this class to the `TCastleScene` components that represent chess pieces. In the future this class can have more fields (holding information specific to this chess piece) and methods. For start, the mere _existence_ of `TCastleBehavior` instance attached to a scene indicates _"this is a chess piece"_.
 
@@ -295,6 +291,15 @@ To do this, extend our `ConfigureChessPiece` method:
 ```
 
 As you see above, this approach is quite direct: if you don't have the necessary component, just add it. I don't bother to configure any property on the new `TCastleRigidBody` and `TCastleBoxCollider` instances, as their defaults are good for our purpose.
+
+This was all a good "ground work" for the remaining article part. Nothing functionally new has actually happened in our game, you should run it and see that... nothing changed. All 32 chess pieces just stand still, at the beginning.
+
+## Implement picking 3D object using the mouse
+
+To implement the real interaction, we want to allow user to choose which chess piece to flick using the mouse. _Castle Game Engine_ provides a ready function that tells you what is being indicated by the the current mouse (or last touch, on mobile) position. This is the `TCastleViewport.TransformUnderMouse` function.
+
+Let's utilize it to highlight the currently selected chess piece.
+
 
 To highlight the current chess piece, we will extend the `Update` method implementation of our view. ... TODO
 
