@@ -28,9 +28,11 @@ In particular, for IDE, you can choose _Delphi_, _Lazarus_, _VS Code_ or any oth
 
 Specifically for _VS Code_ users, the https://castle-engine.io/vscode contains information how to setup _VS Code_ with _Castle Game Engine LSP server_ to get great code completion. We are working right now on a dedicated _Castle Game Engine_ extension for _VS Code_ that will make this integration even easier.
 
+image::images_2/editor_and_vscode.png[CGE editor and VS Code]
+
 ## First exercise: Handle a key press to change position of a transformation
 
-Let's start simple. First goal: When user presses a key `x`, we want to move the _black king_ chess piece a bit higher. This isn't what we want to do at the end, but it's a simple test that we can
+Let's start simple. First goal: When user presses a key `x`, we want to move the _black king_ chess piece a bit higher. This isn't what we want to do in the end, but it's a simple test that we can:
 
 - React to user input (key press).
 
@@ -39,6 +41,8 @@ Let's start simple. First goal: When user presses a key `x`, we want to move the
 Most of the code you write in _Castle Game Engine_ is placed in a unit associated with a _view_. We talked about what is a _view_ in _Castle Game Engine_ in the previous article part, the short recap is that you use views similar to how you use _forms_ in typical Delphi FMX / VCL or Lazarus LCL applications: a view is a _visual design_ (in `gameviewmain.castle-user-interface`) and associated code (in `code/gameviewmain.pas`).
 
 So let's open the file `code/gameviewmain.pas` in your favourite Pascal IDE. In the editor, you can just use the bottom _"Files"_ panel. Enter the `code` subdirectory and double-click on the `gameviewmain.pas` file. Alternatively, you can just open your Pascal IDE and from it open the Pascal project. The basic project files (like `my_project.dproj` for Delphi or `my_project.lpi` for Lazarus) have been already generated for us.
+
+Keep the _Castle Game Engine_ editor open too, with the . We will occasionally adjust or consult our visual design, to make sure it is useful for our code logic.
 
 Inside the `code/gameviewmain.pas` .... TODO
 
