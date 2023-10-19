@@ -300,8 +300,17 @@ To implement the real interaction, we want to allow user to choose which chess p
 
 Let's utilize it to highlight the currently selected chess piece.
 
-
 To highlight the current chess piece, we will extend the `Update` method implementation of our view. ... TODO
+
+To actually show the highlight, we will use a ready effect available for every `TCastleScene` that can be activated using `MyScene.RenderOptions.WireframeEffect`. This is probably the simplest way to show the highlight.
+
+It is possible there will be a further article part in the future showing other ways:
+
+- Showing the highlight by dynamically changing the material color of the highlighted piece.
+
+- Showing the highlight by dynamically adding/removing a shader effect that modified the display of highlighted object.
+
+If you are curious see examples xxx and yyy about how to implement the afore-mentioned features. We plan to also add a more straightforward API to manipulate scene materials from CGE in the upcoming engine 7.0 version.
 
 ## Implement choosing the angle and strength to flick the chess piece
 
