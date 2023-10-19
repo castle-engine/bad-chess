@@ -260,7 +260,7 @@ end;
 
 It seems prudent to add basic "sanity check" at this point. Let's log the number of chess pieces each side has. Add the following code and the end of the `Start` method:
 
-````
+```delphi
 WritelnLog('Configured %d black and %d white chess pieces', [
   BlackPieces.Count,
   WhitePieces.Count
