@@ -210,9 +210,8 @@ To make this happen, right-click on `Viewport1.Items`, and choose from the conte
 
 image::images_2/adding_transform.png[Adding new transform]
 
-Name this new component `BlackPieces`. Then drag-and-drop in the editor hierarchy all the black chess pieces (`SceneBlackXxx` components) to be children of `BlackPieces`.
+Name this new component `BlackPieces`. Then drag-and-drop in the editor hierarchy all the black chess pieces (`SceneBlackXxx` components) to be children of `BlackPieces`. You can easily select all 16 scenes representing black pieces in the hierarchy by holding the _Shift_ key and then drag-and-drop them all at once into `BlackPieces`.
 
-Note: For now, you cannot just select with _Shift_ all 16 black chess pieces. Just do it one-by-one, it's only 16 chess pieces. There's a chance that we will improve this in the editor before the article publication :)
 
 The end result should look like this in the hierarchy:
 
