@@ -205,27 +205,6 @@
             "$$ClassName" : "TCastleScene",
             "ExposeTransforms" : [
             ],
-            "Name" : "SceneWhiteKnight3",
-            "RenderOptions" : {
-              "$$ClassName" : "TCastleScene.TSceneRenderOptions"
-            },
-            "RotationPersistent" : {
-              "$$ClassName" : "TCastleVector4RotationPersistent",
-              "W" : 1.4107271432876587E+000,
-              "Y" : -1.0000011920928955E+000
-            },
-            "TranslationPersistent" : {
-              "$$ClassName" : "TCastleVector3Persistent",
-              "X" : 8.3047657012939453E+000,
-              "Y" : 7.0431137084960938E-001,
-              "Z" : -6.1366224288940430E+000
-            },
-            "URL" : "castle-data:/chess/white_knight.gltf"
-          },
-          {
-            "$$ClassName" : "TCastleScene",
-            "ExposeTransforms" : [
-            ],
             "Name" : "SceneWhiteBishop1",
             "RenderOptions" : {
               "$$ClassName" : "TCastleScene.TSceneRenderOptions"
@@ -702,27 +681,6 @@
             "$$ClassName" : "TCastleScene",
             "ExposeTransforms" : [
             ],
-            "Name" : "SceneBlackKnight3",
-            "RenderOptions" : {
-              "$$ClassName" : "TCastleScene.TSceneRenderOptions"
-            },
-            "RotationPersistent" : {
-              "$$ClassName" : "TCastleVector4RotationPersistent",
-              "W" : 1.7103507518768311E+000,
-              "Y" : -1.0000001192092896E+000
-            },
-            "TranslationPersistent" : {
-              "$$ClassName" : "TCastleVector3Persistent",
-              "X" : -8.6358823776245117E+000,
-              "Y" : 7.0431232452392578E-001,
-              "Z" : -6.4507756233215332E+000
-            },
-            "URL" : "castle-data:/chess/black_knight.gltf"
-          },
-          {
-            "$$ClassName" : "TCastleScene",
-            "ExposeTransforms" : [
-            ],
             "Name" : "SceneBlackBishop1",
             "RenderOptions" : {
               "$$ClassName" : "TCastleScene.TSceneRenderOptions"
@@ -899,21 +857,21 @@
         },
         "RotationPersistent" : {
           "$$ClassName" : "TCastleVector4RotationPersistent",
-          "W" : 2.9230003356933594E+000,
-          "X" : -3.1512986868619919E-002,
-          "Y" : 9.5929127931594849E-001,
-          "Z" : 2.8065478801727295E-001
+          "W" : 2.7301633358001709E+000,
+          "X" : -4.1639089584350586E-002,
+          "Y" : 9.7920423746109009E-001,
+          "Z" : 1.9855751097202301E-001
         },
         "ScalePersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
           "X" : 9.9999994039535522E-001,
-          "Y" : 9.9999982118606567E-001
+          "Y" : 1.0000001192092896E+000
         },
         "TranslationPersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "X" : 4.5981397628784180E+000,
-          "Y" : 1.9134498596191406E+001,
-          "Z" : -2.8484249114990234E+001
+          "X" : 1.0894591331481934E+001,
+          "Y" : 1.7835170745849609E+001,
+          "Z" : -3.0442853927612305E+001
         }
       },
       "InternalDesignNavigations[dnFly]" : {

@@ -184,27 +184,6 @@
             "$$ClassName" : "TCastleScene",
             "ExposeTransforms" : [
             ],
-            "Name" : "SceneWhiteKnight3",
-            "RenderOptions" : {
-              "$$ClassName" : "TCastleScene.TSceneRenderOptions"
-            },
-            "RotationPersistent" : {
-              "$$ClassName" : "TCastleVector4RotationPersistent",
-              "W" : 1.4107271432876587E+000,
-              "Y" : -1.0000011920928955E+000
-            },
-            "TranslationPersistent" : {
-              "$$ClassName" : "TCastleVector3Persistent",
-              "X" : 8.3047657012939453E+000,
-              "Y" : 7.0431137084960938E-001,
-              "Z" : -6.1366224288940430E+000
-            },
-            "URL" : "castle-data:/chess/white_knight.gltf"
-          },
-          {
-            "$$ClassName" : "TCastleScene",
-            "ExposeTransforms" : [
-            ],
             "Name" : "SceneWhiteBishop1",
             "RenderOptions" : {
               "$$ClassName" : "TCastleScene.TSceneRenderOptions"
@@ -477,27 +456,6 @@
             "ExposeTransforms" : [
             ],
             "Name" : "SceneBlackKnight2",
-            "RenderOptions" : {
-              "$$ClassName" : "TCastleScene.TSceneRenderOptions"
-            },
-            "RotationPersistent" : {
-              "$$ClassName" : "TCastleVector4RotationPersistent",
-              "W" : 1.7103507518768311E+000,
-              "Y" : -1.0000001192092896E+000
-            },
-            "TranslationPersistent" : {
-              "$$ClassName" : "TCastleVector3Persistent",
-              "X" : -8.6358823776245117E+000,
-              "Y" : 7.0431232452392578E-001,
-              "Z" : -6.4507756233215332E+000
-            },
-            "URL" : "castle-data:/chess/black_knight.gltf"
-          },
-          {
-            "$$ClassName" : "TCastleScene",
-            "ExposeTransforms" : [
-            ],
-            "Name" : "SceneBlackKnight3",
             "RenderOptions" : {
               "$$ClassName" : "TCastleScene.TSceneRenderOptions"
             },
