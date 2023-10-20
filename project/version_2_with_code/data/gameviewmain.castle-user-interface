@@ -110,6 +110,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackRook1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -130,6 +131,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackRook2",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -150,6 +152,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackKing1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -181,6 +184,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackQueen1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -201,6 +205,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackKnight1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -222,6 +227,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackKnight2",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -243,6 +249,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackBishop1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -263,6 +270,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackBishop2",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -283,6 +291,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackPawn1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -303,6 +312,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackPawn2",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -323,6 +333,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackPawn3",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -343,6 +354,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackPawn4",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -363,6 +375,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackPawn5",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -383,6 +396,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackPawn6",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -403,6 +417,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackPawn7",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -423,6 +438,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneBlackPawn8",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -449,6 +465,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhitePawn8",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -469,6 +486,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhitePawn7",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -489,6 +507,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhitePawn6",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -509,6 +528,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhitePawn5",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -529,6 +549,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhitePawn4",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -549,6 +570,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhitePawn3",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -569,6 +591,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhitePawn2",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -589,6 +612,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhitePawn1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -609,6 +633,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhiteKing1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -635,8 +660,17 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhiteBishop2",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "LineWidth" : 5.0000000000000000E+000,
+                  "SilhouetteBias" : 2.0000000000000000E+001,
+                  "SilhouetteScale" : 2.0000000000000000E+001,
+                  "WireframeColorPersistent" : {
+                    "$$ClassName" : "TCastleColorRGBPersistent",
+                    "Green" : 9.2156863212585449E-001,
+                    "Red" : 1.0000000000000000E+000
+                  }
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -655,6 +689,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhiteBishop1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -675,6 +710,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhiteKnight2",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -701,6 +737,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhiteKnight1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -729,6 +766,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhiteRook2",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -749,6 +787,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhiteRook1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -769,6 +808,7 @@
                 "ExposeTransforms" : [
                 ],
                 "Name" : "SceneWhiteQueen1",
+                "PreciseCollisions" : true,
                 "RenderOptions" : {
                   "$$ClassName" : "TCastleScene.TSceneRenderOptions"
                 },
@@ -788,7 +828,7 @@
           }
         ]
       },
-      "Name" : "Viewport1",
+      "Name" : "MainViewport",
       "$NonVisualComponents" : [
         {
           "$$ClassName" : "TCastleBackground",
@@ -806,20 +846,22 @@
         },
         "RotationPersistent" : {
           "$$ClassName" : "TCastleVector4RotationPersistent",
-          "W" : 2.4198744297027588E+000,
-          "X" : -1.1797599494457245E-001,
-          "Y" : 9.4724899530410767E-001,
-          "Z" : 2.9799512028694153E-001
+          "W" : 2.1267049312591553E+000,
+          "X" : -1.0786200314760208E-001,
+          "Y" : 9.7566103935241699E-001,
+          "Z" : 1.9092252850532532E-001
         },
         "ScalePersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
+          "X" : 9.9999994039535522E-001,
+          "Y" : 9.9999994039535522E-001,
           "Z" : 9.9999994039535522E-001
         },
         "TranslationPersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "X" : 1.7564752578735352E+001,
-          "Y" : 1.7964250564575195E+001,
-          "Z" : -1.7748609542846680E+001
+          "X" : 1.7446866989135742E+001,
+          "Y" : 8.6641225814819336E+000,
+          "Z" : -7.9817023277282715E+000
         }
       },
       "InternalDesignNavigations[dnFly]" : {
