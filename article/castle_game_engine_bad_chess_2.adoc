@@ -212,7 +212,6 @@ image::images_2/adding_transform.png[Adding new transform]
 
 Name this new component `BlackPieces`. Then drag-and-drop in the editor hierarchy all the black chess pieces (`SceneBlackXxx` components) to be children of `BlackPieces`. You can easily select all 16 scenes representing black pieces in the hierarchy by holding the _Shift_ key and then drag-and-drop them all at once into `BlackPieces`.
 
-
 The end result should look like this in the hierarchy:
 
 image::images_2/black_pieces_group.png[Black pieces group]
@@ -272,7 +271,7 @@ To make `WritelnLog` available, add `CastleLog` unit to the uses clause. Now whe
 Configured 16 black and 16 white chess pieces
 ```
 
-In my case, I actually saw by accident that I have 17 chess pieces on each side, since by accident I added 3 knights instad of 2 (one knight was at exactly the same position as another, so it wasn't visible). Detecting such mistakes is exactly the reason why we add logs and test -- so I encourage you to do it too.
+On my first run, I actually saw that I have 17 chess pieces on each side by accident. I mistakenly added 3 knights instead of 2 (one knight was at exactly the same position as another, so it wasn't obvious). I have removed the excessive knight pieces thanks to this log. Detecting such mistakes is exactly the reason why we add logs and test -- so I encourage you to do it too.
 
 While we're at it, we can also use this opportunity to make sure all chess pieces have  physics components (`TCastleRigidBody` and `TCastleBoxCollider`). So you don't need to manually add them all. This is a reasonable approach if the components don't need any manual adjustment per-chess-piece.
 
@@ -297,19 +296,83 @@ This was all a good "ground work" for the remaining article part. Nothing functi
 
 To implement the real interaction, we want to allow user to choose which chess piece to flick using the mouse. _Castle Game Engine_ provides a ready function that tells you what is being indicated by the the current mouse (or last touch, on mobile) position. This is the `TCastleViewport.TransformUnderMouse` function.
 
-Let's utilize it to highlight the currently selected chess piece.
+For start, make sure to declare the viewport instance in the `published` section of class `TViewMain`, like this:
 
-To highlight the current chess piece, we will extend the `Update` method implementation of our view. ... TODO
+```delphi
+MainViewport: TCastleViewport;
+```
 
-To actually show the highlight, we will use a ready effect available for every `TCastleScene` that can be activated using `MyScene.RenderOptions.WireframeEffect`. This is probably the simplest way to show the highlight.
+Match the name of your viewport in the design. Add unit `CastleViewport` to the `uses` clause to make type `TCastleViewport` known.
 
-It is possible there will be a further article part in the future showing other ways:
+Let's utilize it to highlight the currently selected chess piece. We can just keep checking the `MainViewport.TransformUnderMouse` value in each `Update` call.
 
-- Showing the highlight by dynamically changing the material color of the highlighted piece.
+Note: Alternatively, we could check the result in each `Motion` call, that occurs only when mouse (or touch) position changes. But doing it in `Update` is a bit better: as we use physics, some chess pieces may still be moving due to physics, so the chese piece under the mouse may change even if the mouse position doesn't change.
 
-- Showing the highlight by dynamically adding/removing a shader effect that modified the display of highlighted object.
+To actually show the highlight, we will use a ready effect available for every `TCastleScene` that can be activated by setting `MyScene.RenderOptions.WireframeEffect` to something else than `weNormal`. This is probably the simplest way to show the highlight.
 
-If you are curious see examples xxx and yyy about how to implement the afore-mentioned features. We plan to also add a more straightforward API to manipulate scene materials from CGE in the upcoming engine 7.0 version.
+Before we jump into code, I encourage to experiment with perfect settings of `RenderOptions` for highlight in the editor. Just edit any chosen chess piece, until it seems to have a pretty highlight, and remember the chosen options. The useful properties to adjust are `WireframeEffect`, `WireframeColor`, `LineWidth`, `SilhouetteBias`, `SilhouetteScale`. You can see them emphasized below -- editor shows properties which have non-default values using bold.
+
+image::images_2/render_options.png[Render options]
+
+I decided to show the currently highlighted chess piece with a light-blue wireframe. The currently highlighted chess piece is set as the value of private field `ChessPieceHover`.
+
+Moreover, once user clicks with mouse (we can detect it in `Press`) the chess piece is considered selected and gets a yellow highlight. This chess piece is set as `ChessPieceSelected`.
+
+Remembering the `ChessPieceHover` and `ChessPieceSelected` values is useful for a few things. This allows to later disable the effect (when the piece is no longer highlighted or selected). And it will allow to flick the `ChessPieceSelected` in the next chapters.
+
+We could store them as references to `TCastleScene` or `TChessPieceBehavior`. It doesn't really matter, because we can always get one from the other.
+
+- To get `TChessPieceBehavior` from corresponding `TCastleScene` you can do:
++
+```delphi
+var
+  MyBehavior: TChessPieceBehavior;
+  MyScene: TCastleScene;
+begin
+  ...
+  MyBehavior := MyScene.FindBehavior(TChessPieceBehavior) as TChessPieceBehavior;
+```
+
+- To get `TCastleScene` from corresponding `TChessPieceBehavior` you can do:
++
+```delphi
+var
+  MyBehavior: TChessPieceBehavior;
+  MyScene: TCastleScene;
+begin
+  ...
+  MyScene := MyBehavior.Parent as TCastleScene;
+```
+
+I decided to use `TChessPieceBehavior`, so I added
+
+```delphi
+ChessPieceHover, ChessPieceSelected: TChessPieceBehavior;
+```
+
+to the `private` section of class `TViewMain`.
+
+The new code in view's `Update` and `Press` methods looks like this:
+
+```delphi
+// add CastleColors to the uses clause to define HexToColorRGB utility
+
+TODO
+```
+
+You will notice that `MainViewport.TransformUnderMouse` detects what is under the mouse, treating each chess piece as a box. Set `PreciseCollisions` to `true` on all the chess pieces to make the detection more accurate.
+
+### Sidenote: Other ways to show a highlight
+
+There are other ways to show the highlighted (or selected) chess piece.
+
+- Dynamically changing the material color. Do this by accessing an instance of `TPhysicalMaterialNode` within the scene's nodes (`TCastleScene.RootNode`) and changing the `TPhysicalMaterialNode.BaseColor`. See e.g. engine example `examples/viewport_and_scenes/collisions/` that uses this.
+
+- Dynamically adding/removing a shader effect. This means adding `TEffectNode` and `TEffectPartNode` nodes to the scene and implementing the effect using GLSL (_OpenGL Shading Language_). See e.g. engine example `examples/viewport_and_scenes/shader_effects/` that demonstrates this.
+
+- Adding a additional box that surrounds chosen object. The CGE editor itself uses this technique to show highlighted / selected 3D objects. Use `TDebugTransformBox` class to implement this easy.
+
+If you are curious, hopefully the above information and examples will point you in the right direction. We plan to also add a more straightforward API to manipulate scene materials from CGE in the upcoming engine 7.0 version.
 
 ## Implement choosing the angle and strength to flick the chess piece
 
