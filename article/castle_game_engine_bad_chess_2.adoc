@@ -691,9 +691,7 @@ Run the game and see that you can now flick the chess pieces!
 
 - Repeat :)
 
-image::images_2/game_1.png[Gameplay]
-
-image::images_2/game_3.png[Gameplay]
+image::images_2/game_4.png[Gameplay]
 
 ## Conclusion and future ideas
 
