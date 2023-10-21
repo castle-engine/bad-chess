@@ -164,9 +164,9 @@ To implement our desired logic, the code has to somehow know _"what is a chess p
 
 To "mark" that the given `TCastleScene` component is a chess pieces we will invent a new class called `TChessPieceBehavior` descending from the `TCastleBehavior` class. We will then attach instances of this class to the `TCastleScene` components that represent chess pieces. In the future this class can have more fields (holding information specific to this chess piece) and methods. For start, the mere _existence_ of `TCastleBehavior` instance attached to a scene indicates _"this is a chess piece"_.
 
-To know more about how our _behaviors_ work, see https://castle-engine.io/behaviors for documentation and examples. You can also create a new project from the _"3D FPS Game"_ template and see how the `TEnemy` class is defined and used. The _behaviors_ is a very flexible concept to add information and mechanics to your world and we advise to use it in many situations.
+To know more about how our _behaviors_ work, see https://castle-engine.io/behaviors for documentation and examples. You can also create a new project from the _"3D FPS Game"_ template and see how the `TEnemy` class (descendant of `TCastleBehavior`) is defined and used. The _behaviors_ are a very flexible concept to add information and mechanics to your world and we advise to use them in many situations.
 
-There's really nothing difficult about our initial `TChessPieceBehavior` definition. It is almost an empty class, however at the last minute I decided to add there a `Boolean` field that says whether the chess piece is a white or black piece:
+There's really nothing difficult about our initial `TChessPieceBehavior` definition. It is almost an empty class. I decided to only add there a `Boolean` field that says whether the chess piece is white or black:
 
 ```delphi
 type
@@ -176,9 +176,9 @@ type
   end;
 ```
 
-You can add it at the beginning of the `implementation` section of unit `GameViewMain`. But for larger projects, I would advise to create a separate unit to define and implement this class.
+You can declare it at the beginning of the `interface` section of unit `GameViewMain`. Though larger behavior classes may deserve to be placed in their own units.
 
-How to actually attach the behavior instances to the scenes?
+How to attach the behavior instances to the scenes?
 
 1. You could do this visually, by registering the `TChessPieceBehavior` class in the _Castle Game Engine_ editor.
 +
@@ -188,7 +188,7 @@ This is a very powerful method as it allows to visually add and configure the be
 +
 This is a bit easier if you have to effectively attach the behavior 32 times, to all the chess pieces, and there's no need to specifically configure the initial state of the behavior. Clicking 32 times _"Add Behavior"_ would be a bit tiresome and also unnecessary in our simple case (for this demo, all chess pieces really work the same), so let's instead utilize code to easily initialize the chess pieces.
 
-To attach a behavior to our `SceneBlackKing1`, we can just create the instance of `TChessPieceBehavior` in our views's `Start` method, and add using `SceneBlackKing1.AddBehavior`. Like this:
+To attach a behavior to our `SceneBlackKing1`, we would just create the instance of `TChessPieceBehavior` in our views's `Start` method, and add using `SceneBlackKing1.AddBehavior`. Like this:
 
 ```delphi
 procedure TViewMain.Start;
@@ -202,7 +202,7 @@ begin
 end;
 ```
 
-But this is only the beginning. Above we added `TChessPieceBehavior` to only one chess piece. We want to add it to all 32 the chess pieces. How to do it easily? We need to somehow iterate over all the chess pieces. To set the `Black` boolean field, we also should somehow know whether this is black or white. There are multiple solutions:
+But this is not good enough for our application. Above we added `TChessPieceBehavior` to only one chess piece. We want to add it to all 32 the chess pieces. How to do it easily? We need to somehow iterate over all the chess pieces. And to set the `Black` boolean field, we also should somehow know whether this is black or white piece. There are multiple solutions:
 
 1. We could assume that all chess pieces have names like `SceneWhiteXxx` or `SceneBlackXxx`. Then we can iterate over `Viewport1.Items` children, and check if their `Name` starts with given prefix.
 
@@ -210,7 +210,7 @@ But this is only the beginning. Above we added `TChessPieceBehavior` to only one
 
 3. Wd could also introduce additional transformation components that group black chess pieces separately from white chess pieces and separately from other stuff (like a chessboard).
 
-I decided to go with the latter approach, as introduction of _"additional nodes to group existing ones"_ is a powerful mechanism in many other situations. E.g. you can then easily hide or show a given group (using `TCastleTransform.Exists`) property.
+I decided to go with the latter approach, as introduction of _"additional `TCastleTransform` components to group existing ones"_ is a powerful mechanism in many other situations. E.g. you can then easily hide or show a given group (using `TCastleTransform.Exists`) property.
 
 To make this happen, right-click on `Viewport1.Items`, and choose from the context menu _"Add Transform -> Transform (TCastleTransform)"_.
 
@@ -237,7 +237,7 @@ This preparation in the editor makes our code task easier. Add to the published 
     BlackPieces, WhitePieces: TCastleTransform;
 ```
 
-Now iterate over the 2 chess pieces group in the `Start` method:
+Now iterate over the 2 chess pieces' groups in the `Start` method:
 
 ```delphi
 procedure TViewMain.Start;
@@ -294,7 +294,7 @@ To do this, extend our `ConfigureChessPiece` method:
   end;
 ```
 
-As you see above, this approach is quite direct: if you don't have the necessary component, just add it. I don't bother to configure any property on the new `TCastleRigidBody` and `TCastleBoxCollider` instances, as their defaults are good for our purpose.
+As you see above, this approach is quite direct: if you don't have the necessary component, just add it. We don't bother to configure any property on the new `TCastleRigidBody` and `TCastleBoxCollider` instances, as their defaults are good for our purpose.
 
 This was all a good "ground work" for the remaining article part. Nothing functionally new has actually happened in our game, you should run it and see that... nothing changed. All 32 chess pieces just stand still, at the beginning.
 
