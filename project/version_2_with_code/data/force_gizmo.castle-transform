@@ -1,0 +1,109 @@
+{
+  "$$ClassName" : "TCastleTransform",
+  "Name" : "ForceGizmoRoot",
+  "$Children" : [
+    {
+      "$$ClassName" : "TCastleBox",
+      "Name" : "DebugBoxToBeHidden",
+      "RenderOptions" : {
+        "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+      },
+      "RotationPersistent" : {
+        "$$ClassName" : "TCastleVector4RotationPersistent",
+        "Z" : 1.0000000000000000E+000
+      },
+      "SizePersistent" : {
+        "$$ClassName" : "TCastleVector3Persistent",
+        "Y" : 3.0000000000000000E+000
+      },
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector3Persistent",
+        "Y" : 1.4762506484985352E+000
+      }
+    },
+    {
+      "$$ClassName" : "TCastleTransform",
+      "Name" : "RotationToMakeForceHorizontal",
+      "RotationPersistent" : {
+        "$$ClassName" : "TCastleVector4RotationPersistent",
+        "W" : 1.5707963705062866E+000,
+        "Z" : 1.0000030994415283E+000
+      },
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector3Persistent",
+        "X" : -1.2999670673252695E-007,
+        "Y" : 3.0000000000000000E+000
+      },
+      "$Children" : [
+        {
+          "$$ClassName" : "TCastleTransform",
+          "Name" : "ForceDirectionRotate",
+          "RotationPersistent" : {
+            "$$ClassName" : "TCastleVector4RotationPersistent",
+            "W" : 5.2359876632690430E+000,
+            "X" : -9.9999988079071045E-001
+          },
+          "$Children" : [
+            {
+              "$$ClassName" : "TCastleTransform",
+              "Name" : "ForceStrengthScale",
+              "RotationPersistent" : {
+                "$$ClassName" : "TCastleVector4RotationPersistent",
+                "Z" : 1.0000000000000000E+000
+              },
+              "TranslationPersistent" : {
+                "$$ClassName" : "TCastleVector3Persistent",
+                "Y" : -1.6831123828887939E+000
+              },
+              "$Children" : [
+                {
+                  "$$ClassName" : "TCastleCone",
+                  "BottomRadius" : 5.0000000000000000E-001,
+                  "ColorPersistent" : {
+                    "$$ClassName" : "TCastleColorPersistent",
+                    "Green" : 1.3725490868091583E-001,
+                    "Red" : 9.9607843160629272E-001
+                  },
+                  "Height" : 6.9999998807907104E-001,
+                  "Name" : "Cone1",
+                  "RenderOptions" : {
+                    "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  },
+                  "RotationPersistent" : {
+                    "$$ClassName" : "TCastleVector4RotationPersistent",
+                    "Z" : 1.0000000000000000E+000
+                  },
+                  "TranslationPersistent" : {
+                    "$$ClassName" : "TCastleVector3Persistent",
+                    "Y" : -4.0772446990013123E-001
+                  }
+                },
+                {
+                  "$$ClassName" : "TCastleCylinder",
+                  "ColorPersistent" : {
+                    "$$ClassName" : "TCastleColorPersistent",
+                    "Green" : 1.3725490868091583E-001,
+                    "Red" : 9.9607843160629272E-001
+                  },
+                  "Name" : "Cylinder1",
+                  "Radius" : 1.0000000149011612E-001,
+                  "RenderOptions" : {
+                    "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  },
+                  "RotationPersistent" : {
+                    "$$ClassName" : "TCastleVector4RotationPersistent",
+                    "Z" : 1.0000000000000000E+000
+                  },
+                  "TranslationPersistent" : {
+                    "$$ClassName" : "TCastleVector3Persistent",
+                    "Y" : -1.4522116184234619E+000
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
