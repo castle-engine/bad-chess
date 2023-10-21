@@ -34,7 +34,9 @@ image::images_2/editor_and_vscode.png[CGE editor and VS Code]
 
 Note that, while the focus of this chapter is to write Pascal code, we do not stop using _Castle Game Engine_ editor. There are a few things you can do in the editor to make the design "friendly" to the code manipulation and we will explore them in this article. So writing Pascal code, and editing the design visually, go hand-in-hand.
 
-## First exercise: Handle a key press to change position of a transformation
+## Exercises
+
+### Handle a key press to change position of an object
 
 Let's start simple. First goal: When user presses a key `x`, we want to move the _black king_ chess piece a bit higher. It's a simple test that we can:
 
@@ -107,7 +109,7 @@ end;
 
 Build and run the game (e.g. by pressing F9 in _Castle Game Engine_ editor, or in Delphi, or in Lazarus) and press `X` to see how it works.
 
-## Second exercise: Push the chess piece using physics
+### Push the chess piece using physics
 
 Let's do one more exercise. Let's make sure we can use code to push (flick, throw) a chess piece using physics. The chess piece we push, and the direction in which we push it, will be hardcoded in this exercise. But we will get confidence that we can use physics from Pascal code.
 
