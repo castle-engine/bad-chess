@@ -44,7 +44,7 @@ Let's start simple. First goal: When user presses a key `x`, we want to move the
 
 Most of the code you write in _Castle Game Engine_ is placed in a unit associated with a _view_. We talked about what is a _view_ in _Castle Game Engine_ in the previous article part, the short recap is that you use views similar to how you use _forms_ in a typical Delphi FMX / VCL or Lazarus LCL application: a view is a _visual design_ (in `data/gameviewmain.castle-user-interface`) and associated code (in `code/gameviewmain.pas`).
 
-So let's open the file `code/gameviewmain.pas` in your favourite Pascal IDE. In the _Castle Game Engine_ editor, you can just use the bottom _"Files"_ panel. Enter the `code` subdirectory and double-click on the `gameviewmain.pas` file. Alternatively, you can just open your Pascal IDE and from it open the Pascal project. The basic project files (like `my_project.dproj` for Delphi or `my_project.lpi` for Lazarus) have been already generated for you.
+So let's open the file `code/gameviewmain.pas` in your favorite Pascal IDE. In the _Castle Game Engine_ editor, you can just use the bottom _"Files"_ panel. Enter the `code` subdirectory and double-click on the `gameviewmain.pas` file. Alternatively, you can just open your Pascal IDE and from it open the Pascal project. The basic project files (like `my_project.dproj` for Delphi or `my_project.lpi` for Lazarus) have been already generated for you.
 
 Keep the _Castle Game Engine_ visual editor open too, with our view design `data/gameviewmain.castle-user-interface` . We will occasionally adjust or consult our visual design, to make sure it is useful for our code logic.
 
@@ -54,7 +54,7 @@ image::images_2/name.png[Editing name]
 
 Note that, for this first code exercise, we assume that the chess piece (`SceneBlackKing1`) does *not* have any physics components. If you have added `TCastleRigidBody` or `TCastleXxxCollider` components as behaviors of `SceneBlackKing1`, please remove them for now. We will restore them in the next exercise.
 
-Now we have to declare the variable with the exact same name in the view. It will be automatically intialized to point to the component when we start the view. Do this in the `published` section of the class `TViewMain`. This is how the end result should look like:
+Now we have to declare the variable with the exact same name in the view. It will be automatically initialized to point to the component when we start the view. Do this in the `published` section of the class `TViewMain`. This is how the end result should look like:
 
 ```delphi
 uses Classes,
@@ -105,7 +105,7 @@ begin
 end;
 ```
 
-Bild and run the game (e.g. by pressing F9 in _Castle Game Engine_ editor, or in Delphi, or in Lazarus) and press `X` to see how it works.
+Build and run the game (e.g. by pressing F9 in _Castle Game Engine_ editor, or in Delphi, or in Lazarus) and press `X` to see how it works.
 
 ## Second exercise: Push the chess piece using physics
 
@@ -298,6 +298,8 @@ This was all a good "ground work" for the remaining article part. Nothing functi
 
 ## Implement picking 3D object using the mouse
 
+### Highlight the chess piece under mouse and allow selecting it
+
 To implement the real interaction, we want to allow user to choose which chess piece to flick using the mouse. _Castle Game Engine_ provides a ready function that tells you what is being indicated by the the current mouse (or last touch, on mobile) position. This is the `TCastleViewport.TransformUnderMouse` function.
 
 For start, make sure to declare the viewport instance in the `published` section of class `TViewMain`, like this:
@@ -310,7 +312,7 @@ Match the name of your viewport in the design. Add unit `CastleViewport` to the 
 
 Let's utilize it to highlight the currently selected chess piece. We can just keep checking the `MainViewport.TransformUnderMouse` value in each `Update` call.
 
-Note: Alternatively, we could check the result in each `Motion` call, that occurs only when mouse (or touch) position changes. But doing it in `Update` is a bit better: as we use physics, some chess pieces may still be moving due to physics, so the chese piece under the mouse may change even if the mouse position doesn't change.
+Note: Alternatively, we could check the result in each `Motion` call, that occurs only when mouse (or touch) position changes. But doing it in `Update` is a bit better: as we use physics, some chess pieces may still be moving due to physics, so the chess piece under the mouse may change even if the mouse position doesn't change.
 
 To actually show the highlight, we will use a ready effect available for every `TCastleScene` that can be activated by setting `MyScene.RenderOptions.WireframeEffect` to something else than `weNormal`. This is probably the simplest way to show the highlight.
 
@@ -438,7 +440,7 @@ begin
 end;
 ```
 
-You will notice that `MainViewport.TransformUnderMouse` detects what is under the mouse, treating each chess piece as a box. Set `PreciseCollisions` to `true` on all the chess pieces to make the detection more accurate. You can do this easly by selecting all chess pieces in editor using _Shift_ and _Ctrl_ and then setting `PreciseCollisions` in _Object Inspector_.
+You will notice that `MainViewport.TransformUnderMouse` detects what is under the mouse, treating each chess piece as a box. Set `PreciseCollisions` to `true` on all the chess pieces to make the detection more accurate. You can do this easily by selecting all chess pieces in editor using _Shift_ and _Ctrl_ and then setting `PreciseCollisions` in _Object Inspector_.
 
 image::images_2/precise_collisions.png[CGE editor and VS Code]
 
@@ -482,7 +484,7 @@ Moreover let's design the arrow independently, as a separate _design_. The new _
 
 Using a separate design file for the 3D arrow, while not strictly necessary in this case, is a powerful technique. When something is saved as a separate design file, you can reuse it freely, and instantiate it many times (at design-time, or by dynamically _spawning_ during the game run-time). This is e.g. how to have creatures in your game: 3D objects that share common logic and that can be spawned whenever needed.
 
-To start designing the arrow, choose editor menu item _"Design -> New Transform (Empty Transfom as Root)"_.
+To start designing the arrow, choose editor menu item _"Design -> New Transform (Empty Transform as Root)"_.
 
 image::images_2/new_transform.png[Shadows]
 
@@ -534,7 +536,7 @@ To test that it works, add the arrow design to the main design using the editor.
 
 Save the design `force_gizmo.castle-transform`, open our main design in `gameviewmain.castle-user-interface`, select the `Items` component inside `MainViewport` and drag-and-drop the file `force_gizmo.castle-transform` (from the _"Files"_ panel below) on the hierarchy.
 
-The result should be that a new component called `DesignForceGizmo1` is created and placed as a child of `Items`. The component class is `TCastleTransformDesign`, which means that it's an instance of `TCastleTransform` loaded from anothre file with `.castle-transform` extension. The `URL` property of this component should automatically be set to indicate our `force_gizmo.castle-transform` file.
+The result should be that a new component called `DesignForceGizmo1` is created and placed as a child of `Items`. The component class is `TCastleTransformDesign`, which means that it's an instance of `TCastleTransform` loaded from another file with `.castle-transform` extension. The `URL` property of this component should automatically be set to indicate our `force_gizmo.castle-transform` file.
 
 Rename this component to just `DesignForceGizmo` (up to you, but I think it makes things clearer -- we will only ever need one such gizmo). Moreover, change the `Exists` property of this component to `false` because initially, we don't want this component to be visible or pickable by the mouse.
 
