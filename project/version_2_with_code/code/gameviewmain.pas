@@ -29,6 +29,10 @@ type
     MainViewport: TCastleViewport;
   private
     ChessPieceHover, ChessPieceSelected: TChessPieceBehavior;
+    { Turn on / off the highlight effect, depending on whether
+      Behavior equals ChessPieceHover, ChessPieceSelected or none of them.
+      It accepts (and ignores) Behavior = nil value. }
+    procedure ConfigureEffect(const Behavior: TChessPieceBehavior);
   public
     constructor Create(AOwner: TComponent); override;
     procedure Start; override;
@@ -81,48 +85,61 @@ begin
   ]);
 end;
 
+procedure TViewMain.ConfigureEffect(const Behavior: TChessPieceBehavior);
+var
+  Scene: TCastleScene;
+begin
+  if Behavior = nil then
+    Exit;
+  { Behavior can be attached to any TCastleTransform.
+    In our case, we know it is attached to TCastleScene. }
+  Scene := Behavior.Parent as TCastleScene;
+  if (Behavior = ChessPieceHover) or
+     (Behavior = ChessPieceSelected) then
+  begin
+    Scene.RenderOptions.WireframeEffect := weSilhouette;
+    if Behavior = ChessPieceSelected then
+      Scene.RenderOptions.WireframeColor := HexToColorRGB('FFEB00')
+    else
+      Scene.RenderOptions.WireframeColor := HexToColorRGB('5455FF');
+    Scene.RenderOptions.LineWidth := 5;
+    Scene.RenderOptions.SilhouetteBias := 20;
+    Scene.RenderOptions.SilhouetteScale := 20;
+  end else
+  begin
+    Scene.RenderOptions.WireframeEffect := weNormal;
+  end;
+end;
+
 procedure TViewMain.Update(const SecondsPassed: Single; var HandleInput: Boolean);
 var
-  NewHover: TChessPieceBehavior;
-  NewHoverScene, ChessPieceHoverScene: TCastleScene;
+  OldHover: TChessPieceBehavior;
 begin
   inherited;
-  { This virtual method is executed every frame (many times per second). }
+
   Assert(LabelFps <> nil, 'If you remove LabelFps from the design, remember to remove also the assignment "LabelFps.Caption := ..." from code');
   LabelFps.Caption := 'FPS: ' + Container.Fps.ToString;
 
+  OldHover := ChessPieceHover;
+
   if MainViewport.TransformUnderMouse <> nil then
   begin
-    NewHover := MainViewport.TransformUnderMouse.FindBehavior(TChessPieceBehavior)
+    ChessPieceHover := MainViewport.TransformUnderMouse.FindBehavior(TChessPieceBehavior)
       as TChessPieceBehavior;
   end else
-    NewHover := nil;
+    ChessPieceHover := nil;
 
-  if ChessPieceHover <> NewHover then
+  if OldHover <> ChessPieceHover then
   begin
-    // disable hover effect on previous piece
-    if ChessPieceHover <> ChessPieceSelected then
-    begin
-      ChessPieceHoverScene := ChessPieceHover.Parent as TCastleScene;
-      ChessPieceHoverScene.RenderOptions.WireframeEffect := weNormal;
-    end;
-    // enable hover effect on new piece
-    if NewHover <> ChessPieceSelected then
-    begin
-      NewHoverScene := NewHover.Parent as TCastleScene;
-      NewHoverScene.RenderOptions.WireframeEffect := weSilhouette;
-      NewHoverScene.RenderOptions.WireframeColor := HexToColorRGB('5455FF');
-      NewHoverScene.RenderOptions.LineWidth := 5;
-      NewHoverScene.RenderOptions.SilhouetteBias := 20;
-      NewHoverScene.RenderOptions.SilhouetteScale := 20;
-    end;
-    ChessPieceHover := NewHover;
+    ConfigureEffect(OldHover);
+    ConfigureEffect(ChessPieceHover);
   end;
 end;
 
 function TViewMain.Press(const Event: TInputPressRelease): Boolean;
 var
   MyBody: TCastleRigidBody;
+  OldSelected: TChessPieceBehavior;
 begin
   Result := inherited;
   if Result then Exit; // allow the ancestor to handle keys
@@ -136,7 +153,15 @@ begin
 
   if Event.IsMouseButton(buttonLeft) then
   begin
-    // TODO FFEB00
+    OldSelected := ChessPieceSelected;
+    if (ChessPieceHover <> nil) and
+       (ChessPieceHover <> ChessPieceSelected) then
+    begin
+      ChessPieceSelected := ChessPieceHover;
+      ConfigureEffect(OldSelected);
+      ConfigureEffect(ChessPieceSelected);
+    end;
+    Exit(true); // mouse click was handled
   end;
 end;
 
