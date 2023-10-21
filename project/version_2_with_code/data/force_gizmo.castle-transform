@@ -38,7 +38,7 @@
       "$Children" : [
         {
           "$$ClassName" : "TCastleTransform",
-          "Name" : "ForceDirectionRotate",
+          "Name" : "TransformForceAngle",
           "RotationPersistent" : {
             "$$ClassName" : "TCastleVector4RotationPersistent",
             "W" : 5.2359876632690430E+000,
@@ -47,7 +47,7 @@
           "$Children" : [
             {
               "$$ClassName" : "TCastleTransform",
-              "Name" : "ForceStrengthScale",
+              "Name" : "TransformForceStrength",
               "RotationPersistent" : {
                 "$$ClassName" : "TCastleVector4RotationPersistent",
                 "Z" : 1.0000000000000000E+000
