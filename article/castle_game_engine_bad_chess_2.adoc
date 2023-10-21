@@ -476,11 +476,11 @@ Once the user has picked a chess piece, we want to allow configuring the directi
 
 ### Designing a 3D arrow
 
-To visualize the desired _force_ we will use a simple 3D arrow model, that will be rotated and scaled accordingly. While we could design such model in Blender or other 3D authoring software, in this case it's easiest to just do it completely in the _Castle Game Engine_ editor. The arrow is a compisition of two simple shapes: _cone_ (for the arrow tip) and a _cylinder_.
+To visualize the desired _force_ we will use a simple 3D arrow model, that will be rotated and scaled accordingly. While we could design such model in Blender or other 3D authoring software, in this case it's easiest to just do it completely in the _Castle Game Engine_ editor. The arrow is a composition of two simple shapes: _cone_ (for the arrow tip) and a _cylinder_.
 
-Moreover, to make things easier to understand, let's design the arrow independently, as a separate _design_. The new _design_ will contain a hierarchy of components, with the root being `TCastleTransform`. We will save it as a file `force_gizmo.castle-transform` in the project `data` subdirectory. Then we will add it to the main design (`gameviewmain.castle-user-interface`), and toggle the existence, rotation and scale of the visualized force.
+Moreover let's design the arrow independently, as a separate _design_. The new _design_ will contain a hierarchy of components, with the root being `TCastleTransform`. We will save it as a file `force_gizmo.castle-transform` in the project `data` subdirectory. Then we will add it to the main design (`gameviewmain.castle-user-interface`), and toggle the existence, rotation and scale of the visualized force.
 
-Note that we could also instantiate it from code, and we could instantiate it multiple times. This approach is a way to make reusable creatures, items or anything else. It allows to visually design a composition of engine components, and then reuse it (at design-time, or by dynamically _spawning_ during the game run-time).
+Using a separate design file for the 3D arrow, while not strictly necessary in this case, is a powerful technique. When something is saved as a separate design file, you can reuse it freely, and instantiate it many times (at design-time, or by dynamically _spawning_ during the game run-time). This is e.g. how to have creatures in your game: 3D objects that share common logic and that can be spawned whenever needed.
 
 To start designing the arrow, choose editor menu item _"Design -> New Transform (Empty Transfom as Root)"_.
 
@@ -516,26 +516,37 @@ There are multiple ways of doing it. You can peek at the screenshots below, and 
 
 image::images_2/arrow_1.png[Arrow RotationToMakeForceHorizontal component]
 
-image::images_2/arrow_2.png[Arrow ForceDirectionRotate component]
+image::images_2/arrow_2.png[Arrow TransformForceAngle component]
 
-image::images_2/arrow_3.png[Arrow ForceStrengthScale component]
+image::images_2/arrow_3.png[Arrow TransformForceStrength component]
 
-The outcome is I know that from code, I can:
+The outcome of my design is that I know that from code, I can:
 
-- Adjust `Rotation` property of the `ForceDirectionRotate` component to be a simple rotation around the X axis. The angle of this rotation can be chosen by user.
+- Adjust `Rotation` property of the `TransformForceAngle` component to be a simple rotation around the X axis. The angle of this rotation can be chosen by user and effectively the arrow will _orbit_ around the debug box (chess piece).
 
-- Adjust Y of the `Scale` property of the `ForceStrengthScale` component. The amount of this scale can be chosen by user to visualize the strength.
+- Adjust Y of the `Scale` property of the `TransformForceStrength` component. The amount of this scale can be chosen by user to visualize the strength.
 
 Remember to set `Exists` of the `DebugBoxToBeHidden` component to `false` once done.
 
-To test that it works, add the arrow design to the main design. Save the design `force_gizmo.castle-transform`, open our main design in `gameviewmain.castle-user-interface`, select _any_ chess piece (I chosen `SceneWhitePawn8` for test) and drag-and-drop the file `force_gizmo.castle-transform` (from the _"Files"_ panel below) on the hierarchy.
+### Add the arrow to the main design
 
-The result should be that a new component called `DesignForceGizmo1` is created and placed as a child of `SceneWhitePawn8`. The component class is `TCastleTransformDesign`, which means that it's an instance of `TCastleTransform` loaded from anothre file with `.castle-transform` extension. The `URL` property of this component should automatically be set to indicate our `force_gizmo.castle-transform` file.
+To test that it works, add the arrow design to the main design using the editor.
+
+Save the design `force_gizmo.castle-transform`, open our main design in `gameviewmain.castle-user-interface`, select the `Items` component inside `MainViewport` and drag-and-drop the file `force_gizmo.castle-transform` (from the _"Files"_ panel below) on the hierarchy.
+
+The result should be that a new component called `DesignForceGizmo1` is created and placed as a child of `Items`. The component class is `TCastleTransformDesign`, which means that it's an instance of `TCastleTransform` loaded from anothre file with `.castle-transform` extension. The `URL` property of this component should automatically be set to indicate our `force_gizmo.castle-transform` file.
+
+Rename this component to just `DesignForceGizmo` (up to you, but I think it makes things clearer -- we will only ever need one such gizmo). Moreover, change the `Exists` property of this component to `false` because initially, we don't want this component to be visible or pickable by the mouse.
+
+The screenshot below shows the state _right before I set `Exists` to `false`_.
 
 image::images_2/design_in_main.png[Arrow design added to the main design]
 
 ### Letting user control the arrow
 
+//
+Note: At tunti
+An alternative idea would be to add the arror design, so `DesignForceGizmo`, as a child of currently selected chess piece. Using
 
 
 ## Putting it all together
@@ -553,6 +564,8 @@ I am sure you can invent now multiple ways to make this better.
 - Maybe each player should be able to flick only its own chess pieces? Sure. Extend the information about the chess piece to know which side owns it. You can use the `TCastleBehavior` approach described above, or just use the `Tag` property to store the player number, 1 or 2.
 
 - Maybe you want to display some user interface, like a label, to indicate whose turn is it? Sure, just drop a `TCastleLabel` component on view, and change the label's `Caption` whenever you want.
+
+- Maybe you want to show the current force angle and strength -- either as numbers, or as some colorful bars? Use `TCastleRectangleColor` for a trivial rectangle with optional border and optionally filled with a color.
 
 - Maybe you want to implement real chess game? Sure, just add tracking in code all the chess pieces and the chessboard tiles -- what is where. Then add a logic that allows player to select which piece and where should move. Add some validation. Add playing with a computer opponent if you wish -- there are standardized protocols to communicate with _"chess engines"_ so you don't need to necessarily implement your own chess AI.
 
