@@ -156,9 +156,9 @@ You can press X repeatedly, even when the chess piece is already in the air, as 
 
 image::images_2/chess_piece_thrown.png[Chess piece thrown up]
 
-## Preparation: Make code aware "what is a chess piece"
+## Make code aware "what is a chess piece" using behaviors
 
-To make our logic, we have to somehow mark _"what is a chess piece"_. So far, our scene is a collection of `TCastleScene` components, and that was good enough, but it does not give us enough information to distinguish between chess pieces and other objects (like a chessboard). We want to do something crazy, but we don't want to flip the chessboard! At least not this time :)
+To implement our desired logic, the code has to somehow know _"what is a chess piece"_. So far, our 3D world is a collection of `TCastleScene` components, but it does not give us enough information to distinguish between chess pieces and other objects (like a chessboard). We want to do something crazy, but we don't want to flip the chessboard! At least not this time :)
 
 To "mark" that the given `TCastleScene` component is a chess pieces we will invent a new class called `TChessPieceBehavior` descending from the `TCastleBehavior` class. We will then attach instances of this class to the `TCastleScene` components that represent chess pieces. In the future this class can have more fields (holding information specific to this chess piece) and methods. For start, the mere _existence_ of `TCastleBehavior` instance attached to a scene indicates _"this is a chess piece"_.
 
@@ -296,7 +296,7 @@ As you see above, this approach is quite direct: if you don't have the necessary
 
 This was all a good "ground work" for the remaining article part. Nothing functionally new has actually happened in our game, you should run it and see that... nothing changed. All 32 chess pieces just stand still, at the beginning.
 
-## Implement picking 3D object using the mouse
+## Selecting 3D object using the mouse
 
 ### Highlight the chess piece under mouse and allow selecting it
 
@@ -472,7 +472,7 @@ See https://castle-engine.io/shadow_volumes for more information about shadows i
 
 image::images_2/shadows.png[Shadows]
 
-## Implement choosing the angle and strength to flick the chess piece
+## Let user choose the angle and strength to flick the chess piece
 
 Once the user has picked a chess piece, we want to allow configuring the direction and strength with which to _flick_ the chosen object. We already know that _"flicking"_ the chess piece technically means _"applying a physics force to the rigid body of a chosen chess piece"_. We have almost everything we need, but we need to allow user to choose the direction and strength of this force.
 
@@ -705,7 +705,7 @@ I am sure you can invent now multiple ways to make this better.
 
 - Maybe you want to show the current force angle and strength -- either as numbers, or as some colorful bars? Use `TCastleRectangleColor` for a trivial rectangle with optional border and optionally filled with a color.
 
-- Maybe you want to implement real chess game? Sure, just add tracking in code all the chess pieces and the chessboard tiles -- what is where. Then add a logic that allows player to select which piece and where should move. Add some validation. Add playing with a computer opponent if you wish -- there are standardized protocols to communicate with _"chess engines"_ so you don't need to necessarily implement your own chess AI.
+- Maybe you want to implement a proper chess game? Sure, just add tracking in code all the chess pieces and the chessboard tiles -- what is where. Then add a logic that allows player to select which piece and where should move. Add some validation. Add playing with a computer opponent if you wish -- there are standardized protocols to communicate with _"chess engines"_ so you don't need to necessarily implement your own chess AI.
 
 - Maybe you want to use networking? You can use a number of networking solutions (any Pascal library) together with _Castle Game Engine_. See https://castle-engine.io/manual_network.php . We have used the engine with _Indy_ and _RNL (Realtime Network Library)_. In the future we plan to integrate the engine with _Nakama_, open-source server and client framework for multi-player games.
 
