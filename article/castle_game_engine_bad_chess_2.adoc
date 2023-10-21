@@ -20,6 +20,8 @@ If you have missed the first part, you can still "jump in" at this point. Just d
 
 Moreover, if you ever get stuck during this, remember that you can look at the project `project/version_2_with_code` in the same repository, https://github.com/castle-engine/bad-chess/ . It contains the final project, with everything described below working.
 
+And if you really just want to play the worst version of chess, _right now_, you can download the ready compiled game (for Linux or Windows) from https://castle-engine.itch.io/bad-chess . Enjoy!
+
 ## Coding the game
 
 The focus of this article part is to learn how to use Pascal code to make things happen in your game.
