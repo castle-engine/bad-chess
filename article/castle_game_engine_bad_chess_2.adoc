@@ -16,7 +16,9 @@ In the first part, we learned how to use the visual editor and we have designed 
 
 //The important feature of our design is that every chess piece is a separate instance of a component `TCastleScene`, which means it can move independently of the rest.
 
-If you have missed the first part, you can still "jump in" at this point. Just download _Castle Game Engine_ from https://castle-engine.io/ and either set up the chessboard and chess pieces yourself, or use our ready example project from https://github.com/castle-engine/bad-chess/ .
+If you have missed the first part, you can still "jump in" at this point. Just download _Castle Game Engine_ from https://castle-engine.io/ and either set up the chessboard and chess pieces yourself, or use our ready example project from https://github.com/castle-engine/bad-chess/ in the subdirectory `project/version_1_designed_in_editor`. This project version is a good starting point for this article part.
+
+Moreover, if you ever get stuck during this, remember that you can look at the project `project/version_2_with_code` in the same repository, https://github.com/castle-engine/bad-chess/ . It contains the final project, with everything described below working.
 
 ## Coding the game
 
@@ -470,13 +472,71 @@ image::images_2/shadows.png[Shadows]
 
 ## Implement choosing the angle and strength to flick the chess piece
 
-Once the player has picked an object, we want to allow player to configure the direction and strength with which to flick the object.
+Once the user has picked a chess piece, we want to allow configuring the direction and strength with which to _flick_ the chosen object. We already know that _"flicking"_ the chess piece technically means _"applying a physics force to the rigid body of a chosen chess piece"_. We have almost everything we need, but we need to allow user to choose the direction and strength of this force.
 
-We will visualize it with a simple 3D arrow model, that will be rotated and scaled accordingly. We could design the arrow in Blender, but, to show that we can, we are going to instance create it in _Castle Game Engine_ editor. The arrow is a compisition of two    simple shapes: _cone_ (for the arrow tip) and suitably scaled _cylinder_.
+### Designing a 3D arrow
 
-To make the arrow a reusable component, we will not add it to our view. Instead, we will create a new _design_ with `.castle-transform` extension that can be loaded and instantiated many times from code.
+To visualize the desired _force_ we will use a simple 3D arrow model, that will be rotated and scaled accordingly. While we could design such model in Blender or other 3D authoring software, in this case it's easiest to just do it completely in the _Castle Game Engine_ editor. The arrow is a compisition of two simple shapes: _cone_ (for the arrow tip) and a _cylinder_.
 
-To create a design, TODO...
+Moreover, to make things easier to understand, let's design the arrow independently, as a separate _design_. The new _design_ will contain a hierarchy of components, with the root being `TCastleTransform`. We will save it as a file `force_gizmo.castle-transform` in the project `data` subdirectory. Then we will add it to the main design (`gameviewmain.castle-user-interface`), and toggle the existence, rotation and scale of the visualized force.
+
+Note that we could also instantiate it from code, and we could instantiate it multiple times. This approach is a way to make reusable creatures, items or anything else. It allows to visually design a composition of engine components, and then reuse it (at design-time, or by dynamically _spawning_ during the game run-time).
+
+To start designing the arrow, choose editor menu item _"Design -> New Transform (Empty Transfom as Root)"_.
+
+image::images_2/new_transform.png[Shadows]
+
+Underneath, add two components: `TCastleCylinder` and `TCastleCone`.
+
+Adjust their `Height`, `Radius` (on cylinder), `BottomRadius` (on cone) and `Translation` to form a nice 3D arrow.
+
+Adjust their `Color` to something non-default to make things prettier. Remember that the arrow with later be lit by the lights we have set up in the main design (`gameviewmain.castle-user-interface`), so it will probably be brighter than what you observe now.
+
+You can follow the values I chosen on the screenshots below, but really these are just examples. Go ahead and create your own 3D arrow as you please :)
+
+image::images_2/cone.png[Cone]
+
+image::images_2/cylinder.png[Cylinder]
+
+Now comes a bit difficult part. We want to have an arrow that can easily _rotate around a dummy box_ (in the actual game, it will rotate around a chess piece). Ideally, an arrow should also easily scale to visualize the force strength. I use the words _easily_ to emphasize that we don't want to only rotate it in the editor, but we will also have to allow user to rotate it during the game. So the rotation and scale that are interesting to us must be very easy to get and set from code.
+
+To do this, first add a dummy box representing a chess piece. I called it `DebugBoxToBeHidden` and set `Size` of the box to `2 3 2` to account for tall (large Y axis) chess pieces. Later we will make the box hidden by setting its `Exists` property to `false`.
+
+Once you have a box, you want to add intermediate `TCastleTransform` components to
+
+1. rotate the arrow to be horizontal
+
+2. move away arrow from the box
+
+3. rotate the arrow around the box
+
+4. scale the arrow
+
+There are multiple ways of doing it. You can peek at the screenshots below, and at the design in our resulting project in https://github.com/castle-engine/bad-chess/ (in `project/version_2_with_code` subdirectory). The key advise is to not hesitate to make a nested composition, i.e. place `TCastleTransform` within another `TCastleTransform` within another `TCastleTransform` and so on. Let each `TCastleTransform` perform a single function.
+
+image::images_2/arrow_1.png[Arrow RotationToMakeForceHorizontal component]
+
+image::images_2/arrow_2.png[Arrow ForceDirectionRotate component]
+
+image::images_2/arrow_3.png[Arrow ForceStrengthScale component]
+
+The outcome is I know that from code, I can:
+
+- Adjust `Rotation` property of the `ForceDirectionRotate` component to be a simple rotation around the X axis. The angle of this rotation can be chosen by user.
+
+- Adjust Y of the `Scale` property of the `ForceStrengthScale` component. The amount of this scale can be chosen by user to visualize the strength.
+
+Remember to set `Exists` of the `DebugBoxToBeHidden` component to `false` once done.
+
+To test that it works, add the arrow design to the main design. Save the design `force_gizmo.castle-transform`, open our main design in `gameviewmain.castle-user-interface`, select _any_ chess piece (I chosen `SceneWhitePawn8` for test) and drag-and-drop the file `force_gizmo.castle-transform` (from the _"Files"_ panel below) on the hierarchy.
+
+The result should be that a new component called `DesignForceGizmo1` is created and placed as a child of `SceneWhitePawn8`. The component class is `TCastleTransformDesign`, which means that it's an instance of `TCastleTransform` loaded from anothre file with `.castle-transform` extension. The `URL` property of this component should automatically be set to indicate our `force_gizmo.castle-transform` file.
+
+image::images_2/design_in_main.png[Arrow design added to the main design]
+
+### Letting user control the arrow
+
+
 
 ## Putting it all together
 

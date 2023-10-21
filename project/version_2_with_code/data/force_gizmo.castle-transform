@@ -4,6 +4,7 @@
   "$Children" : [
     {
       "$$ClassName" : "TCastleBox",
+      "Exists" : false,
       "Name" : "DebugBoxToBeHidden",
       "RenderOptions" : {
         "$$ClassName" : "TCastleScene.TSceneRenderOptions"
