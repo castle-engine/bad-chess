@@ -102,7 +102,7 @@ begin
       Scene.RenderOptions.WireframeColor := HexToColorRGB('FFEB00')
     else
       Scene.RenderOptions.WireframeColor := HexToColorRGB('5455FF');
-    Scene.RenderOptions.LineWidth := 5;
+    Scene.RenderOptions.LineWidth := 10;
     Scene.RenderOptions.SilhouetteBias := 20;
     Scene.RenderOptions.SilhouetteScale := 20;
   end else

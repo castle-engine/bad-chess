@@ -30,6 +30,8 @@ Specifically for _VS Code_ users, the https://castle-engine.io/vscode contains i
 
 image::images_2/editor_and_vscode.png[CGE editor and VS Code]
 
+Note that, while the focus of this chapter is to write Pascal code, we do not stop using _Castle Game Engine_ editor. There's a lot of things you can do in the editor to prepare the design to be more "friendly" to the code manipulation and we will explore them in this article. So writing Pascal code, and editing the design visually, go hand-in-hand.
+
 ## First exercise: Handle a key press to change position of a transformation
 
 Let's start simple. First goal: When user presses a key `x`, we want to move the _black king_ chess piece a bit higher. This isn't what we want to do in the end, but it's a simple test that we can:
@@ -376,7 +378,7 @@ begin
       Scene.RenderOptions.WireframeColor := HexToColorRGB('FFEB00')
     else
       Scene.RenderOptions.WireframeColor := HexToColorRGB('5455FF');
-    Scene.RenderOptions.LineWidth := 5;
+    Scene.RenderOptions.LineWidth := 10;
     Scene.RenderOptions.SilhouetteBias := 20;
     Scene.RenderOptions.SilhouetteScale := 20;
   end else
@@ -434,7 +436,17 @@ begin
 end;
 ```
 
-You will notice that `MainViewport.TransformUnderMouse` detects what is under the mouse, treating each chess piece as a box. Set `PreciseCollisions` to `true` on all the chess pieces to make the detection more accurate.
+You will notice that `MainViewport.TransformUnderMouse` detects what is under the mouse, treating each chess piece as a box. Set `PreciseCollisions` to `true` on all the chess pieces to make the detection more accurate. You can do this easly by selecting all chess pieces in editor using _Shift_ and _Ctrl_ and then setting `PreciseCollisions` in _Object Inspector_.
+
+image::images_2/precise_collisions.png[CGE editor and VS Code]
+
+As always, remember to compile and run the code to make sure it works OK!
+
+I decided to move the camera at this point (to show both sides, black and white, from a side view).
+
+image::images_2/better_camera.png[Camera from the side]
+
+image::images_2/highlight.png[Highlight]
 
 ### Sidenote: Other ways to show a highlight
 
@@ -447,6 +459,14 @@ There are other ways to show the highlighted (or selected) chess piece.
 - Adding a additional box that surrounds chosen object. The CGE editor itself uses this technique to show highlighted / selected 3D objects. Use `TDebugTransformBox` class to implement this easy.
 
 If you are curious, hopefully the above information and examples will point you in the right direction. We plan to also add a more straightforward API to manipulate scene materials from CGE in the upcoming engine 7.0 version.
+
+### Sidenote: Shadows
+
+I decided to activate shadows at this point. Just set `Shadows` to `true` on the main light source. Moreover, set `RenderOptions.WholeSceneManifold` at the chess pieces. This should make everything cast nice shadows. The shadows have _hard edges_ and are _dynamic_ which means that they will properly change when we will move the chess pieces.
+
+See https://castle-engine.io/shadow_volumes for more information about shadows in _Castle Game Engine_.
+
+image::images_2/shadows.png[Shadows]
 
 ## Implement choosing the angle and strength to flick the chess piece
 

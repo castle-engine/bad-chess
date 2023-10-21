@@ -31,21 +31,21 @@
             },
             "RotationPersistent" : {
               "$$ClassName" : "TCastleVector4RotationPersistent",
-              "W" : 1.6778544187545776E+000,
-              "X" : -3.2582294940948486E-001,
-              "Y" : 8.8861137628555298E-001,
-              "Z" : 3.2281479239463806E-001
+              "W" : 3.1469697952270508E+000,
+              "X" : -1.3316853437572718E-004,
+              "Y" : 9.8699271678924561E-001,
+              "Z" : 1.6076539456844330E-001
             },
             "ScalePersistent" : {
               "$$ClassName" : "TCastleVector3Persistent",
-              "X" : 9.9999994039535522E-001,
+              "Y" : 1.0000003576278687E+000,
               "Z" : 9.9999994039535522E-001
             },
             "TranslationPersistent" : {
               "$$ClassName" : "TCastleVector3Persistent",
-              "X" : 1.9388948440551758E+001,
-              "Y" : 1.6648277282714844E+001,
-              "Z" : -3.5093195736408234E-002
+              "X" : 9.4475805759429932E-002,
+              "Y" : 1.1951068878173828E+001,
+              "Z" : -2.4168603897094727E+001
             }
           },
           {
@@ -69,14 +69,14 @@
             "Name" : "SpotLight",
             "RotationPersistent" : {
               "$$ClassName" : "TCastleVector4RotationPersistent",
-              "W" : 5.3861570358276367E-001,
-              "X" : -9.9999684095382690E-001
+              "W" : 1.1995048522949219E+000,
+              "X" : -9.9999970197677612E-001
             },
             "TranslationPersistent" : {
               "$$ClassName" : "TCastleVector3Persistent",
               "X" : -2.3798992633819580E+000,
-              "Y" : 8.1627616882324219E+000,
-              "Z" : 1.2734294891357422E+001
+              "Y" : 1.6156332015991211E+001,
+              "Z" : 7.9577417373657227E+000
             }
           },
           {
@@ -133,7 +133,8 @@
                 "Name" : "SceneBlackRook2",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -154,7 +155,8 @@
                 "Name" : "SceneBlackKing1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -186,7 +188,8 @@
                 "Name" : "SceneBlackQueen1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -207,7 +210,8 @@
                 "Name" : "SceneBlackKnight1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -229,7 +233,8 @@
                 "Name" : "SceneBlackKnight2",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -251,7 +256,8 @@
                 "Name" : "SceneBlackBishop1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -272,7 +278,8 @@
                 "Name" : "SceneBlackBishop2",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -293,7 +300,8 @@
                 "Name" : "SceneBlackPawn1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -314,7 +322,8 @@
                 "Name" : "SceneBlackPawn2",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -335,7 +344,8 @@
                 "Name" : "SceneBlackPawn3",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -356,7 +366,8 @@
                 "Name" : "SceneBlackPawn4",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -377,7 +388,8 @@
                 "Name" : "SceneBlackPawn5",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -398,7 +410,8 @@
                 "Name" : "SceneBlackPawn6",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -419,7 +432,8 @@
                 "Name" : "SceneBlackPawn7",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -440,7 +454,8 @@
                 "Name" : "SceneBlackPawn8",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -467,7 +482,8 @@
                 "Name" : "SceneWhitePawn8",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -488,7 +504,8 @@
                 "Name" : "SceneWhitePawn7",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -509,7 +526,8 @@
                 "Name" : "SceneWhitePawn6",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -530,7 +548,8 @@
                 "Name" : "SceneWhitePawn5",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -551,7 +570,8 @@
                 "Name" : "SceneWhitePawn4",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -572,7 +592,8 @@
                 "Name" : "SceneWhitePawn3",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -593,7 +614,8 @@
                 "Name" : "SceneWhitePawn2",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -614,7 +636,8 @@
                 "Name" : "SceneWhitePawn1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -635,7 +658,8 @@
                 "Name" : "SceneWhiteKing1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -666,6 +690,7 @@
                   "LineWidth" : 5.0000000000000000E+000,
                   "SilhouetteBias" : 2.0000000000000000E+001,
                   "SilhouetteScale" : 2.0000000000000000E+001,
+                  "WholeSceneManifold" : true,
                   "WireframeColorPersistent" : {
                     "$$ClassName" : "TCastleColorRGBPersistent",
                     "Green" : 9.2156863212585449E-001,
@@ -691,7 +716,8 @@
                 "Name" : "SceneWhiteBishop1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -712,7 +738,8 @@
                 "Name" : "SceneWhiteKnight2",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -739,7 +766,8 @@
                 "Name" : "SceneWhiteKnight1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -768,7 +796,8 @@
                 "Name" : "SceneWhiteRook2",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -789,7 +818,8 @@
                 "Name" : "SceneWhiteRook1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -810,7 +840,8 @@
                 "Name" : "SceneWhiteQueen1",
                 "PreciseCollisions" : true,
                 "RenderOptions" : {
-                  "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+                  "$$ClassName" : "TCastleScene.TSceneRenderOptions",
+                  "WholeSceneManifold" : true
                 },
                 "RotationPersistent" : {
                   "$$ClassName" : "TCastleVector4RotationPersistent",
@@ -846,22 +877,21 @@
         },
         "RotationPersistent" : {
           "$$ClassName" : "TCastleVector4RotationPersistent",
-          "W" : 2.1267049312591553E+000,
-          "X" : -1.0786200314760208E-001,
-          "Y" : 9.7566103935241699E-001,
-          "Z" : 1.9092252850532532E-001
+          "W" : 3.1469700336456299E+000,
+          "X" : -1.3211982150096446E-004,
+          "Y" : 9.8699271678924561E-001,
+          "Z" : 1.6076540946960449E-001
         },
         "ScalePersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "X" : 9.9999994039535522E-001,
-          "Y" : 9.9999994039535522E-001,
+          "Y" : 1.0000001192092896E+000,
           "Z" : 9.9999994039535522E-001
         },
         "TranslationPersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "X" : 1.7446866989135742E+001,
-          "Y" : 8.6641225814819336E+000,
-          "Z" : -7.9817023277282715E+000
+          "X" : 9.4475805759429932E-002,
+          "Y" : 1.1951068878173828E+001,
+          "Z" : -2.4168603897094727E+001
         }
       },
       "InternalDesignNavigations[dnFly]" : {
