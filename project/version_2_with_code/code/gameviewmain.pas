@@ -27,8 +27,12 @@ type
     SceneBlackKing1: TCastleScene;
     BlackPieces, WhitePieces: TCastleTransform;
     MainViewport: TCastleViewport;
+    DesignForceGizmo: TCastleTransformDesign;
   private
     ChessPieceHover, ChessPieceSelected: TChessPieceBehavior;
+    TransformForceAngle, TransformForceStrength: TCastleTransform;
+    ForceAngle: Single;
+    ForceStrength: Single;
     { Turn on / off the highlight effect, depending on whether
       Behavior equals ChessPieceHover, ChessPieceSelected or none of them.
       It accepts (and ignores) Behavior = nil value. }
@@ -45,8 +49,18 @@ var
 
 implementation
 
-uses SysUtils,
-  CastleLog, CastleColors;
+uses SysUtils, Math,
+  CastleLog, CastleColors, CastleUtils;
+
+const
+  MinStrength = 1;
+  MaxStrength = 1000;
+
+  MinStrengthScale = 1;
+  MaxStrengthScale = 3;
+
+  StrengthChangeSpeed = 30;
+  AngleAChangeSpeed = 10;
 
 { TViewMain ----------------------------------------------------------------- }
 
@@ -83,6 +97,17 @@ begin
     BlackPieces.Count,
     WhitePieces.Count
   ]);
+
+  TransformForceAngle := DesignForceGizmo.DesignedComponent('TransformForceAngle')
+    as TCastleTransform;
+  TransformForceStrength := DesignForceGizmo.DesignedComponent('TransformForceStrength')
+    as TCastleTransform;
+  ForceAngle := 0; // 0 is default value of Single field anyway
+  TransformForceAngle.Rotation := Vector4(1, 0, 0, ForceAngle);
+  ForceStrength := 10; // set some sensible initial value
+  TransformForceStrength.Scale := Vector3(1,
+    MapRange(ForceStrength, MinStrength, MaxStrength, MinStrengthScale, MaxStrengthScale),
+    1);
 end;
 
 procedure TViewMain.ConfigureEffect(const Behavior: TChessPieceBehavior);
@@ -134,12 +159,28 @@ begin
     ConfigureEffect(OldHover);
     ConfigureEffect(ChessPieceHover);
   end;
+
+  if Container.Pressed[keyArrowLeft] then
+    ForceAngle := ForceAngle - SecondsPassed * AngleAChangeSpeed;
+  if Container.Pressed[keyArrowRight] then
+    ForceAngle := ForceAngle + SecondsPassed * AngleAChangeSpeed;
+  if Container.Pressed[keyArrowUp] then
+    ForceStrength := Min(MaxStrength, ForceStrength + SecondsPassed * StrengthChangeSpeed);
+  if Container.Pressed[keyArrowDown] then
+    ForceStrength := Max(MinStrength, ForceStrength - SecondsPassed * StrengthChangeSpeed);
+
+  TransformForceAngle.Rotation := Vector4(1, 0, 0, ForceAngle);
+  TransformForceStrength.Scale := Vector3(1,
+    MapRange(ForceStrength, MinStrength, MaxStrength, MinStrengthScale, MaxStrengthScale),
+    1);
 end;
 
 function TViewMain.Press(const Event: TInputPressRelease): Boolean;
 var
   MyBody: TCastleRigidBody;
   OldSelected: TChessPieceBehavior;
+  ChessPieceSelectedScene: TCastleScene;
+  ForceDirection: TVector3;
 begin
   Result := inherited;
   if Result then Exit; // allow the ancestor to handle keys
@@ -160,8 +201,25 @@ begin
       ChessPieceSelected := ChessPieceHover;
       ConfigureEffect(OldSelected);
       ConfigureEffect(ChessPieceSelected);
+      DesignForceGizmo.Exists := true;
+      DesignForceGizmo.Translation := ChessPieceSelected.Parent.WorldTranslation;
     end;
     Exit(true); // mouse click was handled
+  end;
+
+  if Event.IsKey(keyEnter) and (ChessPieceSelected <> nil) then
+  begin
+    ChessPieceSelectedScene := ChessPieceSelected.Parent as TCastleScene;
+    MyBody := ChessPieceSelectedScene.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
+    ForceDirection := RotatePointAroundAxis(
+      Vector4(0, 1, 0, ForceAngle), Vector3(-1, 0, 0));
+    MyBody.ApplyImpulse(
+      ForceDirection * ForceStrength,
+      ChessPieceSelectedScene.WorldTranslation);
+    // unselect after flicking; not strictly necessary, but looks better
+    ChessPieceSelected := nil;
+    DesignForceGizmo.Exists := false;
+    Exit(true); // input was handled
   end;
 end;
 

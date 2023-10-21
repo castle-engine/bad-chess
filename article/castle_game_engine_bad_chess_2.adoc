@@ -544,16 +544,150 @@ image::images_2/design_in_main.png[Arrow design added to the main design]
 
 ### Letting user control the arrow
 
-//
-Note: At tunti
-An alternative idea would be to add the arror design, so `DesignForceGizmo`, as a child of currently selected chess piece. Using
+We need to declare and initialize the fields that describe current angle and strength.
 
+Add this to the `private` section of the `TViewMain` class:
 
-## Putting it all together
+```delphi
+TransformForceAngle, TransformForceStrength: TCastleTransform;
+ForceAngle: Single;
+ForceStrength: Single;
+```
 
-Looks like we have all the knowledge we need. Now let's execute the "flicking" code when user clicks the mouse button. This will flick the last selected chess piece, in the chosen direction.
+Then let's set some constants. You can declare them at the beginning of unit `GameViewMain` implementation:
 
-TODO...
+```delphi
+const
+  MinStrength = 1;
+  MaxStrength = 1000;
+
+  MinStrengthScale = 1;
+  MaxStrengthScale = 3;
+
+  StrengthChangeSpeed = 30;
+  AngleAChangeSpeed = 10;
+```
+
+Add to the `uses` clause new necessary units: `Math`, `CastleUtils`.
+
+Finally add to the `TViewMain.Start` additional piece of code to initialize everything:
+
+```delphi
+  TransformForceAngle := DesignForceGizmo.DesignedComponent('TransformForceAngle')
+    as TCastleTransform;
+  TransformForceStrength := DesignForceGizmo.DesignedComponent('TransformForceStrength')
+    as TCastleTransform;
+  ForceAngle := 0; // 0 is default value of Single field anyway
+  TransformForceAngle.Rotation := Vector4(1, 0, 0, ForceAngle);
+  ForceStrength := 10; // set some sensible initial value
+  TransformForceStrength.Scale := Vector3(1,
+    MapRange(ForceStrength, MinStrength, MaxStrength, MinStrengthScale, MaxStrengthScale),
+    1);
+```
+
+Note that we initialize the components within our `DesignForceGizmo` design using the `DesignForceGizmo.DesignedComponent(...)` call. This is necessary, as in general you can have multiple instances of the design `force_gizmo.castle-transform` placed in your view. So the `published` fields of the view cannot be automatically associated with components in nested designs.
+
+Moreover we synchronize `Single` fields `ForceStrength` and `ForceAngle` with their counterpart `TCastleTransform` instances. `Single` in Pascal is a simple floating-point number, which is super-easy to manipulate. We treat two `TCastleTransform` instances above as just a fancy way to visualize these numbers as 3D rotation and scale.
+
+You may want to lookup what the `MapRange` function does in _Castle Game Engine_ API reference. In short, it's a comfortable way of doing a linear interpolation, converting from one range to another.
+
+Now that we have initialized everything, let's actually show the `DesignForceGizmo` when user selects a chess piece. We already have a code to select chess piece on mouse click. Just extend it to show the `DesignForceGizmo` and reposition it at the selected chess piece.
+
+```delphi
+if Event.IsMouseButton(buttonLeft) then
+begin
+  OldSelected := ChessPieceSelected;
+  if (ChessPieceHover <> nil) and
+     (ChessPieceHover <> ChessPieceSelected) then
+  begin
+    ... // keep existing code
+
+    // new lines:
+    DesignForceGizmo.Exists := true;
+    DesignForceGizmo.Translation := ChessPieceSelected.Parent.WorldTranslation;
+  end;
+  Exit(true); // mouse click was handled
+end;
+````
+
+Note: You may wonder about an alternative approach, where we don't reposition `DesignForceGizmo`, but instead dynamically change it's parent, like `DesignForceGizmo.Parent := ChessPieceSelected.Parent`. This would work too, alas with some additional complications: the rotation of the selected object, once we flick it, would rotate also the gizmo. This would make the calculation of "desired flick direction" later more complicated. So I decided to go with the simpler approach of just repositioning the `DesignForceGizmo`. If you want to experiment with the alternative complicated approach, go ahead, one solution would be to design `DesignForceGizmo` such that you can later do `TransformForceAngle.GetWorldView(WorldPos, WorldDir, WorldUp)` and use resulting `WorldDir` as a force direction.
+
+But since we keep things simple... you're almost done. You can run the game and see that selecting a chess piece shows the arrow gizmo properly. It remains to allow user to change direction and strength. We can do this by observing the keys user presses in the `Update` method. The code below allows to rotate the arrow (make it orbit around the chess piece) using _left_ and _right_ arrow keys, and change force strength (scaling the arrow) using _up_ and _down_ arrow keys. Add this code to your existing `Update` method:
+
+```delphi
+procedure TViewMain.Update(const SecondsPassed: Single; var HandleInput: Boolean);
+begin
+  ... // keep existing code
+  if Container.Pressed[keyArrowLeft] then
+    ForceAngle := ForceAngle - SecondsPassed * AngleAChangeSpeed;
+  if Container.Pressed[keyArrowRight] then
+    ForceAngle := ForceAngle + SecondsPassed * AngleAChangeSpeed;
+  if Container.Pressed[keyArrowUp] then
+    ForceStrength := Min(MaxStrength, ForceStrength + SecondsPassed * StrengthChangeSpeed);
+  if Container.Pressed[keyArrowDown] then
+    ForceStrength := Max(MinStrength, ForceStrength - SecondsPassed * StrengthChangeSpeed);
+
+  TransformForceAngle.Rotation := Vector4(1, 0, 0, ForceAngle);
+  TransformForceStrength.Scale := Vector3(1,
+    MapRange(ForceStrength, MinStrength, MaxStrength, MinStrengthScale, MaxStrengthScale),
+    1);
+end;
+```
+
+## Flick that chess piece!
+
+Looks like we have all the knowledge we need.
+
+- We know how to flick the chess piece,
+
+- we know which chess piece to flick,
+
+- we know the direction and strength of the flick.
+
+You can consult the code we did a few sections before, in _"Second exercise: Push the chess piece using physics_". Our new code will be similar. Add it to the `Press` method implementation:
+
+```delphi
+function TViewMain.Press(const Event: TInputPressRelease): Boolean;
+var
+  ... // keep existing variables used by other inputs
+  ChessPieceSelectedScene: TCastleScene;
+  ForceDirection: TVector3;
+begin
+  Result := inherited;
+  if Result then Exit; // allow the ancestor to handle keys
+
+  ... // keep existing code handling other inputs
+
+  if Event.IsKey(keyEnter) and (ChessPieceSelected <> nil) then
+  begin
+    ChessPieceSelectedScene := ChessPieceSelected.Parent as TCastleScene;
+    MyBody := ChessPieceSelectedScene.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
+    ForceDirection := RotatePointAroundAxis(
+      Vector4(0, 1, 0, ForceAngle), Vector3(-1, 0, 0));
+    MyBody.ApplyImpulse(
+      ForceDirection * ForceStrength,
+      ChessPieceSelectedScene.WorldTranslation);
+    // unselect after flicking; not strictly necessary, but looks better
+    ChessPieceSelected := nil;
+    DesignForceGizmo.Exists := false;
+    Exit(true); // input was handled
+  end;
+end;
+```
+
+Depending on how you designed the `force_gizmo.castle-transform` design, you may need to adjust the `ForceDirection` calculation, in particular the 2nd parameter to `RotatePointAroundAxis` which is a direction used when angle is zero. There's nothing magic about our value `Vector3(-1, 0, 0)`, it just follows our `force_gizmo.castle-transform` design.
+
+Run the game and see that you can now flick the chess pieces!
+
+- Select the chess piece by clicking with mouse.
+
+- Rotate the force by _left_ / _right_ arrow keys.
+
+- Change the force strength by _up_ / _down_ arrow keys.
+
+- Flick the chess piece by pressing _Enter_.
+
+- Repeat :)
 
 ## Conclusion and future ideas
 

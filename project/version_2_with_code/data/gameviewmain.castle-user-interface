@@ -857,6 +857,12 @@
                 "URL" : "castle-data:/chess/white_queen.gltf"
               }
             ]
+          },
+          {
+            "$$ClassName" : "TCastleTransformDesign",
+            "Exists" : false,
+            "Name" : "DesignForceGizmo",
+            "URL" : "castle-data:/force_gizmo.castle-transform"
           }
         ]
       },
@@ -878,21 +884,20 @@
         },
         "RotationPersistent" : {
           "$$ClassName" : "TCastleVector4RotationPersistent",
-          "W" : 3.1469700336456299E+000,
-          "X" : -1.3211982150096446E-004,
-          "Y" : 9.8699271678924561E-001,
-          "Z" : 1.6076540946960449E-001
+          "W" : 1.9507780075073242E+000,
+          "X" : -2.1268835663795471E-001,
+          "Y" : 9.3246793746948242E-001,
+          "Z" : 2.9200571775436401E-001
         },
         "ScalePersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "Y" : 1.0000001192092896E+000,
-          "Z" : 9.9999994039535522E-001
+          "X" : 9.9999994039535522E-001
         },
         "TranslationPersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "X" : 9.4475805759429932E-002,
-          "Y" : 1.1951068878173828E+001,
-          "Z" : -2.4168603897094727E+001
+          "X" : 1.5667595863342285E+001,
+          "Y" : 1.1827552795410156E+001,
+          "Z" : -5.5166878700256348E+000
         }
       },
       "InternalDesignNavigations[dnFly]" : {
