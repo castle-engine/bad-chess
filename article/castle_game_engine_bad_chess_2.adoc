@@ -24,35 +24,35 @@ And if you really just want to play the worst version of chess, _right now_, you
 
 The focus of this part is to learn how to use Pascal code to make things happen in your game.
 
-The core of _Castle Game Engine_ is just a set of Pascal units that can be compiled using FPC and Delphi. Thus the games we create are also just regular Pascal programs that happen to use a few _Castle Game Engine_ units. This means that you can use the workflow you know and like. Whatever Pascal text editor and compiler you prefer, go ahead and use it to create your game.
+The core of _Castle Game Engine_ is just a set of Pascal units that can be compiled using FPC and Delphi. Thus the games we create are also just regular Pascal programs that happen to use a few _Castle Game Engine_ units. This means that you can use the workflow you already know and like, with whatever Pascal text editor and compiler you prefer.
 
-In particular, for IDE, you can choose _Delphi_, _Lazarus_, _VS Code_ or any other editor you like. We have a dedicated documentation how to get the most our of each IDE on https://castle-engine.io/manual_ide.php . You can go to CGE editor _"Preferences -> Code Editor"_ and configure which Pascal IDE to use when you double-click on a Pascal file from CGE editor.
+In particular we support _Delphi_, _Lazarus_, _VS Code_ or any other custom editor (like _Emacs_). We have a dedicated documentation with some IDE-specific hints on https://castle-engine.io/manual_ide.php . Basically just open in _Castle Game Engine_ editor the panel _"Preferences -> Code Editor"_, configure there which Pascal IDE you use, and everything should work out-of-the-box.  If you double-click on a Pascal file from CGE editor, it will open in the text editor you configured.
 
-Specifically for _VS Code_ users, the https://castle-engine.io/vscode contains information how to setup _VS Code_ with _Castle Game Engine LSP server_ to get great code completion. We are working right now on a dedicated _Castle Game Engine_ extension for _VS Code_ that will make this integration even easier.
+Specifically for _VS Code_ users, the page https://castle-engine.io/vscode contains information how to setup _VS Code_ with _Castle Game Engine LSP server_ to get great code completion. We are working right now on a dedicated _Castle Game Engine_ extension for _VS Code_ that will make this integration even easier.
 
 image::images_2/editor_and_vscode.png[CGE editor and VS Code]
 
-Note that, while the focus of this chapter is to write Pascal code, we do not stop using _Castle Game Engine_ editor. There's a lot of things you can do in the editor to prepare the design to be more "friendly" to the code manipulation and we will explore them in this article. So writing Pascal code, and editing the design visually, go hand-in-hand.
+Note that, while the focus of this chapter is to write Pascal code, we do not stop using _Castle Game Engine_ editor. There are a few things you can do in the editor to make the design "friendly" to the code manipulation and we will explore them in this article. So writing Pascal code, and editing the design visually, go hand-in-hand.
 
 ## First exercise: Handle a key press to change position of a transformation
 
-Let's start simple. First goal: When user presses a key `x`, we want to move the _black king_ chess piece a bit higher. This isn't what we want to do in the end, but it's a simple test that we can:
+Let's start simple. First goal: When user presses a key `x`, we want to move the _black king_ chess piece a bit higher. It's a simple test that we can:
 
 - React to user input (key press).
 
 - In response, do something interesting in 3D world (move a chess piece).
 
-Most of the code you write in _Castle Game Engine_ is placed in a unit associated with a _view_. We talked about what is a _view_ in _Castle Game Engine_ in the previous article part, the short recap is that you use views similar to how you use _forms_ in typical Delphi FMX / VCL or Lazarus LCL applications: a view is a _visual design_ (in `data/gameviewmain.castle-user-interface`) and associated code (in `code/gameviewmain.pas`).
+Most of the code you write in _Castle Game Engine_ is placed in a unit associated with a _view_. We talked about what is a _view_ in _Castle Game Engine_ in the previous article part, the short recap is that you use views similar to how you use _forms_ in a typical Delphi FMX / VCL or Lazarus LCL application: a view is a _visual design_ (in `data/gameviewmain.castle-user-interface`) and associated code (in `code/gameviewmain.pas`).
 
-So let's open the file `code/gameviewmain.pas` in your favourite Pascal IDE. In the editor, you can just use the bottom _"Files"_ panel. Enter the `code` subdirectory and double-click on the `gameviewmain.pas` file. Alternatively, you can just open your Pascal IDE and from it open the Pascal project. The basic project files (like `my_project.dproj` for Delphi or `my_project.lpi` for Lazarus) have been already generated for us.
+So let's open the file `code/gameviewmain.pas` in your favourite Pascal IDE. In the _Castle Game Engine_ editor, you can just use the bottom _"Files"_ panel. Enter the `code` subdirectory and double-click on the `gameviewmain.pas` file. Alternatively, you can just open your Pascal IDE and from it open the Pascal project. The basic project files (like `my_project.dproj` for Delphi or `my_project.lpi` for Lazarus) have been already generated for you.
 
 Keep the _Castle Game Engine_ visual editor open too, with our view design `data/gameviewmain.castle-user-interface` . We will occasionally adjust or consult our visual design, to make sure it is useful for our code logic.
 
-For start, we want to know the _name_ of the component representing the black king. Just as you've seen when designing Lazarus and Delphi forms, every component has a _name_ which corresponds to how this component can be accessed from code. You can edit the component name in _Castle Game Engine_ by either editing the `Name` row in _Object Inspector_ (on the right) or editing the name in the hierarchy (on left). Simply click on the component name in hierarchy or press F2 to go into name editing. On the screenshot below, you can see that black king is named `SceneBlackKing1`. I can use Ctrl+C to copy this to the clipboard.
-
-Note that, for this first code exercise, we assume that the chess piece (`SceneBlackKing1`) does *not* have any physics components. If you have added `TCastleRigidBody` or `TCastleXxxCollider` components as behaviors of `SceneBlackKing1`, please remove them for now. We will restore them in the next exercise.
+For start, we want to know the _name_ of the component representing the black king. Just as you've seen when designing Lazarus and Delphi forms, every component has a _name_ which corresponds to how this component can be accessed from code. You can edit the component name in _Castle Game Engine_ by either editing the `Name` row in _Object Inspector_ (on the right) or editing the name in the hierarchy (on the left). Simply click on the component name in hierarchy or press F2 to go into name editing. On the screenshot below, you can see that black king is named `SceneBlackKing1`. I can use Ctrl+C to copy this to the clipboard.
 
 image::images_2/name.png[Editing name]
+
+Note that, for this first code exercise, we assume that the chess piece (`SceneBlackKing1`) does *not* have any physics components. If you have added `TCastleRigidBody` or `TCastleXxxCollider` components as behaviors of `SceneBlackKing1`, please remove them for now. We will restore them in the next exercise.
 
 Now we have to declare the variable with the exact same name in the view. It will be automatically intialized to point to the component when we start the view. Do this in the `published` section of the class `TViewMain`. This is how the end result should look like:
 
@@ -68,28 +68,28 @@ type
     { Components designed using CGE editor.
       These fields will be automatically initialized at Start. }
     LabelFps: TCastleLabel;
-    SceneBlackKing1: TCastleScene;
+    SceneBlackKing1: TCastleScene; //< new line
   public
   ...
 ```
 
-Note: Right now, the _Castle Game Engine_ editor doesn't do this automatically for you. That is, we don't automatically update your Pascal sources to declare relevant fields. We have a plan to do this soon. The user experience will have to be a bit different than on Delphi and Lazarus forms, because the game visual designs can easily have hundredths of components that are _not supposed to be used from code_, so synchronizing them with Pascal code would create unnecessary noise in your Pascal unit. We will instead make a button to specifally _"Expose this component to code"_.
+Note: Right now, the _Castle Game Engine_ editor doesn't do this automatically for you. That is, we don't automatically update your Pascal sources to declare all the components. We have a plan to do this soon. The user experience will have to be a bit different than on Delphi and Lazarus forms, because the game visual designs can easily have hundredths of components that are _not supposed to be used from code_, so synchronizing them _all_ with Pascal code would create unnecessary noise in your Pascal unit. We will instead make a button to only expose a subset of designed components for code.
 
-Once this is done, we can access the `SceneBlackKing1` from code, getting and setting its properties, calling its methods anywhere we like. For this exercise, let's modify the `Translation` property of our chess piece, which changes the _position_ of the object.
+Once you have declared the _published field_, we can access the `SceneBlackKing1` from code, getting and setting its properties, calling its methods anywhere we like. For this exercise, let's modify the `Translation` property of our chess piece, which changes the _position_ of the object.
 
-It is a property of type `TVector3`. `TVector3` is an advanced record in _Castle Game Engine_ that represents 3D vector -- in this case a position, but we use it in my other cases too, e.g. to represent a direction or even RGB color. There are a number of useful things defined to help you work with `TVector3`, in particular
+It is a property of type `TVector3`. `TVector3` is an advanced record in _Castle Game Engine_ that represents 3D vector -- in this case a position, but we use it in many other cases too, e.g. to represent a direction or even RGB color. There are a number of useful things defined to help you work with `TVector3`, in particular:
 
-- `Vector3(...)` method returns a new `TVector3` value with given coordinates.
+- `Vector3(...)` function returns a new `TVector3` value with given coordinates.
 
 - The arithmetic operators like `+` work with `TVector3` values.
 
-All this means that we can easily move object by writing a code like this:
+This means that we can easily move object by writing a code like this:
 
 ```delphi
 SceneBlackKing1.Translation := SceneBlackKing1.Translation + Vector3(0, 1, 0);
 ```
 
-Where to put it? Well, you can use this code anywhere in your view (as long as it executes only when view has been started). In this case, we want to react to user pressing a key `x`. To achieve this, we can edit the `TViewMain.Press` method in the view. The empty implementation of this method is already there, with some helpful comments, so we can just fill it with our code:
+Where to put this statement? In general, you can use this code anywhere in your view (as long as it executes only after the view has been started). In this case, we want to react to user pressing a key `x`. To achieve this, we can edit the `TViewMain.Press` method in the view. The empty implementation of this method is already present, with some helpful comments, so we can just fill it with our code:
 
 ```delphi
 function TViewMain.Press(const Event: TInputPressRelease): Boolean;
