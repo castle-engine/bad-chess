@@ -6,27 +6,25 @@ Michalis Kamburelis
 :source-highlighter: coderay
 :docinfo1:
 
-## Introduction - what's going on?
+## Introduction
 
 Welcome to the second part of the article about creating a simple 3D physics game using _Castle Game Engine_.
 
 _Castle Game Engine_ is a cross-platform (desktop, mobile, consoles) 3D and 2D game engine using modern Pascal. It's free and open-source and works with both FPC and Delphi.
 
-In the first part, we learned how to use the visual editor and we have designed a chessboard with chess pieces. Then we played with physics to throw the chess piece, such that it collides and knocks down other chess pieces. Remember this is a _bad_ way to play chess, but it's fun :)
-
-//The important feature of our design is that every chess piece is a separate instance of a component `TCastleScene`, which means it can move independently of the rest.
+In the first part, we learned how to use the visual editor and we have designed a chessboard with chess pieces. Then we used physics to throw the chess piece, such that it collides and knocks down other chess pieces. Remember this is a _bad_ way to play chess. But it's really fun!
 
 If you have missed the first part, you can still "jump in" at this point. Just download _Castle Game Engine_ from https://castle-engine.io/ and either set up the chessboard and chess pieces yourself, or use our ready example project from https://github.com/castle-engine/bad-chess/ in the subdirectory `project/version_1_designed_in_editor`. This project version is a good starting point for this article part.
 
-Moreover, if you ever get stuck during this, remember that you can look at the project `project/version_2_with_code` in the same repository, https://github.com/castle-engine/bad-chess/ . It contains the final project, with everything described below working.
+We encourage you to follow this article and perform all the steps yourself, to create a similar toy. If you ever get stuck, you can look at the finished project. It is available in the subdirectory `project/version_2_with_code` in the same repository, https://github.com/castle-engine/bad-chess/ . It's the final project, with everything described in this article done and working.
 
 And if you really just want to play the worst version of chess, _right now_, you can download the ready compiled game (for Linux or Windows) from https://castle-engine.itch.io/bad-chess . Enjoy!
 
 ## Coding the game
 
-The focus of this article part is to learn how to use Pascal code to make things happen in your game.
+The focus of this part is to learn how to use Pascal code to make things happen in your game.
 
-The core of _Castle Game Engine_ is just a set of Pascal units that can be compiled using FPC and Delphi. Thus the games we create are also just regular Pascal programs that happen to use a few _Castle Game Engine_ units. This means that you can use the workflow you know -- whatever Pascal text editor and compiler you use, go ahead and use it to create your game.
+The core of _Castle Game Engine_ is just a set of Pascal units that can be compiled using FPC and Delphi. Thus the games we create are also just regular Pascal programs that happen to use a few _Castle Game Engine_ units. This means that you can use the workflow you know and like. Whatever Pascal text editor and compiler you prefer, go ahead and use it to create your game.
 
 In particular, for IDE, you can choose _Delphi_, _Lazarus_, _VS Code_ or any other editor you like. We have a dedicated documentation how to get the most our of each IDE on https://castle-engine.io/manual_ide.php . You can go to CGE editor _"Preferences -> Code Editor"_ and configure which Pascal IDE to use when you double-click on a Pascal file from CGE editor.
 
