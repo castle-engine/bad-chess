@@ -115,7 +115,7 @@ Let's do one more exercise. Let's make sure we can use code to push (flick, thro
 
 Let's use the black king again.
 
-To do this, let us *add* the physics components to the relevant chess piece. We described how to do this in last article part, the quick recap is to right-click on the component (`SceneBlackKing1` in this case) and from the context menu choose _"Add Behavior -> Physics -> Collider -> Box (TCastleBoxCollider)"_. Make you also have physics (with `TCastleMeshCollider`) active on the chess board, otherwise the chess piece would fall down due to gravity as soon as you run the game.
+To do this, make sure to add the physics components to the relevant chess piece. We described how to do this in 1st article part, the quick recap is to right-click on the component (`SceneBlackKing1` in this case) and from the context menu choose _"Add Behavior -> Physics -> Collider -> Box (TCastleBoxCollider)"_. Make sure you also have physics (with `TCastleMeshCollider`) active on the chess board, otherwise the chess piece would fall down due to gravity as soon as you run the game.
 
 This is how it should look like:
 
@@ -127,7 +127,7 @@ To push it using physics, we want to use the `ApplyImpulse` method of the `TCast
 +
 Alternatively, you could also declare and access `RigidBody1: TCastleRigidBody` reference in the published section of your view. We don't show this approach here, just because using the `FindBehavior` seems more educational at this point, i.e. you will find the `FindBehavior` useful in more situations.
 
-- The `ApplyImpulse` method takes two parameters: the strength and direction of the impulse (as `TVector3`, length of this vector determines the strength) and the position from which the impulse comes (it is simplest to just use the chess piece position here).
+- The `ApplyImpulse` method takes two parameters: the direction of the impulse (as `TVector3`; length of this vector determines the impulse strength) and the position from which the impulse comes (it is simplest to just use the chess piece position here).
 
 In the end, this is the modified version of `TViewMain.Press` that you should use:
 
@@ -148,13 +148,13 @@ begin
 end;
 ```
 
-Above we use the direction `Vector3(0, 10, 0)` which means "up, with strength 10". You can experiment with different directions and strengths. If we'd like to push the chess piece at other pieces (which we will, in the next exercise), we would use directions more along the X and Z axes, and leave Y axis zero.
+Above we use the direction `Vector3(0, 10, 0)` which means "up, with strength 10". You can experiment with different directions and strengths. If we'd like to push the chess piece horizontally we would use a direction with non-zero X and/or Z values, and leave Y axis zero.
 
-To the uses clause, add also `CastleTransform` unit, to have `TCastleRigidBody` defined.
+To the `uses` clause, add also `CastleTransform` unit, to have `TCastleRigidBody` class defined.
 
-As usual, run the game and test. Pressing X should now bump the chess piece up.
+As usual, run the game and test. Pressing `X` should now bump the chess piece up.
 
-You can press X repeatedly, even when the chess piece is already in the air, as you see in our code -- we don't secure from it. We will not cover it in this exercise, but you could use `MyBody.PhysicsRayCast` to cast a ray with direction `Vector3(0, -1, 0)` and see whether the chess piece is already in the air.
+You can press `X` repeatedly, even when the chess piece is already in the air. As you can see in the code -- we don't secure from it, so we allow to push an object that is already flying. We will not cover it in this exercise, but you could use `MyBody.PhysicsRayCast` to cast a ray with direction `Vector3(0, -1, 0)` and see whether the chess piece is already in the air.
 
 image::images_2/chess_piece_thrown.png[Chess piece thrown up]
 
