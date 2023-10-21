@@ -608,7 +608,7 @@ begin
   end;
   Exit(true); // mouse click was handled
 end;
-````
+```
 
 Note: You may wonder about an alternative approach, where we don't reposition `DesignForceGizmo`, but instead dynamically change it's parent, like `DesignForceGizmo.Parent := ChessPieceSelected.Parent`. This would work too, alas with some additional complications: the rotation of the selected object, once we flick it, would rotate also the gizmo. This would make the calculation of "desired flick direction" later more complicated. So I decided to go with the simpler approach of just repositioning the `DesignForceGizmo`. If you want to experiment with the alternative complicated approach, go ahead, one solution would be to design `DesignForceGizmo` such that you can later do `TransformForceAngle.GetWorldView(WorldPos, WorldDir, WorldUp)` and use resulting `WorldDir` as a force direction.
 
@@ -688,6 +688,10 @@ Run the game and see that you can now flick the chess pieces!
 - Flick the chess piece by pressing _Enter_.
 
 - Repeat :)
+
+image::images_2/game_1.png[Gameplay]
+
+image::images_2/game_3.png[Gameplay]
 
 ## Conclusion and future ideas
 
