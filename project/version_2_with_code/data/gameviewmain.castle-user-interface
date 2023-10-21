@@ -72,6 +72,7 @@
               "W" : 1.1995048522949219E+000,
               "X" : -9.9999970197677612E-001
             },
+            "Shadows" : true,
             "TranslationPersistent" : {
               "$$ClassName" : "TCastleVector3Persistent",
               "X" : -2.3798992633819580E+000,
