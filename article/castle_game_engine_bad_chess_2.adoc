@@ -344,20 +344,94 @@ begin
   MyScene := MyBehavior.Parent as TCastleScene;
 ```
 
-I decided to use `TChessPieceBehavior`, so I added
+I decided to use `TChessPieceBehavior`. If you want to follow my approach exactly, add this to the `private` section of class `TViewMain`:
 
 ```delphi
 ChessPieceHover, ChessPieceSelected: TChessPieceBehavior;
+{ Turn on / off the highlight effect, depending on whether
+  Behavior equals ChessPieceHover, ChessPieceSelected or none of them.
+  It accepts (and ignores) Behavior = nil value. }
+procedure ConfigureEffect(const Behavior: TChessPieceBehavior);
 ```
 
-to the `private` section of class `TViewMain`.
+Then add `CastleColors` unit to the `uses` clause (of `interface` or `implementation` of unit `GameViewMain`, doesn't matter in this case) to define `HexToColorRGB` utility.
 
-The new code in view's `Update` and `Press` methods looks like this:
+Finally this is the code of new `Update`, `Press` and helper `ConfigureEffect` methods:
 
 ```delphi
-// add CastleColors to the uses clause to define HexToColorRGB utility
+procedure TViewMain.ConfigureEffect(const Behavior: TChessPieceBehavior);
+var
+  Scene: TCastleScene;
+begin
+  if Behavior = nil then
+    Exit;
+  { Behavior can be attached to any TCastleTransform.
+    In our case, we know it is attached to TCastleScene. }
+  Scene := Behavior.Parent as TCastleScene;
+  if (Behavior = ChessPieceHover) or
+     (Behavior = ChessPieceSelected) then
+  begin
+    Scene.RenderOptions.WireframeEffect := weSilhouette;
+    if Behavior = ChessPieceSelected then
+      Scene.RenderOptions.WireframeColor := HexToColorRGB('FFEB00')
+    else
+      Scene.RenderOptions.WireframeColor := HexToColorRGB('5455FF');
+    Scene.RenderOptions.LineWidth := 5;
+    Scene.RenderOptions.SilhouetteBias := 20;
+    Scene.RenderOptions.SilhouetteScale := 20;
+  end else
+  begin
+    Scene.RenderOptions.WireframeEffect := weNormal;
+  end;
+end;
 
-TODO
+procedure TViewMain.Update(const SecondsPassed: Single; var HandleInput: Boolean);
+var
+  OldHover: TChessPieceBehavior;
+begin
+  inherited;
+
+  LabelFps.Caption := 'FPS: ' + Container.Fps.ToString;
+
+  OldHover := ChessPieceHover;
+
+  if MainViewport.TransformUnderMouse <> nil then
+  begin
+    ChessPieceHover := MainViewport.TransformUnderMouse.FindBehavior(TChessPieceBehavior)
+      as TChessPieceBehavior;
+  end else
+    ChessPieceHover := nil;
+
+  if OldHover <> ChessPieceHover then
+  begin
+    ConfigureEffect(OldHover);
+    ConfigureEffect(ChessPieceHover);
+  end;
+end;
+
+function TViewMain.Press(const Event: TInputPressRelease): Boolean;
+var
+  MyBody: TCastleRigidBody;
+  OldSelected: TChessPieceBehavior;
+begin
+  Result := inherited;
+  if Result then Exit; // allow the ancestor to handle keys
+
+  // ... if you want, keep here the handling of keyX from previous exercise
+
+  if Event.IsMouseButton(buttonLeft) then
+  begin
+    OldSelected := ChessPieceSelected;
+    if (ChessPieceHover <> nil) and
+       (ChessPieceHover <> ChessPieceSelected) then
+    begin
+      ChessPieceSelected := ChessPieceHover;
+      ConfigureEffect(OldSelected);
+      ConfigureEffect(ChessPieceSelected);
+    end;
+    Exit(true); // mouse click was handled
+  end;
+end;
 ```
 
 You will notice that `MainViewport.TransformUnderMouse` detects what is under the mouse, treating each chess piece as a box. Set `PreciseCollisions` to `true` on all the chess pieces to make the detection more accurate.
