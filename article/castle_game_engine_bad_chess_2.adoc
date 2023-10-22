@@ -550,7 +550,7 @@ The result should be that a new component called `DesignForceGizmo1` is created 
 
 Rename this component to just `DesignForceGizmo` (up to you, but I think it makes things clearer -- we will only ever need one such gizmo). Moreover, change the `Exists` property of this component to `false` because initially, we don't want this component to be visible or pickable by the mouse.
 
-The screenshot below shows the state _right before I set `Exists` to `false`_.
+The screenshot below shows the state _right before I set `Exists` to ``false``_.
 
 image::images_2/design_in_main.png[Arrow design added to the main design]
 
