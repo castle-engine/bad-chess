@@ -502,7 +502,7 @@ Adjust their `Height`, `Radius` (on cylinder), `BottomRadius` (on cone) and `Tra
 
 Adjust their `Color` to something non-default to make things prettier. Remember that the arrow with later be lit by the lights we have set up in the main design (`gameviewmain.castle-user-interface`), so it will probably be brighter than what you observe now.
 
-You can follow the values I chosen on the screenshots below, but really these are just examples. Go ahead and create your own 3D arrow as you please :)
+You can follow the values I chosen on the screenshots below, but really these are just examples. Go ahead and create your own 3D arrow as you please.
 
 image::images_2/cone.png[Cone]
 
@@ -514,15 +514,17 @@ To do this, first add a dummy box representing a chess piece. I called it `Debug
 
 Once you have a box, you want to add intermediate `TCastleTransform` components to
 
-1. rotate the arrow to be horizontal
+1. rotate the arrow (cone and cylinder) to be horizontal
 
-2. move away arrow from the box
+2. move the arrow away from the box
 
 3. rotate the arrow around the box
 
-4. scale the arrow
+4. scale the arrow.
 
-There are multiple ways of doing it. You can peek at the screenshots below, and at the design in our resulting project in https://github.com/castle-engine/bad-chess/ (in `project/version_2_with_code` subdirectory). The key advise is to not hesitate to make a nested composition, i.e. place `TCastleTransform` within another `TCastleTransform` within another `TCastleTransform` and so on. Let each `TCastleTransform` perform a single function.
+There are multiple valid ways of achieving this. The key advise is to not hesitate to make a nested composition, that is place `TCastleTransform` within another `TCastleTransform` within another `TCastleTransform` and so on. Let each `TCastleTransform` perform a single function. Take it step by step and you will get to a valid solution (and there are really a number of possible ways to arrange this).
+
+See my arrangement on the screenshots below. If you get stuck, just use the design from our resulting project in https://github.com/castle-engine/bad-chess/ (in `project/version_2_with_code` subdirectory).
 
 image::images_2/arrow_1.png[Arrow RotationToMakeForceHorizontal component]
 
