@@ -624,7 +624,7 @@ end;
 
 Note: You may wonder about an alternative approach, where we don't reposition `DesignForceGizmo`, but instead dynamically change it's parent, like `DesignForceGizmo.Parent := ChessPieceSelected.Parent`. This would work too, alas with some additional complications: the rotation of the selected object, once we flick it, would rotate also the gizmo. This would make the calculation of "desired flick direction" later more complicated. So I decided to go with the simpler approach of just repositioning the `DesignForceGizmo`. If you want to experiment with the alternative complicated approach, go ahead, one solution would be to design `DesignForceGizmo` such that you can later do `TransformForceAngle.GetWorldView(WorldPos, WorldDir, WorldUp)` and use resulting `WorldDir` as a force direction.
 
-But since we keep things simple... you're almost done. You can run the game and see that selecting a chess piece shows the arrow gizmo properly. It remains to allow user to change direction and strength. We can do this by observing the keys user presses in the `Update` method. The code below allows to rotate the arrow (make it orbit around the chess piece) using _left_ and _right_ arrow keys, and change force strength (scaling the arrow) using _up_ and _down_ arrow keys. Add this code to your existing `Update` method:
+But since we keep things simple... we're almost done. You can run the game and see that selecting a chess piece shows the arrow gizmo properly. It remains to allow user to change direction and strength. We can do this by observing the keys user presses in the `Update` method. The code below allows to rotate the arrow (make it orbit around the chess piece) using _left_ and _right_ arrow keys, and change force strength (scaling the arrow) using _up_ and _down_ arrow keys. Add this code to your existing `Update` method:
 
 ```delphi
 procedure TViewMain.Update(const SecondsPassed: Single; var HandleInput: Boolean);
@@ -656,7 +656,7 @@ Looks like we have all the knowledge we need.
 
 - we know the direction and strength of the flick.
 
-You can consult the code we did a few sections before, in _"Second exercise: Push the chess piece using physics_". Our new code will be similar. Add it to the `Press` method implementation:
+You can consult the code we did a few sections before, in the exercise _"Push the chess piece using physics_". Our new code will be similar. Add it to the `Press` method implementation:
 
 ```delphi
 function TViewMain.Press(const Event: TInputPressRelease): Boolean;
@@ -693,9 +693,9 @@ Run the game and see that you can now flick the chess pieces!
 
 - Select the chess piece by clicking with mouse.
 
-- Rotate the force by _left_ / _right_ arrow keys.
+- Rotate the force by _left_ and _right_ arrow keys.
 
-- Change the force strength by _up_ / _down_ arrow keys.
+- Change the force strength by _up_ and _down_ arrow keys.
 
 - Flick the chess piece by pressing _Enter_.
 
@@ -709,18 +709,20 @@ Invite a friend to play with you. Just take turns using the mouse to flick your 
 
 I am sure you can invent now multiple ways to make this better.
 
-- Maybe each player should be able to flick only its own chess pieces? Sure. Extend the information about the chess piece to know which side owns it. You can use the `TCastleBehavior` approach described above, or just use the `Tag` property to store the player number, 1 or 2.
+- Maybe each player should be able to flick only its own chess pieces? We already know which chess piece is black or white (the `Black` boolean field in `TChessPieceBehavior`), though we didn't use it for anything above. You should track which player flicked the object last (black or white), and only allow to choose the opposite side next time.
 
-- Maybe you want to display some user interface, like a label, to indicate whose turn is it? Sure, just drop a `TCastleLabel` component on view, and change the label's `Caption` whenever you want.
+- Maybe you want to display some user interface, like a label, to indicate whose turn is it? Just drop a `TCastleLabel` component on view, and change the label's `Caption` whenever you want.
 
 - Maybe you want to show the current force angle and strength -- either as numbers, or as some colorful bars? Use `TCastleRectangleColor` for a trivial rectangle with optional border and optionally filled with a color.
 
-- Maybe you want to implement a proper chess game? Sure, just add tracking in code all the chess pieces and the chessboard tiles -- what is where. Then add a logic that allows player to select which piece and where should move. Add some validation. Add playing with a computer opponent if you wish -- there are standardized protocols to communicate with _"chess engines"_ so you don't need to necessarily implement your own chess AI.
+- Maybe you want to implement a proper chess game? Sure, just track in code all the chess pieces and the chessboard tiles -- what is where. Then add a logic that allows player to select which piece and where should move. Add some validation. Add playing with a computer opponent if you wish -- there are standardized protocols to communicate with _"chess engines"_ so you don't need to implement your own chess AI from scratch.
 
-- Maybe you want to use networking? You can use a number of networking solutions (any Pascal library) together with _Castle Game Engine_. See https://castle-engine.io/manual_network.php . We have used the engine with _Indy_ and _RNL (Realtime Network Library)_. In the future we plan to integrate the engine with _Nakama_, open-source server and client framework for multi-player games.
+- Maybe you want to use networking? You can use a number of networking solutions (any Pascal library) together with _Castle Game Engine_. See https://castle-engine.io/manual_network.php . We have used the engine with _Indy_ and _RNL (Realtime Network Library)_. In the future we plan to integrate the engine with _Nakama_, an open-source server and client framework for multi-player games.
 
 - Maybe you want to deploy this game to other platforms, in particular mobile? Go ahead. The code we wrote above is already cross-platform and can be compiled using _Castle Game Engine_ to any Android or iOS. Our build tool does everything for you, you get a ready APK, AAB or IPA file to install on your phone. See the engine documentation on https://castle-engine.io/manual_cross_platform.php .
++
+Although keyboard inputs will not work on mobile. You need to invent and implement a new user interface to rotate the force, change the strength, and actually throw the chess piece. It is simplest to just show clickable buttons to perform the relevant actions. The `TCastleButton` class of the engine is a button with a freely customizable look.
 
-If you want to learn more about the engine, you're welcome to read the documentation on https://castle-engine.io/ and join our community on forum and Discord: https://castle-engine.io/talk.php . Last but not least, if you like this article and the engine, we will appreciate if you support us on Patreon https://www.patreon.com/castleengine . We count on your support.
+If you want to learn more about the engine, read the documentation on https://castle-engine.io/ and join our community on forum and Discord: https://castle-engine.io/talk.php . Last but not least, if you like this article and the engine, we will appreciate if you support us on Patreon https://www.patreon.com/castleengine . We really count on your support.
 
-Finally, above all, have fun! Creating games is a wild process and experimenting along the way is the only way to go. I hope you will enjoy it.
+Finally, above all, have fun! Creating games is a wild process and experimenting with _"what feels good"_ feeling is the right way to do it. I hope you will enjoy it.
