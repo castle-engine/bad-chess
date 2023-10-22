@@ -302,7 +302,7 @@ This was all a good "ground work" for the remaining article part. Nothing functi
 
 ### Highlight the chess piece under mouse and allow selecting it
 
-To implement the real interaction, we want to allow user to choose which chess piece to flick using the mouse. _Castle Game Engine_ provides a ready function that tells you what is being indicated by the the current mouse (or last touch, on mobile) position. This is the `TCastleViewport.TransformUnderMouse` function.
+To implement the real interaction, we want to allow user to choose which chess piece to flick using the mouse. _Castle Game Engine_ provides a ready function that tells you what is being indicated by the current mouse (or last touch, on mobile) position. This is the `TCastleViewport.TransformUnderMouse` function.
 
 For start, make sure to declare the viewport instance in the `published` section of class `TViewMain`, like this:
 
@@ -312,25 +312,31 @@ MainViewport: TCastleViewport;
 
 Match the name of your viewport in the design. Add unit `CastleViewport` to the `uses` clause to make type `TCastleViewport` known.
 
-Let's utilize it to highlight the currently selected chess piece. We can just keep checking the `MainViewport.TransformUnderMouse` value in each `Update` call.
+Let's utilize it to highlight the current chess piece at the mouse position. We can just keep checking the `MainViewport.TransformUnderMouse` value in each `Update` call.
 
-Note: Alternatively, we could check the result in each `Motion` call, that occurs only when mouse (or touch) position changes. But doing it in `Update` is a bit better: as we use physics, some chess pieces may still be moving due to physics, so the chess piece under the mouse may change even if the mouse position doesn't change.
+Note: Alternatively, we could check `MainViewport.TransformUnderMouse` in each `Motion` call, that occurs only when mouse (or touch) position changes. But doing it in `Update` is a bit better: as we use physics, some chess pieces may still be moving due to physics, so the chess piece under the mouse may change even if the mouse position doesn't change.
 
-To actually show the highlight, we will use a ready effect available for every `TCastleScene` that can be activated by setting `MyScene.RenderOptions.WireframeEffect` to something else than `weNormal`. This is probably the simplest way to show the highlight.
+To actually show the highlight, we will use a ready effect available for every `TCastleScene` that can be activated by setting `MyScene.RenderOptions.WireframeEffect` to something else than `weNormal`. This is the simplest way to show the highlight (we discuss other ways in later section).
 
-Before we jump into code, I encourage to experiment with perfect settings of `RenderOptions` for highlight in the editor. Just edit any chosen chess piece, until it seems to have a pretty highlight, and remember the chosen options. The useful properties to adjust are `WireframeEffect`, `WireframeColor`, `LineWidth`, `SilhouetteBias`, `SilhouetteScale`. You can see them emphasized below -- editor shows properties which have non-default values using bold.
+Before we jump into code, I encourage to experiment with perfect settings of `RenderOptions` for highlight in the editor. Just edit any chosen chess piece, until it seems to have a pretty highlight, and remember the chosen options. The most useful properties to adjust are `WireframeEffect`, `WireframeColor`, `LineWidth`, `SilhouetteBias`, `SilhouetteScale`. You can see them emphasized below -- editor shows properties which have non-default values using the *bold* font.
 
 image::images_2/render_options.png[Render options]
 
-I decided to show the currently highlighted chess piece with a light-blue wireframe. The currently highlighted chess piece is set as the value of private field `ChessPieceHover`.
+I decided to show the currently highlighted (at mouse position) chess piece with a light-blue wireframe. This chess piece is also set as the value of private field `ChessPieceHover`.
 
-Moreover, once user clicks with mouse (we can detect it in `Press`) the chess piece is considered selected and gets a yellow highlight. This chess piece is set as `ChessPieceSelected`.
+Moreover, once user clicks with mouse (we can detect it in `Press`) the chess piece is considered _selected_ and gets a yellow highlight. This chess piece is set as `ChessPieceSelected` value.
 
-Remembering the `ChessPieceHover` and `ChessPieceSelected` values is useful for a few things. This allows to later disable the effect (when the piece is no longer highlighted or selected). And it will allow to flick the `ChessPieceSelected` in the next chapters.
+Remembering the `ChessPieceHover` and `ChessPieceSelected` values is useful for a few things. For one thing, we can later disable the effect (when the piece is no longer highlighted or selected). And it will allow to flick the `ChessPieceSelected` in the next sections.
 
-We could store them as references to `TCastleScene` or `TChessPieceBehavior`. It doesn't really matter, because we can always get one from the other.
+We could store them as references to `TCastleScene` or `TChessPieceBehavior`. That is, we could declare:
 
-- To get `TChessPieceBehavior` from corresponding `TCastleScene` you can do:
+1. Either `ChessPieceHover, ChessPieceSelected: TChessPieceBehavior;`...
+
+2. ...or `ChessPieceHover, ChessPieceSelected: TCastleScene;`
+
+Both declarations would be good for our application. That is, we have to choose one or the other as it will imply a bit different code, but the differences are really minor. In the end, we can always get `TChessPieceBehavior` instance from a corresponding `TCastleScene` (if we know it is a chess piece) and we can get `TCastleScene` from a `TChessPieceBehavior`.
+
+- To get `TChessPieceBehavior` from the corresponding `TCastleScene` you would do:
 +
 ```delphi
 var
@@ -341,7 +347,7 @@ begin
   MyBehavior := MyScene.FindBehavior(TChessPieceBehavior) as TChessPieceBehavior;
 ```
 
-- To get `TCastleScene` from corresponding `TChessPieceBehavior` you can do:
+- To get `TCastleScene` from corresponding `TChessPieceBehavior` you would do:
 +
 ```delphi
 var
@@ -352,13 +358,13 @@ begin
   MyScene := MyBehavior.Parent as TCastleScene;
 ```
 
-I decided to use `TChessPieceBehavior`. If you want to follow my approach exactly, add this to the `private` section of class `TViewMain`:
+I decided to declare them as `TChessPieceBehavior`. If you want to follow my approach exactly, add this to the `private` section of class `TViewMain`:
 
 ```delphi
 ChessPieceHover, ChessPieceSelected: TChessPieceBehavior;
 { Turn on / off the highlight effect, depending on whether
   Behavior equals ChessPieceHover, ChessPieceSelected or none of them.
-  It accepts (and ignores) Behavior = nil value. }
+  This accepts (and ignores) Behavior = nil value. }
 procedure ConfigureEffect(const Behavior: TChessPieceBehavior);
 ```
 
@@ -374,7 +380,7 @@ begin
   if Behavior = nil then
     Exit;
   { Behavior can be attached to any TCastleTransform.
-    In our case, we know it is attached to TCastleScene. }
+    But in our case, we know TChessPieceBehavior is attached to TCastleScene. }
   Scene := Behavior.Parent as TCastleScene;
   if (Behavior = ChessPieceHover) or
      (Behavior = ChessPieceSelected) then
@@ -442,13 +448,13 @@ begin
 end;
 ```
 
-You will notice that `MainViewport.TransformUnderMouse` detects what is under the mouse, treating each chess piece as a box. Set `PreciseCollisions` to `true` on all the chess pieces to make the detection more accurate. You can do this easily by selecting all chess pieces in editor using _Shift_ and _Ctrl_ and then setting `PreciseCollisions` in _Object Inspector_.
+As always, remember to compile and run the code to make sure it works OK!
+
+You will notice that `MainViewport.TransformUnderMouse` detects what is under the mouse, but treating each chess piece as a box. So the detection is visibly not accurate. To fix this, set `PreciseCollisions` to `true` on all the chess pieces. You can do this easily by selecting all chess pieces in editor using _Shift_ or _Ctrl_ and then toggling `PreciseCollisions` in the _Object Inspector_.
 
 image::images_2/precise_collisions.png[CGE editor and VS Code]
 
-As always, remember to compile and run the code to make sure it works OK!
-
-I decided to move the camera at this point (to show both sides, black and white, from a side view).
+I decided to move the camera at this point too (to show both sides, black and white, from a side view).
 
 image::images_2/better_camera.png[Camera from the side]
 
@@ -462,13 +468,13 @@ There are other ways to show the highlighted (or selected) chess piece.
 
 - Dynamically adding/removing a shader effect. This means adding `TEffectNode` and `TEffectPartNode` nodes to the scene and implementing the effect using GLSL (_OpenGL Shading Language_). See e.g. engine example `examples/viewport_and_scenes/shader_effects/` that demonstrates this.
 
-- Adding a additional box that surrounds chosen object. The CGE editor itself uses this technique to show highlighted / selected 3D objects. Use `TDebugTransformBox` class to implement this easy.
+- Adding a additional box that surrounds chosen object. The CGE editor itself uses this technique to show highlighted / selected 3D objects. Use `TDebugTransformBox` class to implement this easily.
 
-If you are curious, hopefully the above information and examples will point you in the right direction. We plan to also add a more straightforward API to manipulate scene materials from CGE in the upcoming engine 7.0 version.
+If you are curious, hopefully the above information and examples will point you in the right direction.
 
 ### Sidenote: Shadows
 
-I decided to activate shadows at this point. Just set `Shadows` to `true` on the main light source. Moreover, set `RenderOptions.WholeSceneManifold` at the chess pieces. This should make everything cast nice shadows. The shadows have _hard edges_ and are _dynamic_ which means that they will properly change when we will move the chess pieces.
+I decided to activate shadows at this point. Just set `Shadows` to `true` on the main light source. Moreover, set `RenderOptions.WholeSceneManifold` to `true` at the chess pieces. This should make everything cast nice shadows. The shadows are _dynamic_ which means that they will properly change when we will move the chess pieces.
 
 See https://castle-engine.io/shadow_volumes for more information about shadows in _Castle Game Engine_.
 
