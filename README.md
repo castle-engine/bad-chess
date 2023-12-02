@@ -6,9 +6,17 @@ The `article` directory contains the article sources, written using AsciiDoctor 
 
 The article is split into 2 parts,
 
-- `article/castle_game_engine_bad_chess_1.adoc` - introduction and designing game in editor.
+1. `article/castle_game_engine_bad_chess_1.adoc` - introduction and designing game in editor.
 
-- `article/castle_game_engine_bad_chess_2.adoc` - coding the game logic.
+    Output: https://castle-engine.io/bad-chess/castle_game_engine_bad_chess_1.html
+
+    Output (PDF): https://castle-engine.io/bad-chess/castle_game_engine_bad_chess_1.pdf
+
+2. `article/castle_game_engine_bad_chess_2.adoc` - coding the game logic.
+
+    Output: https://castle-engine.io/bad-chess/castle_game_engine_bad_chess_2.html
+
+    Output (PDF): https://castle-engine.io/bad-chess/castle_game_engine_bad_chess_2.pdf
 
 The `project` directory contains working demo projects, described in the article. Just like there are 2 article parts, there are 2 demo projects, showing the game state after each article part:
 
