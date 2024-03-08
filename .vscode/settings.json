@@ -16,5 +16,6 @@
         "toclevels",
         "Wireframe",
         "Writeln"
-    ]
+    ],
+    "asciidoc.antora.enableAntoraSupport": false
 }

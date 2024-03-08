@@ -26,7 +26,7 @@ _Castle Game Engine_ is a cross-platform (desktop, mobile, consoles) 3D and 2D g
 
 In the first part of the article we will show how to design a 3D chessboard and chess pieces using _Castle Game Engine_ editor and how to use _physics_. In the next part, we will do some coding in Pascal to implement the game logic. In future articles we'd like to show also development for other platforms (like Android and iOS) and future plans (like the _web platform_).
 
-You can use FPC or Delphi to develop the application presented here. In our engine, we are committed to perfect support for both of these Pascal compilers. Though note that with Delphi, you can right now target only Windows (all the platforms are available with FPC).
+You can use FPC or Delphi to develop the application presented here. In our engine, we are committed to perfect support for both of these Pascal compilers. Though note that with Delphi, you can right now target only Windows and Linux (with FPC, all the platforms are available).
 
 _Castle Game Engine_ features a powerful visual editor to design your games, in 2D or 3D. Just like Delphi and Lazarus visual libraries, it's all based on a simple RAD concept: you can design a functional application easily visually but at the same time *everything you do is actually using Pascal classes and properties*. So all your knowledge gained from using the editor is also useful when you need to write some Pascal code. You will use the same classes and properties in Pascal that you've seen in the visual editor.
 
@@ -46,7 +46,7 @@ Once installed, run the _Castle Game Engine_ editor.
 
 * If you used the installer on Windows, then the shortcut to run _Castle Game Engine_ has already been created for you.
 
-* If you unpacked the engine a zip file, then run the binary `castle-editor` from the subdirectory `bin` where you have unpacked the engine.
+* If you unpacked the engine from a zip file, then run the binary `castle-editor` from the subdirectory `bin` where you have unpacked the engine.
 
 image::images_1/initial_editor.png[Castle Game Engine editor]
 
