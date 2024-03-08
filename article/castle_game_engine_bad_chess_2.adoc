@@ -208,7 +208,7 @@ But this is not good enough for our application. Above we added `TChessPieceBeha
 
 2. Or we could look at `Tag` value of scenes, and have a convention e.g. that `Tag = 1` means black chess piece, `Tag = 2` means white chess piece, and other tags (`Tag = 0` is default, in particular) mean that this is not a chess piece.
 
-3. Wd could also introduce additional transformation components that group black chess pieces separately from white chess pieces and separately from other stuff (like a chessboard).
+3. We could also introduce additional transformation components that group black chess pieces separately from white chess pieces and separately from other stuff (like a chessboard).
 
 I decided to go with the latter approach, as introduction of _"additional `TCastleTransform` components to group existing ones"_ is a powerful mechanism in many other situations. E.g. you can then easily hide or show a given group (using `TCastleTransform.Exists`) property.
 
