@@ -1,0 +1,42 @@
+# ----------------------------------------------------------------------------
+# GitHub Actions workflow to build and package the project using Castle Game Engine.
+# ----------------------------------------------------------------------------
+
+name: Build
+
+on: [push, pull_request]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_docker:
+    name: Build From Docker
+    runs-on: ubuntu-latest
+    # We use a Docker container with cge-unstable, so it already contains
+    # CGE (with build tool) set up. This way we know we only use CGE that
+    # passed automatic tests, we have castle-engine on the PATH, and things are easy.
+    container: kambi/castle-engine-cloud-builds-tools:cge-unstable
+    steps:
+      - uses: actions/checkout@v4
+
+      # Package application
+      - name: Package Windows / x86_64
+        run: cd project/version_1_designed_in_editor/ && castle-engine package --os=win64 --cpu=x86_64
+      - name: Package Linux / x86_64
+        run: cd project/version_1_designed_in_editor/ && castle-engine package --os=linux --cpu=x86_64
+      - name: Package Windows / x86_64
+        run: cd project/version_2_with_code/ && castle-engine package --os=win64 --cpu=x86_64
+      - name: Package Linux / x86_64
+        run: cd project/version_2_with_code/ && castle-engine package --os=linux --cpu=x86_64
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-linux-builds
+          path: |
+            project/version_1_designed_in_editor/*.zip
+            project/version_1_designed_in_editor/*.tar.gz
+            project/version_2_with_code/*.zip
+            project/version_2_with_code/*.tar.gz
