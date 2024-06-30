@@ -28,7 +28,7 @@ The core of _Castle Game Engine_ is just a set of Pascal units that can be compi
 
 In particular we support _Delphi_, _Lazarus_, _VS Code_ or any other custom editor (like _Emacs_). We have a dedicated documentation with some IDE-specific hints on https://castle-engine.io/manual_ide.php . Basically just open in _Castle Game Engine_ editor the panel _"Preferences -> Code Editor"_, configure there which Pascal IDE you use, and everything should work out-of-the-box.  If you double-click on a Pascal file from CGE editor, it will open in the text editor you configured.
 
-Specifically for _VS Code_ users, the page https://castle-engine.io/vscode contains information how to setup _VS Code_ with _Castle Game Engine LSP server_ to get great code completion. We are working right now on a dedicated _Castle Game Engine_ extension for _VS Code_ that will make this integration even easier.
+Specifically for _VS Code_ users, we feature a dedicated extension providing perfect _Castle Game Engine_ integration with _VS Code_. It provides Pascal syntax highlighting, code completion and ability to compile, run or debug a _Castle Game Engine_ project straight from _VS Code_. Head on to https://castle-engine.io/vscode for links and more documentation.
 
 image::images_2/editor_and_vscode.png[CGE editor and VS Code]
 
