@@ -500,7 +500,7 @@ Underneath, add two components: `TCastleCylinder` and `TCastleCone`.
 
 Adjust their `Height`, `Radius` (on cylinder), `BottomRadius` (on cone) and `Translation` to form a nice 3D arrow.
 
-Adjust their `Color` to something non-default to make things prettier. Remember that the arrow with later be lit by the lights we have set up in the main design (`gameviewmain.castle-user-interface`), so it will probably be brighter than what you observe now.
+Adjust their `Color` to something non-default to make things prettier. Remember that the arrow will later be lit by the lights we have set up in the main design (`gameviewmain.castle-user-interface`), so it will probably be brighter than what you observe now.
 
 You can follow the values I chosen on the screenshots below, but really these are just examples. Go ahead and create your own 3D arrow as you please.
 
@@ -725,4 +725,4 @@ Although keyboard inputs will not work on mobile. You need to invent and impleme
 
 If you want to learn more about the engine, read the documentation on https://castle-engine.io/ and join our community on forum and Discord: https://castle-engine.io/talk.php . Last but not least, if you like this article and the engine, we will appreciate if you support us on Patreon https://www.patreon.com/castleengine . We really count on your support.
 
-Finally, above all, have fun! Creating games is a wild process and experimenting with _"what feels good"_ feeling is the right way to do it. I hope you will enjoy it.
+Finally, above all, have fun! Creating games is a wild process and experimenting with _"what feels good"_ is the right way to do it. I hope you will enjoy it.
