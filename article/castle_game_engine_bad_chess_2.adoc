@@ -247,7 +247,7 @@ procedure TViewMain.Start;
     ChessPiece: TChessPieceBehavior;
   begin
     ChessPiece := TChessPieceBehavior.Create(FreeAtStop);
-    ChessPiece.Black := true;
+    ChessPiece.Black := Black;
     Child.AddBehavior(ChessPiece);
   end;
 

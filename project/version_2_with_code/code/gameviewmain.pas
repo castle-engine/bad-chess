@@ -77,7 +77,7 @@ procedure TViewMain.Start;
     ChessPiece: TChessPieceBehavior;
   begin
     ChessPiece := TChessPieceBehavior.Create(FreeAtStop);
-    ChessPiece.Black := true;
+    ChessPiece.Black := Black;
     Child.AddBehavior(ChessPiece);
     if Child.FindBehavior(TCastleRigidBody) = nil then
       Child.AddBehavior(TCastleRigidBody.Create(FreeAtStop));
