@@ -216,8 +216,12 @@ begin
     MyBody.ApplyImpulse(
       ForceDirection * ForceStrength,
       ChessPieceSelectedScene.WorldTranslation);
+
     // unselect after flicking; not strictly necessary, but looks better
+    OldSelected := ChessPieceSelected;
     ChessPieceSelected := nil;
+    ConfigureEffect(OldSelected);
+
     DesignForceGizmo.Exists := false;
     Exit(true); // input was handled
   end;
