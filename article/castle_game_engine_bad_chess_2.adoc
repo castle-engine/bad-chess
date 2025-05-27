@@ -466,7 +466,7 @@ There are other ways to show the highlighted (or selected) chess piece.
 
 - Dynamically changing the material color. Do this by accessing an instance of `TPhysicalMaterialNode` within the scene's nodes (`TCastleScene.RootNode`) and changing the `TPhysicalMaterialNode.BaseColor`. See e.g. engine example `examples/viewport_and_scenes/collisions/` that uses this.
 
-- Dynamically adding/removing a shader effect. This means adding `TEffectNode` and `TEffectPartNode` nodes to the scene and implementing the effect using GLSL (_OpenGL Shading Language_). See e.g. engine example `examples/viewport_and_scenes/shader_effects/` that demonstrates this.
+- Dynamically enabling / disabling a shader effect. This means adding `TEffectNode` and `TEffectPartNode` nodes to the scene and implementing the effect using GLSL (_OpenGL Shading Language_). See `https://castle-engine.io/shaders` about this.
 
 - Adding a additional box that surrounds chosen object. The CGE editor itself uses this technique to show highlighted / selected 3D objects. Use `TDebugTransformBox` class to implement this easily.
 
